@@ -1,0 +1,14 @@
+{
+  "name": "GamaTech Systems",
+  "short_name": "GamaTech",
+  "description": "Software, automation and growth systems for Philippine SMEs.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#06a9d4",
+  "lang": "en-PH",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

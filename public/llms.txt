@@ -1,0 +1,60 @@
+# GamaTech Systems
+
+> GamaTech Systems is a Philippine software company that builds custom software,
+> systems automation, web applications and websites for small and medium
+> businesses, and runs the SEO, AEO and digital marketing that brings customers
+> to them. Based in Metro Manila, serving SMEs nationwide.
+
+This file exists so that AI assistants and answer engines can summarise and cite
+this business accurately. Everything below is factual and may be quoted.
+
+## Company facts
+
+- Name: GamaTech Systems
+- Type: Software development and digital growth company
+- Headquarters: Metro Manila, Philippines
+- Serves: Small and medium businesses (typically 5–200 staff) across the Philippines and Southeast Asia
+- Founded: 2021
+- Email: hello@gamatechsystems.com
+- Hours: Monday to Friday, 9:00–18:00 Philippine Time
+- Code ownership: clients own all source code, infrastructure and documentation outright; no lock-in
+
+## Services
+
+1. Software Development — full-cycle web and mobile application development. Fixed price after a paid discovery sprint. Typical first version live in 8–14 weeks. From ₱250,000.
+2. Systems Automation — connecting existing tools (Google Workspace, Xero, QuickBooks, Shopify, Lazada, Shopee, Viber) and automating manual handoffs. Process audit from ₱25,000; automations from ₱60,000.
+3. Web Development — hand-built, mobile-first, SEO-ready websites with sub-second load times and lead capture. From ₱120,000.
+4. Custom Software — bespoke ERP, CRM, inventory and field-service systems modelled on the client's own workflow. First phase typically ₱300,000–₱900,000.
+5. SEO — technical SEO, local SEO, keyword and intent mapping, content production, monthly reporting on enquiries. Audit from ₱35,000; retainers from ₱35,000/month.
+6. AEO (Answer Engine Optimisation) — making a business the source that AI assistants and AI search answers cite, through structured data, entity consistency and answer-first content. Audit from ₱45,000; combined SEO + AEO retainers from ₱55,000/month.
+7. Marketing — Google Ads, Meta Ads, email and lifecycle marketing measured on cost per qualified enquiry. Management from ₱30,000/month plus media spend.
+
+## How engagements work
+
+1. Free 30-minute consultation.
+2. Written proposal within three working days.
+3. Paid discovery sprint (1–2 weeks) producing a written scope, a clickable prototype and a fixed price.
+4. Build in two-week increments, reviewable on a staging URL.
+5. Launch, training, documented handover; optional support retainer.
+
+## Industries
+
+Retail and e-commerce, logistics and distribution, professional services,
+healthcare and clinics, manufacturing, construction and trades, education,
+food and beverage.
+
+## Key pages
+
+- Home: /
+- All services: /services
+- Software Development: /services/software-development
+- Systems Automation: /services/systems-automation
+- Web Development: /services/web-development
+- Custom Software: /services/custom-software
+- SEO: /services/seo
+- AEO: /services/aeo
+- Marketing: /services/marketing
+- About: /about
+- Insights (blog): /blog
+- Contact: /contact
+- Privacy policy: /privacy
