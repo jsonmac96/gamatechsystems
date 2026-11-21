@@ -1,5 +1,5 @@
 -- ---------------------------------------------------------------------------
--- GamaTech Systems — database schema
+-- GaMatech Systems — database schema
 --
 -- Every statement here is idempotent so the file doubles as the migration.
 -- All application access goes through parameterised statements (see lib/db.ts);
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS posts (
   meta_title       TEXT    NOT NULL DEFAULT '',
   meta_description TEXT    NOT NULL DEFAULT '',
   status           TEXT    NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','published')),
-  author_name      TEXT    NOT NULL DEFAULT 'GamaTech Systems',
+  author_name      TEXT    NOT NULL DEFAULT 'GaMatech Systems',
   published_at     TEXT,
   created_at       TEXT    NOT NULL,
   updated_at       TEXT    NOT NULL,

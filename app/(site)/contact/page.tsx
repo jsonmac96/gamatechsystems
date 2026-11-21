@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Talk to us about software, automation, web development, SEO, AEO or marketing for your Philippine business. Free consultation, reply within one business day.",
   path: "/contact",
-  keywords: ["contact GamaTech Systems", "software consultation Philippines", "free IT consultation"],
+  keywords: ["contact GaMatech Systems", "software consultation Philippines", "free IT consultation"],
 });
 
 export default function ContactPage() {
@@ -23,7 +23,7 @@ export default function ContactPage() {
     name: `Contact ${SITE.name}`,
     url: `${SITE.url}/contact`,
     description:
-      "Book a free consultation with GamaTech Systems about software, automation, web development or growth.",
+      "Book a free consultation with GaMatech Systems about software, automation, web development or growth.",
     mainEntity: { "@id": `${SITE.url}/#organization` },
   };
 
@@ -42,8 +42,8 @@ export default function ContactPage() {
 
       <section className="relative overflow-hidden py-14 sm:py-20">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white dark:from-ink-900 dark:to-ink-950" />
-          <div className="blob left-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-brand-300/35 dark:bg-brand-800/25" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
+          <div className="blob left-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
           <div className="absolute inset-0 opacity-25 grid-backdrop [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
         </div>
 
@@ -72,7 +72,7 @@ export default function ContactPage() {
                   >
                     <a
                       href={`mailto:${SITE.email}`}
-                      className="font-semibold text-brand-700 hover:underline dark:text-brand-300"
+                      className="font-semibold text-accent-700 hover:underline dark:text-accent-400"
                     >
                       {SITE.email}
                     </a>
@@ -86,7 +86,7 @@ export default function ContactPage() {
                   >
                     <a
                       href={`tel:${SITE.phoneHref}`}
-                      className="font-semibold text-brand-700 hover:underline dark:text-brand-300"
+                      className="font-semibold text-accent-700 hover:underline dark:text-accent-400"
                     >
                       {SITE.phoneDisplay}
                     </a>
@@ -115,7 +115,7 @@ export default function ContactPage() {
               </Reveal>
 
               <Reveal delay={180}>
-                <div className="mt-10 rounded-2xl border border-brand-200 bg-brand-50/70 p-6 dark:border-brand-900 dark:bg-brand-950/30">
+                <div className="mt-10 rounded-2xl border border-accent-200 bg-accent-50/70 p-6 dark:border-accent-900 dark:bg-accent-950/25">
                   <h2 className="text-base font-bold text-ink-900 dark:text-white">
                     What happens after you send this
                   </h2>
@@ -126,7 +126,7 @@ export default function ContactPage() {
                       "A written proposal within three working days, including an indicative price.",
                     ].map((step, index) => (
                       <li key={step} className="flex gap-3">
-                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-500 text-xs font-bold text-white">
+                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-500 text-xs font-bold text-white">
                           {index + 1}
                         </span>
                         <span>{step}</span>
@@ -182,7 +182,7 @@ function ContactRow({
 }) {
   return (
     <div className="flex gap-4">
-      <span className="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-700 dark:bg-brand-950/60 dark:text-brand-300">
+      <span className="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-600 dark:bg-accent-950/50 dark:text-accent-400">
         <svg
           className="h-5 w-5"
           viewBox="0 0 24 24"

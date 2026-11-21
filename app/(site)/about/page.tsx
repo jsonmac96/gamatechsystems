@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { INDUSTRIES, PROOF_POINTS, SERVICES, SITE } from "@/lib/site";
+import { INDUSTRIES, PROOF_POINTS, SITE } from "@/lib/site";
+import { PRODUCTS } from "@/lib/products";
+import { SERVICES } from "@/lib/services";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
@@ -10,9 +12,9 @@ import CtaBand from "@/components/CtaBand";
 export const metadata: Metadata = pageMetadata({
   title: "About — A Philippine Software Company for SMEs",
   description:
-    "Who we are, how we work and what we refuse to do. GamaTech Systems builds software, automation and growth systems for small and medium businesses across the Philippines.",
+    "Who we are, how we work and what we refuse to do. GaMatech Systems builds the POS, ERP, payroll, service desk and CRM systems Philippine SMEs run on.",
   path: "/about",
-  keywords: ["about GamaTech Systems", "software company Philippines", "SME technology partner"],
+  keywords: ["about GaMatech Systems", "software company Philippines", "SME technology partner"],
 });
 
 const PRINCIPLES = [
@@ -29,7 +31,7 @@ const PRINCIPLES = [
   {
     title: "We will tell you not to build",
     detail:
-      "Roughly one enquiry in five is better served by configuring software that already exists. We say so, point you at it, and lose the sale. It is the cheapest reputation we can buy.",
+      "If one of our products fits, we will not quote you for custom software. If nothing we make fits, we will say that too and point you at whoever does. It is the cheapest reputation we can buy.",
   },
   {
     title: "Security is not a phase",
@@ -72,8 +74,8 @@ export default function AboutPage() {
 
       <section className="relative overflow-hidden py-16 sm:py-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white dark:from-ink-900 dark:to-ink-950" />
-          <div className="blob right-[-7rem] top-[-5rem] h-72 w-72 animate-drift bg-accent-400/25 dark:bg-accent-600/15" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
+          <div className="blob right-[-7rem] top-[-5rem] h-72 w-72 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
         </div>
 
         <div className="container-page">
@@ -82,13 +84,13 @@ export default function AboutPage() {
           <Reveal className="mt-8 max-w-3xl">
             <span className="eyebrow">About us</span>
             <h1 className="h1 mt-5">
-              A software company built for the way SMEs actually buy software
+              A product company built for the way SMEs actually buy software
             </h1>
             <p className="lede mt-6">
-              Enterprise software vendors want a procurement committee. Freelance marketplaces
-              want you to manage the project yourself. Neither fits a 40-person distributor in
-              Quezon City whose month-end close takes a week. That gap is what GamaTech Systems
-              exists to fill.
+              Enterprise vendors want a procurement committee. Freelance marketplaces want you
+              to manage the project yourself. Neither fits a 40-person distributor in Quezon City
+              whose month-end close takes a week. That gap is what GaMatech Systems exists to
+              fill.
             </p>
           </Reveal>
         </div>
@@ -104,10 +106,11 @@ export default function AboutPage() {
               </h2>
               <div className="mt-6 space-y-5 prose-body">
                 <p>
-                  We build the systems a growing business runs on — custom software, operational
-                  web applications, automation between the tools you already pay for — and then
-                  we bring customers to them through SEO, answer engine optimisation and
-                  marketing. Four services build the machine; three fill it.
+                  We build and maintain six systems a growing business runs on: the Restaurant
+                  and Retail Suites at the till, an ERP behind them, Payroll &amp; HRIS for the
+                  team, Triage for service requests and a CRM for the pipeline. Around those sit
+                  six services — websites and infrastructure, custom software, AI analytics and
+                  training, Google Ads, SEO and e-commerce growth.
                 </p>
                 <p>
                   Most of our clients arrive with the same symptom: the business has outgrown its
@@ -124,11 +127,11 @@ export default function AboutPage() {
                   thing that works.
                 </p>
                 <p>
-                  Since {SITE.founded} we have shipped systems for retailers, distributors,
-                  clinics, professional services firms and manufacturers across the Philippines.
-                  The work is deliberately unglamorous: inventory that reconciles, invoices that
-                  generate themselves, dashboards that management trusts, websites that load in
-                  under a second and actually produce enquiries.
+                  Since {SITE.founded} we have put systems into restaurants, retailers,
+                  distributors, clinics, professional services firms and manufacturers across the
+                  Philippines. The work is deliberately unglamorous: stock that reconciles,
+                  payroll that lands correctly, food cost you can see during service, and
+                  websites that load in under a second and actually produce enquiries.
                 </p>
               </div>
             </Reveal>
@@ -141,7 +144,7 @@ export default function AboutPage() {
                 <dl className="mt-6 space-y-5">
                   {PROOF_POINTS.map((point) => (
                     <div key={point.label} className="border-b border-ink-200 pb-4 last:border-0 last:pb-0 dark:border-ink-800">
-                      <dt className="text-2xl font-bold text-brand-600 dark:text-brand-300">
+                      <dt className="text-2xl font-bold text-accent-600 dark:text-accent-400">
                         {point.value}
                       </dt>
                       <dd className="mt-1 text-sm text-ink-600 dark:text-ink-300">{point.label}</dd>
@@ -182,7 +185,7 @@ export default function AboutPage() {
             {PRINCIPLES.map((principle, index) => (
               <Reveal as="li" key={principle.title} delay={index * 70}>
                 <div className="card h-full">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-sm font-bold text-brand-700 dark:bg-brand-950/60 dark:text-brand-300">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-accent-50 text-sm font-bold text-accent-700 dark:bg-accent-950/60 dark:text-accent-400">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-4 text-base font-bold text-ink-900 dark:text-white">
@@ -225,21 +228,21 @@ export default function AboutPage() {
             <Reveal variant="right" delay={110}>
               <h2 className="h2">Explore what we build</h2>
               <ul className="mt-8 space-y-3">
-                {SERVICES.map((service) => (
+                {PRODUCTS.map((service) => (
                   <li key={service.slug}>
                     <Link
-                      href={`/services/${service.slug}`}
-                      className="group flex items-center justify-between gap-4 rounded-2xl border border-ink-200 bg-white px-5 py-4 transition-all hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-card dark:border-ink-800 dark:bg-ink-900/60 dark:hover:border-brand-700"
+                      href={`/products/${service.slug}`}
+                      className="group flex items-center justify-between gap-4 rounded-2xl border border-ink-200 bg-white px-5 py-4 transition-all hover:-translate-y-0.5 hover:border-accent-300 hover:shadow-card dark:border-ink-800 dark:bg-ink-900/60 dark:hover:border-accent-800"
                     >
                       <span>
-                        <span className="block font-semibold text-ink-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
+                        <span className="block font-semibold text-ink-900 group-hover:text-accent-700 dark:text-white dark:group-hover:text-accent-400">
                           {service.name}
                         </span>
                         <span className="mt-0.5 block text-sm text-ink-500 dark:text-ink-400">
-                          {service.summary.split(/[—.]/)[0]?.trim()}
+                          {service.summary.split(/[—:.]/)[0]?.trim()}
                         </span>
                       </span>
-                      <svg className="h-5 w-5 shrink-0 text-brand-500 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <svg className="h-5 w-5 shrink-0 text-accent-500 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fillRule="evenodd" d="M3 10a1 1 0 0 1 1-1h9.6l-3.3-3.3a1 1 0 0 1 1.4-1.4l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L13.6 11H4a1 1 0 0 1-1-1Z" clipRule="evenodd" />
                       </svg>
                     </Link>

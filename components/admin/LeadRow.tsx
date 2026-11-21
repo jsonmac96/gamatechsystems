@@ -96,7 +96,7 @@ export default function LeadRow({ lead }: { lead: Lead }) {
               <div className="mt-6 flex flex-wrap gap-2.5">
                 <a
                   href={`mailto:${encodeURIComponent(lead.email)}?subject=${encodeURIComponent(
-                    "Re: your enquiry to GamaTech Systems",
+                    "Re: your enquiry to GaMatech Systems",
                   )}`}
                   className="btn-secondary px-4 py-2 text-sm"
                 >

@@ -43,11 +43,8 @@ export default async function LoginPage({
 
       <div className="w-full max-w-md animate-scale-in">
         <div className="text-center">
-          <Link href="/" className="inline-flex items-center gap-2.5" aria-label="GamaTech Systems — home">
-            <Logo className="h-11 w-11" />
-            <span className="text-xl font-bold tracking-tight text-white">
-              GamaTech<span className="text-brand-400"> Systems</span>
-            </span>
+          <Link href="/" className="inline-flex" aria-label="GaMatech Systems — home">
+            <Logo tone="white" markClassName="h-11 w-11" />
           </Link>
         </div>
 

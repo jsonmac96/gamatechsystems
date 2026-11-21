@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { logoutAction } from "@/app/actions/admin";
-import Logo from "@/components/Logo";
+import { LogoMark } from "@/components/Logo";
 import AdminNav from "@/components/admin/AdminNav";
 
 /**
@@ -17,7 +17,7 @@ import AdminNav from "@/components/admin/AdminNav";
  * touched.
  */
 export const metadata: Metadata = {
-  title: { default: "Admin", template: "%s | GamaTech Admin" },
+  title: { default: "Admin", template: "%s | GaMatech Admin" },
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
 };
 
@@ -41,9 +41,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-5 sm:px-6">
           <div className="flex items-center gap-3">
             <Link href="/admin" className="flex items-center gap-2.5" aria-label="Admin dashboard">
-              <Logo className="h-8 w-8" />
+              <LogoMark className="h-8 w-8" />
               <span className="hidden text-base font-bold tracking-tight text-ink-900 sm:inline dark:text-white">
-                GamaTech<span className="text-brand-500"> Admin</span>
+                GaMatech<span className="text-accent-600 dark:text-accent-400"> Admin</span>
               </span>
             </Link>
           </div>
@@ -91,7 +91,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
       <footer className="border-t border-ink-200 py-6 dark:border-ink-800">
         <p className="mx-auto max-w-7xl px-5 text-xs text-ink-500 sm:px-6 dark:text-ink-400">
-          GamaTech Systems admin · All actions are recorded in the audit log.
+          GaMatech Systems admin · All actions are recorded in the audit log.
         </p>
       </footer>
     </div>

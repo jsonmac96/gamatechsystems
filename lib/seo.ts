@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { SITE, SERVICES, COMPANY_FAQS, type Service } from "@/lib/site";
+import { SITE, COMPANY_FAQS } from "@/lib/site";
+import { PRODUCTS, type Product } from "@/lib/products";
+import { SERVICES, type Service } from "@/lib/services";
 
 /**
  * Metadata and JSON-LD builders.
@@ -125,13 +127,17 @@ export function organizationSchema() {
     },
     areaServed: SITE.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
     knowsAbout: [
-      "software development",
-      "business process automation",
-      "web development",
-      "custom software",
+      "restaurant point of sale",
+      "retail point of sale",
+      "enterprise resource planning",
+      "payroll and HRIS",
+      "service desk and ticketing",
+      "customer relationship management",
+      "custom software development",
+      "AI analytics",
       "search engine optimisation",
-      "answer engine optimisation",
-      "digital marketing",
+      "Google Ads management",
+      "e-commerce growth",
     ],
     sameAs: [SITE.social.facebook, SITE.social.linkedin],
     contactPoint: [
@@ -146,16 +152,28 @@ export function organizationSchema() {
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Services",
-      itemListElement: SERVICES.map((service) => ({
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: service.longName,
-          description: service.summary,
-          url: `${SITE.url}/services/${service.slug}`,
-        },
-      })),
+      name: "Products and services",
+      itemListElement: [
+        ...PRODUCTS.map((product) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "SoftwareApplication",
+            name: product.longName,
+            applicationCategory: "BusinessApplication",
+            description: product.summary,
+            url: `${SITE.url}/products/${product.slug}`,
+          },
+        })),
+        ...SERVICES.map((service) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: service.longName,
+            description: service.summary,
+            url: `${SITE.url}/services/${service.slug}`,
+          },
+        })),
+      ],
     },
   };
 }
@@ -171,6 +189,42 @@ export function webSiteSchema() {
     description: SITE.description,
     inLanguage: SITE.language,
     publisher: { "@id": ORG_ID },
+  };
+}
+
+/**
+ * SoftwareApplication schema for a core product.
+ *
+ * Products are software, not services, so they use the application type —
+ * which is what lets search and answer engines describe them correctly.
+ */
+export function productSchema(product: Product) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": `${SITE.url}/products/${product.slug}/#product`,
+    name: product.longName,
+    alternateName: `${product.code} ${product.name}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web browser",
+    description: product.summary,
+    url: `${SITE.url}/products/${product.slug}`,
+    provider: { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+    areaServed: SITE.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
+    audience: {
+      "@type": "BusinessAudience",
+      name: "Small and medium businesses in the Philippines",
+    },
+    featureList: product.features.map((feature) => feature.title),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "PHP",
+      // Pricing is quoted per site after scoping, so no figure is asserted here.
+      availability: "https://schema.org/InStock",
+      url: `${SITE.url}/contact`,
+      seller: { "@id": ORG_ID },
+    },
   };
 }
 
