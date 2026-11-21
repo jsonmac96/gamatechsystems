@@ -1,0 +1,306 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   --------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --page: 255 255 255;
+    --page-soft: 244 247 251;
+    --text: 19 28 43;
+    --text-soft: 47 70 106;
+    --line: 201 215 233;
+    --radius: 1rem;
+    color-scheme: light;
+  }
+
+  .dark {
+    --page: 10 16 26;
+    --page-soft: 19 28 43;
+    --text: 244 247 251;
+    --text-soft: 159 181 211;
+    --line: 31 46 70;
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-ink-200 dark:border-ink-800;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    /* Offset for the sticky header when jumping to an in-page anchor. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: rgb(var(--page));
+    color: rgb(var(--text));
+    @apply font-sans antialiased;
+    text-rendering: optimizeLegibility;
+    /* Decorative reveal animations and background blobs sit a little past
+       the right edge before they settle. `clip` removes the resulting
+       horizontal scrollbar on narrow screens without establishing a scroll
+       container — which `hidden` would, breaking the sticky header. */
+    overflow-x: clip;
+  }
+
+  /* Visible, consistent keyboard focus everywhere — never remove the outline. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-ink-950;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-balance;
+  }
+
+  p, li {
+    @apply text-pretty;
+  }
+
+  ::selection {
+    @apply bg-brand-500/25;
+  }
+
+  /* Honour the operating-system "reduce motion" setting: every animation and
+     transition collapses to an instant state change. Accessibility, not an
+     afterthought. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Components
+   --------------------------------------------------------------------------- */
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+
+  /* Primary call to action — the big button. */
+  .btn-cta {
+    @apply relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-2xl
+           bg-gradient-to-r from-brand-500 via-brand-400 to-brand-500 bg-[length:200%_auto]
+           px-7 py-4 text-base font-semibold text-ink-950 shadow-glow
+           transition-all duration-300 ease-out
+           hover:scale-[1.03] hover:bg-[position:right_center] hover:shadow-[0_0_0_1px_rgb(6_169_212/0.4),0_22px_60px_-18px_rgb(6_169_212/0.65)]
+           active:scale-[0.99]
+           sm:px-9 sm:py-5 sm:text-lg;
+  }
+
+  /* Moving highlight that sweeps across the CTA. */
+  .btn-cta::after {
+    content: "";
+    @apply pointer-events-none absolute inset-y-0 -left-full w-1/3
+           bg-gradient-to-r from-transparent via-white/45 to-transparent;
+    animation: sheen 3.4s ease-in-out infinite;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-ink-300
+           bg-white/80 px-6 py-3.5 text-base font-semibold text-ink-800 backdrop-blur
+           transition-all duration-200
+           hover:-translate-y-0.5 hover:border-brand-400 hover:text-brand-700 hover:shadow-card
+           dark:border-ink-700 dark:bg-ink-900/70 dark:text-ink-100
+           dark:hover:border-brand-500 dark:hover:text-brand-200;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700
+           transition-colors hover:text-brand-800 dark:text-brand-300 dark:hover:text-brand-200;
+  }
+
+  .card {
+    @apply rounded-3xl border border-ink-200/80 bg-white/90 p-7 shadow-card backdrop-blur
+           transition-all duration-300
+           dark:border-ink-800 dark:bg-ink-900/60;
+  }
+
+  .card-interactive {
+    @apply card hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-lift
+           dark:hover:border-brand-700;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-brand-300/60 bg-brand-50/80
+           px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-brand-800
+           dark:border-brand-800/60 dark:bg-brand-950/40 dark:text-brand-200;
+  }
+
+  .h1 {
+    @apply text-[2.1rem] font-bold leading-[1.08] tracking-tight text-ink-900
+           sm:text-5xl lg:text-6xl dark:text-white;
+  }
+
+  .h2 {
+    @apply text-3xl font-bold leading-[1.15] tracking-tight text-ink-900
+           sm:text-4xl dark:text-white;
+  }
+
+  .h3 {
+    @apply text-xl font-semibold tracking-tight text-ink-900 sm:text-2xl dark:text-white;
+  }
+
+  .lede {
+    @apply text-lg leading-relaxed text-ink-600 sm:text-xl dark:text-ink-300;
+  }
+
+  .prose-body {
+    @apply leading-[1.75] text-ink-700 dark:text-ink-200;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-ink-800 dark:text-ink-100;
+  }
+
+  .field {
+    @apply block w-full rounded-xl border border-ink-300 bg-white px-4 py-3 text-base
+           text-ink-900 shadow-sm transition
+           placeholder:text-ink-400
+           focus:border-brand-500 focus:ring-2 focus:ring-brand-500/40
+           disabled:cursor-not-allowed disabled:opacity-60
+           dark:border-ink-700 dark:bg-ink-950/60 dark:text-white dark:placeholder:text-ink-500;
+  }
+
+  .field-error {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500/30
+           dark:border-red-500/70;
+  }
+
+  .field-hint {
+    @apply mt-1.5 text-xs text-ink-500 dark:text-ink-400;
+  }
+
+  .error-text {
+    @apply mt-1.5 flex items-start gap-1.5 text-sm font-medium text-red-600 dark:text-red-400;
+  }
+
+  /* Decorative blurred background shapes behind the hero. */
+  .blob {
+    @apply pointer-events-none absolute rounded-full blur-3xl;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-600 via-brand-400 to-accent-500 bg-clip-text text-transparent;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-ink-300 to-transparent
+           dark:via-ink-700;
+  }
+
+  /* Admin UI */
+  .admin-card {
+    @apply rounded-2xl border border-ink-200 bg-white shadow-sm dark:border-ink-800 dark:bg-ink-900;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .table-cell {
+    @apply px-4 py-3 text-sm text-ink-700 dark:text-ink-200;
+  }
+
+  .table-head {
+    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider
+           text-ink-500 dark:text-ink-400;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------------------- */
+@layer utilities {
+  /* Scroll-reveal.
+
+     The hidden state is scoped to `html.js-anim`, a class set by a tiny
+     inline script in the document head. If that script never runs — no
+     JavaScript, a blocked bundle, a CSP mistake — nothing is ever hidden
+     and the page renders as plain content. Hiding content by default and
+     relying on a script to reveal it is how a site ends up blank. */
+  .js-anim [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .js-anim [data-reveal="in"] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .js-anim [data-reveal-variant="left"] {
+    transform: translate3d(-28px, 0, 0);
+  }
+
+  .js-anim [data-reveal-variant="right"] {
+    transform: translate3d(28px, 0, 0);
+  }
+
+  /* On a narrow screen a sideways reveal starts outside the viewport, which
+     adds 28px of page width before it settles. Below the `sm` breakpoint the
+     lateral variants slide up instead — same effect, no overflow. */
+  @media (max-width: 639px) {
+    .js-anim [data-reveal-variant="left"],
+    .js-anim [data-reveal-variant="right"] {
+      transform: translate3d(0, 24px, 0);
+    }
+  }
+
+  .js-anim [data-reveal-variant="scale"] {
+    transform: scale(0.95);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Pause marquee-style animation on hover so users can read it. */
+  .pause-on-hover:hover * {
+    animation-play-state: paused;
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .grid-backdrop {
+    background-image:
+      linear-gradient(to right, rgb(var(--line) / 0.35) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--line) / 0.35) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .skip-link {
+    @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-xl bg-brand-600 px-5 py-3
+           text-sm font-semibold text-white transition-transform
+           focus:translate-y-0;
+  }
+}
