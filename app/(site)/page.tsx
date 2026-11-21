@@ -1,33 +1,30 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import {
-  COMPANY_FAQS,
-  INDUSTRIES,
-  PROOF_POINTS,
-  SERVICES,
-  SITE,
-} from "@/lib/site";
+import { COMPANY_FAQS, INDUSTRIES, PROOF_POINTS, SITE } from "@/lib/site";
+import { PRODUCTS } from "@/lib/products";
+import { SERVICES } from "@/lib/services";
 import { companyFaqSchema, pageMetadata } from "@/lib/seo";
 import { listPublishedPosts } from "@/lib/posts";
+import { issueFormToken } from "@/lib/form-token";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
-import ServiceIcon from "@/components/ServiceIcon";
+import CatalogIcon from "@/components/CatalogIcon";
 import FaqList from "@/components/FaqList";
 import CtaBand from "@/components/CtaBand";
 import LeadForm from "@/components/LeadForm";
-import { issueFormToken } from "@/lib/form-token";
+import M5Dashboard from "@/components/M5Dashboard";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Software & Automation for Philippine SMEs",
+  title: "Business Systems for Philippine SMEs",
   description:
-    "Custom software, automation, websites, SEO, AEO and marketing for Philippine SMEs. Fixed-price scoping, releases every two weeks, and you own the code.",
+    "POS, ERP, payroll, service desk and CRM built for Philippine SMEs — plus the websites, software, AI analytics and marketing around them. By GaMatech Systems.",
   path: "/",
   keywords: [
+    "business systems Philippines",
+    "restaurant POS Philippines",
+    "retail POS Philippines",
+    "ERP payroll CRM Philippines",
     "software company Philippines",
-    "custom software SME Philippines",
-    "business automation Philippines",
-    "web development Philippines",
-    "SEO AEO Philippines",
   ],
 });
 
@@ -39,7 +36,6 @@ export const metadata: Metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 
 export default function HomePage() {
-  // Latest insights, if any have been published through the admin.
   const posts = listPublishedPosts(3);
 
   return (
@@ -50,12 +46,11 @@ export default function HomePage() {
       {/* Hero                                                                */}
       {/* ------------------------------------------------------------------ */}
       <section className="relative overflow-hidden pb-20 pt-14 sm:pb-28 sm:pt-20">
-        {/* Animated backdrop */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-50/80 via-white to-white dark:from-ink-900 dark:via-ink-950 dark:to-ink-950" />
-          <div className="blob left-[-10rem] top-[-8rem] h-[26rem] w-[26rem] animate-drift bg-brand-300/40 dark:bg-brand-800/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white dark:from-brand-950 dark:via-ink-950 dark:to-ink-950" />
+          <div className="blob left-[-10rem] top-[-8rem] h-[26rem] w-[26rem] animate-drift bg-brand-300/35 dark:bg-brand-800/30" />
           <div
-            className="blob right-[-8rem] top-[4rem] h-[22rem] w-[22rem] animate-drift bg-accent-400/25 dark:bg-accent-600/15"
+            className="blob right-[-8rem] top-[4rem] h-[22rem] w-[22rem] animate-drift bg-accent-400/20 dark:bg-accent-900/25"
             style={{ animationDelay: "-11s" }}
           />
           <div className="absolute inset-0 opacity-[0.35] grid-backdrop [mask-image:radial-gradient(ellipse_at_top,black,transparent_72%)]" />
@@ -63,13 +58,12 @@ export default function HomePage() {
 
         <div className="container-page">
           <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
-            {/* Copy */}
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-6">
               <Reveal>
                 <span className="eyebrow">
                   <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-500 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-500" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-500 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500" />
                   </span>
                   Philippine software company · SME specialists
                 </span>
@@ -78,13 +72,13 @@ export default function HomePage() {
               {/* Exactly one H1 per page. */}
               <Reveal delay={80}>
                 <h1 className="h1 mt-6">
-                  Software and systems that{" "}
+                  Business systems that{" "}
                   <span className="relative inline-block">
                     <span className="gradient-text animate-gradient-pan bg-[length:220%_auto]">
-                      run your business
+                      run themselves
                     </span>
                     <svg
-                      className="absolute -bottom-2 left-0 h-3 w-full text-brand-400/70"
+                      className="absolute -bottom-2 left-0 h-3 w-full text-accent-400/80"
                       viewBox="0 0 220 12"
                       fill="none"
                       preserveAspectRatio="none"
@@ -99,20 +93,18 @@ export default function HomePage() {
                         style={{ strokeDasharray: 480 }}
                       />
                     </svg>
-                  </span>{" "}
-                  — not the other way round.
+                  </span>
                 </h1>
               </Reveal>
 
               <Reveal delay={160}>
                 <p className="lede mt-7 max-w-xl">
-                  We build the custom software, automation and websites that Philippine SMEs
-                  actually run on — then bring customers to them with SEO, AEO and marketing.
-                  One accountable team, fixed-price scoping, and you own everything we build.
+                  Six core systems built for Philippine SMEs — restaurant and retail POS, ERP,
+                  payroll and HRIS, service desk and CRM. Plus the websites, software, analytics
+                  and marketing that keep customers coming to them.
                 </p>
               </Reveal>
 
-              {/* Big CTA */}
               <Reveal delay={240}>
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                   <Link href="/contact" className="btn-cta group">
@@ -130,8 +122,8 @@ export default function HomePage() {
                       <path d="M4 12h15M13 6l6 6-6 6" />
                     </svg>
                   </Link>
-                  <Link href="/services" className="btn-secondary">
-                    Explore our services
+                  <Link href="/products" className="btn-secondary">
+                    See the products
                   </Link>
                 </div>
               </Reveal>
@@ -140,11 +132,11 @@ export default function HomePage() {
                 <ul className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-sm text-ink-600 dark:text-ink-300">
                   {[
                     "Reply within 1 business day",
-                    "Fixed-price quotes",
-                    "No lock-in — you own the code",
+                    "Fixed implementation pricing",
+                    "Your data, exportable any time",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-1.5">
-                      <svg className="h-4 w-4 shrink-0 text-brand-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <svg className="h-4 w-4 shrink-0 text-accent-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.9-9.8a1 1 0 0 0-1.5-1.3l-3 3.5-1.3-1.2a1 1 0 0 0-1.3 1.4l2 2a1 1 0 0 0 1.4-.1l3.7-4.3Z" clipRule="evenodd" />
                       </svg>
                       {item}
@@ -154,56 +146,20 @@ export default function HomePage() {
               </Reveal>
             </div>
 
-            {/* Animated dashboard mock — pure SVG/CSS, so nothing to download */}
-            <Reveal variant="scale" delay={220} className="lg:col-span-5">
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-br from-brand-400/25 to-accent-400/20 blur-2xl" />
-                <div className="animate-float rounded-3xl border border-ink-200 bg-white/95 p-6 shadow-lift backdrop-blur dark:border-ink-800 dark:bg-ink-900/90">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400">
-                        Operations dashboard
-                      </p>
-                      <p className="mt-1 text-sm font-bold text-ink-900 dark:text-white">
-                        Manual hours removed
-                      </p>
-                    </div>
-                    <span className="badge bg-brand-100 text-brand-800 dark:bg-brand-950 dark:text-brand-200">
-                      Live
-                    </span>
-                  </div>
-
-                  {/* Bar chart */}
-                  <div className="mt-6 flex h-36 items-end gap-2.5" role="img" aria-label="Bar chart showing manual work hours falling month over month after automation">
-                    {[28, 42, 36, 58, 72, 64, 88, 96].map((height, index) => (
-                      <span
-                        key={index}
-                        className="flex-1 origin-bottom animate-bar-grow rounded-t-lg bg-gradient-to-t from-brand-500 to-brand-300 dark:from-brand-600 dark:to-brand-400"
-                        style={{ height: `${height}%`, animationDelay: `${index * 90 + 300}ms` }}
-                      />
-                    ))}
-                  </div>
-
-                  <div className="mt-6 space-y-3">
-                    {[
-                      { label: "Order-to-invoice", value: "Automated" },
-                      { label: "Stock sync", value: "Every 5 min" },
-                      { label: "Month-end close", value: "1 day (was 7)" },
-                    ].map((row, index) => (
-                      <div
-                        key={row.label}
-                        className="flex animate-fade-up items-center justify-between rounded-xl bg-ink-50 px-3.5 py-2.5 dark:bg-ink-950/60"
-                        style={{ animationDelay: `${600 + index * 140}ms` }}
-                      >
-                        <span className="text-sm text-ink-600 dark:text-ink-300">{row.label}</span>
-                        <span className="text-sm font-semibold text-brand-700 dark:text-brand-300">
-                          {row.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+            {/* Live product preview */}
+            <Reveal variant="scale" delay={220} className="lg:col-span-6">
+              <figure className="relative mx-auto max-w-xl lg:max-w-none">
+                <div aria-hidden="true" className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-gradient-to-br from-accent-400/25 to-brand-500/20 blur-2xl" />
+                <div className="animate-float">
+                  <M5Dashboard />
                 </div>
-              </div>
+                <figcaption className="mt-4 text-center text-xs text-ink-500 dark:text-ink-400">
+                  <Link href="/products/restaurant-suite" className="font-semibold text-accent-700 hover:underline dark:text-accent-400">
+                    M5 Restaurant Suite
+                  </Link>{" "}
+                  — live sales, food cost and margin. Figures shown are illustrative.
+                </figcaption>
+              </figure>
             </Reveal>
           </div>
         </div>
@@ -215,14 +171,14 @@ export default function HomePage() {
       <section aria-labelledby="proof-heading" className="border-y border-ink-200 bg-ink-50/60 py-12 dark:border-ink-800 dark:bg-ink-900/40">
         <div className="container-page">
           <h2 id="proof-heading" className="sr-only">
-            GamaTech Systems by the numbers
+            GaMatech Systems by the numbers
           </h2>
           <dl className="grid grid-cols-2 gap-8 lg:grid-cols-4">
             {PROOF_POINTS.map((point, index) => (
               <Reveal key={point.label} delay={index * 90} className="text-center lg:text-left">
                 <dt className="sr-only">{point.label}</dt>
                 <dd>
-                  <span className="block text-3xl font-bold tracking-tight text-brand-600 sm:text-4xl dark:text-brand-300">
+                  <span className="block text-3xl font-bold tracking-tight text-accent-600 sm:text-4xl dark:text-accent-400">
                     {point.value}
                   </span>
                   <span className="mt-1.5 block text-sm leading-snug text-ink-600 dark:text-ink-300">
@@ -236,36 +192,41 @@ export default function HomePage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* Services                                                            */}
+      {/* Core products                                                       */}
       {/* ------------------------------------------------------------------ */}
-      <section aria-labelledby="services-heading" className="py-20 sm:py-28">
+      <section aria-labelledby="products-heading" className="py-20 sm:py-28">
         <div className="container-page">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">What we do</span>
-            <h2 id="services-heading" className="h2 mt-5">
-              Seven services. One accountable team.
+            <span className="eyebrow">Core products</span>
+            <h2 id="products-heading" className="h2 mt-5">
+              Six systems. One foundation.
             </h2>
             <p className="lede mt-5">
-              Build the system, then fill it with customers. Most clients start with one service
-              and grow into the others — which is why we keep them under one roof.
+              Built and maintained in-house, so the ones you adopt share data instead of needing
+              another integration project.
             </p>
           </Reveal>
 
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((service, index) => (
-              <Reveal as="li" key={service.slug} delay={index * 70}>
+            {PRODUCTS.map((product, index) => (
+              <Reveal as="li" key={product.slug} delay={index * 70}>
                 <Link
-                  href={`/services/${service.slug}`}
-                  className="card-interactive group flex h-full flex-col focus-visible:ring-2"
+                  href={`/products/${product.slug}`}
+                  className="card-interactive group flex h-full flex-col"
                 >
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-100 text-brand-700 transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-white dark:bg-brand-950/60 dark:text-brand-300">
-                    <ServiceIcon name={service.icon} />
-                  </span>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-900 text-white transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
+                      <CatalogIcon name={product.icon} />
+                    </span>
+                    <span className="rounded-lg bg-accent-50 px-2.5 py-1 text-xs font-bold text-accent-700 dark:bg-accent-950/60 dark:text-accent-300">
+                      {product.code}
+                    </span>
+                  </div>
                   <h3 className="mt-5 text-lg font-bold text-ink-900 dark:text-white">
-                    {service.name}
+                    {product.name}
                   </h3>
                   <p className="mt-2.5 flex-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
-                    {service.summary}
+                    {product.summary}
                   </p>
                   <span className="btn-ghost mt-5">
                     Learn more
@@ -276,75 +237,48 @@ export default function HomePage() {
                 </Link>
               </Reveal>
             ))}
-
-            {/* Eighth tile keeps the 3-column grid balanced and sells the bundle */}
-            <Reveal as="li" delay={SERVICES.length * 70}>
-              <div className="flex h-full flex-col justify-between rounded-3xl bg-gradient-to-br from-brand-600 to-brand-800 p-7 text-white shadow-glow">
-                <div>
-                  <h3 className="text-lg font-bold">Not sure where to start?</h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-brand-50">
-                    Most owners know something is broken but not which fix pays back first. A
-                    30-minute call is usually enough for us to tell you.
-                  </p>
-                </div>
-                <Link
-                  href="/contact"
-                  className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-brand-800 transition-all hover:-translate-y-0.5 hover:shadow-lift"
-                >
-                  Book a free call
-                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M3 10a1 1 0 0 1 1-1h9.6l-3.3-3.3a1 1 0 0 1 1.4-1.4l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L13.6 11H4a1 1 0 0 1-1-1Z" clipRule="evenodd" />
-                  </svg>
-                </Link>
-              </div>
-            </Reveal>
           </ul>
         </div>
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* How we work                                                         */}
+      {/* Services                                                            */}
       {/* ------------------------------------------------------------------ */}
-      <section aria-labelledby="process-heading" className="relative overflow-hidden border-y border-ink-200 bg-ink-50/60 py-20 sm:py-28 dark:border-ink-800 dark:bg-ink-900/40">
+      <section aria-labelledby="services-heading" className="border-y border-ink-200 bg-ink-50/60 py-20 sm:py-24 dark:border-ink-800 dark:bg-ink-900/40">
         <div className="container-page">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">How we work</span>
-            <h2 id="process-heading" className="h2 mt-5">
-              You see the price before you commit to the build
+            <span className="eyebrow">Services</span>
+            <h2 id="services-heading" className="h2 mt-5">
+              And the work that goes around them
             </h2>
             <p className="lede mt-5">
-              The riskiest part of buying software is not knowing what it will cost or whether it
-              will work. We take that off the table first.
+              A system nobody can find and nobody was trained on does not help. These six services
+              cover the rest.
             </p>
           </Reveal>
 
-          <ol className="mt-14 grid gap-6 lg:grid-cols-4">
-            {[
-              { title: "Free consultation", detail: "A 30-minute call. We ask what is actually slowing you down and tell you honestly whether we are the right fit." },
-              { title: "Paid discovery sprint", detail: "One to two weeks producing a written scope, a clickable prototype and a fixed price. Yours to keep either way." },
-              { title: "Build in two-week slices", detail: "Working software on a staging URL every fortnight. You review as it is built, not at the end." },
-              { title: "Launch and hand over", detail: "Phased cutover, training, documentation and credentials. Then support on retainer — or a clean goodbye." },
-            ].map((step, index) => (
-              <Reveal as="li" key={step.title} delay={index * 110} className="relative">
-                <div className="card h-full">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-ink-900 text-sm font-bold text-white dark:bg-brand-500 dark:text-ink-950">
-                    {index + 1}
+          <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {SERVICES.map((service, index) => (
+              <Reveal as="li" key={service.slug} delay={index * 65}>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="group flex h-full items-start gap-4 rounded-2xl border border-ink-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent-300 hover:shadow-card dark:border-ink-800 dark:bg-ink-900/60 dark:hover:border-accent-800"
+                >
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-600 transition-colors group-hover:bg-accent-500 group-hover:text-white dark:bg-accent-950/50 dark:text-accent-400">
+                    <CatalogIcon name={service.icon} className="h-5 w-5" />
                   </span>
-                  <h3 className="mt-4 text-base font-bold text-ink-900 dark:text-white">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
-                    {step.detail}
-                  </p>
-                </div>
-                {index < 3 ? (
-                  <svg className="absolute -right-4 top-1/2 hidden h-5 w-5 -translate-y-1/2 text-brand-400 lg:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M3 10a1 1 0 0 1 1-1h9.6l-3.3-3.3a1 1 0 0 1 1.4-1.4l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L13.6 11H4a1 1 0 0 1-1-1Z" clipRule="evenodd" />
-                  </svg>
-                ) : null}
+                  <span>
+                    <span className="block font-bold text-ink-900 group-hover:text-accent-700 dark:text-white dark:group-hover:text-accent-400">
+                      {service.name}
+                    </span>
+                    <span className="mt-1.5 block text-sm leading-relaxed text-ink-600 dark:text-ink-300">
+                      {service.summary}
+                    </span>
+                  </span>
+                </Link>
               </Reveal>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
 
@@ -381,21 +315,21 @@ export default function HomePage() {
             <Reveal variant="left" className="lg:col-span-5">
               <span className="eyebrow">Free consultation</span>
               <h2 id="enquire-heading" className="h2 mt-5">
-                Tell us what is broken
+                Tell us how the business runs today
               </h2>
               <p className="lede mt-5">
                 No sales script, no 40-slide deck. A short conversation about your operation, then
-                a straight answer about whether we can help and what it would take.
+                a straight answer about which system would help and what it would take.
               </p>
 
               <ul className="mt-9 space-y-5">
                 {[
                   { title: "You will hear back within one business day", detail: "Usually the same day, from a person who read what you wrote." },
-                  { title: "We will say no when we should", detail: "If an off-the-shelf tool fits better, we will tell you which one." },
-                  { title: "Nothing is billed until scope is agreed", detail: "The consultation is free, and discovery is fixed-price." },
+                  { title: "We will tell you if you do not need us yet", detail: "If a cheaper fix or an existing tool covers it, we will say which." },
+                  { title: "Implementation is priced before it starts", detail: "The consultation is free and the scope is fixed before any work begins." },
                 ].map((item) => (
                   <li key={item.title} className="flex gap-4">
-                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand-700 dark:bg-brand-950/60 dark:text-brand-300">
+                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-600 dark:bg-accent-950/50 dark:text-accent-400">
                       <svg className="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="m5 13 4.5 4.5L19 7.5" />
                       </svg>
@@ -411,7 +345,7 @@ export default function HomePage() {
               <div className="mt-9 rounded-2xl border border-ink-200 bg-ink-50/80 p-5 dark:border-ink-800 dark:bg-ink-900/60">
                 <p className="text-sm font-semibold text-ink-900 dark:text-white">Prefer to talk now?</p>
                 <div className="mt-2 flex flex-col gap-1 text-sm">
-                  <a href={`tel:${SITE.phoneHref}`} className="font-semibold text-brand-700 hover:underline dark:text-brand-300">
+                  <a href={`tel:${SITE.phoneHref}`} className="font-semibold text-accent-700 hover:underline dark:text-accent-400">
                     {SITE.phoneDisplay}
                   </a>
                   <a href={`mailto:${SITE.email}`} className="text-ink-600 hover:underline dark:text-ink-300">
@@ -475,11 +409,11 @@ export default function HomePage() {
                   <Link href={`/blog/${post.slug}`} className="card-interactive group flex h-full flex-col">
                     <time
                       dateTime={post.published_at ?? post.created_at}
-                      className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400"
+                      className="text-xs font-semibold uppercase tracking-wider text-accent-600 dark:text-accent-400"
                     >
                       {formatDate(post.published_at ?? post.created_at)}
                     </time>
-                    <h3 className="mt-3 text-lg font-bold leading-snug text-ink-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
+                    <h3 className="mt-3 text-lg font-bold leading-snug text-ink-900 group-hover:text-accent-700 dark:text-white dark:group-hover:text-accent-400">
                       {post.title}
                     </h3>
                     <p className="mt-2.5 flex-1 text-sm leading-relaxed text-ink-600 dark:text-ink-300">

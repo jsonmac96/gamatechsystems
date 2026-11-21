@@ -1,14 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="GamaTech Systems">
-  <defs>
-    <linearGradient id="g" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22c9ee"/>
-      <stop offset="0.55" stop-color="#06a9d4"/>
-      <stop offset="1" stop-color="#0d6b90"/>
-    </linearGradient>
-  </defs>
-  <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#g)"/>
-  <path d="M31.5 17.8a9.4 9.4 0 1 0 1.1 10.9h-8.2" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <circle cx="33" cy="15.5" r="2.4" fill="#0a101a" fill-opacity="0.85"/>
-  <circle cx="33" cy="28.7" r="2.2" fill="#0a101a" fill-opacity="0.85"/>
-  <circle cx="16" cy="33" r="2" fill="#fff" fill-opacity="0.9"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="GaMatech Systems">
+  <rect width="120" height="120" rx="30" fill="#0A1A3E"/>
+  <g transform="translate(13 13) scale(0.94)" fill="none">
+    <path d="M78 14 L9 14 L9 88 L82 88 L82 55.5 L61 55.5" stroke="#FFFFFF" stroke-width="13.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="85.5" cy="17" r="7" stroke="#FFFFFF" stroke-width="5.5"/>
+    <circle cx="50.5" cy="55.5" r="10.2" fill="#E7580A"/>
+  </g>
 </svg>

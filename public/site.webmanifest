@@ -1,12 +1,12 @@
 {
-  "name": "GamaTech Systems",
-  "short_name": "GamaTech",
-  "description": "Software, automation and growth systems for Philippine SMEs.",
+  "name": "GaMatech Systems",
+  "short_name": "GaMatech",
+  "description": "Business systems for Philippine SMEs: POS, ERP, payroll, service desk and CRM.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#06a9d4",
+  "theme_color": "#0A1A3E",
   "lang": "en-PH",
   "icons": [
     { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }

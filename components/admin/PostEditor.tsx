@@ -205,7 +205,7 @@ export default function PostEditor({ post }: { post?: Post }) {
                 name="authorName"
                 type="text"
                 maxLength={80}
-                defaultValue={values.authorName ?? post?.author_name ?? "GamaTech Systems"}
+                defaultValue={values.authorName ?? post?.author_name ?? "GaMatech Systems"}
                 className="field"
               />
             </div>

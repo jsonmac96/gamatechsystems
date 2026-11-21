@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { SERVICES } from "@/lib/site";
+import { PRODUCTS } from "@/lib/products";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -23,13 +23,13 @@ export default function NotFound() {
       <main id="main" className="flex-1">
         <section className="relative overflow-hidden py-20 sm:py-28">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white dark:from-ink-900 dark:to-ink-950" />
-            <div className="blob left-[-6rem] top-[-4rem] h-72 w-72 animate-drift bg-brand-300/30 dark:bg-brand-800/25" />
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
+            <div className="blob left-[-6rem] top-[-4rem] h-72 w-72 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
           </div>
 
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
-              <p className="animate-fade-in text-7xl font-bold tracking-tight text-brand-500 sm:text-8xl">
+              <p className="animate-fade-in text-7xl font-bold tracking-tight text-accent-500 sm:text-8xl">
                 404
               </p>
               <h1 className="h2 mt-6">We could not find that page</h1>
@@ -48,16 +48,16 @@ export default function NotFound() {
 
               <div className="mt-14">
                 <h2 className="text-sm font-bold uppercase tracking-[0.14em] text-ink-500 dark:text-ink-400">
-                  Or jump to a service
+                  Or jump to a product
                 </h2>
                 <ul className="mt-5 flex flex-wrap justify-center gap-2.5">
-                  {SERVICES.map((service) => (
-                    <li key={service.slug}>
+                  {PRODUCTS.map((product) => (
+                    <li key={product.slug}>
                       <Link
-                        href={`/services/${service.slug}`}
-                        className="inline-block rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-brand-400 hover:text-brand-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-brand-600 dark:hover:text-brand-300"
+                        href={`/products/${product.slug}`}
+                        className="inline-block rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-accent-600 dark:hover:text-accent-400"
                       >
-                        {service.name}
+                        {product.name}
                       </Link>
                     </li>
                   ))}

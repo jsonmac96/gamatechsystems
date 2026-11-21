@@ -1,10 +1,24 @@
-# GamaTech Systems
+# GaMatech Systems
 
-Marketing website, lead-capture system and admin console for **GamaTech Systems** — a
+Marketing website, lead-capture system and admin console for **GaMatech Systems** — a
 Philippine software company serving small and medium businesses.
 
-Seven services are presented: Software Development, Systems Automation, Web Development,
-Custom Software, SEO, AEO and Marketing.
+The catalogue has two halves, both taken from the company's product plan:
+
+**Six core products** — the systems GaMatech builds and maintains in-house.
+
+| Code | Product | Covers |
+| --- | --- | --- |
+| M5 | Restaurant Suite | Kitchen display, dashboard, mobile order taker, POS, back office, inventory with production |
+| M6 | Retail Suite | Batch management, POS, back office, taxes, dashboard, inventory management |
+| M7 | ERP | Accounting, production, sales, purchasing, approvals, customer portal, WMS, batch management, configurable valuation |
+| M8 | Payroll & HRIS | Employee portal, payslips, absences, holidays, time and attendance, payroll, deductions, onboarding, offboarding, performance |
+| M9 | Triage | Queuing, multi-priority tickets, ticket management, customer portal, knowledge base, SLA management |
+| M10 | CRM | Lead management, multi pipelines, Kanban and other views, AI-assisted automation, dashboards, opportunities |
+
+**Six services** — the work delivered around those systems: websites and infrastructure
+(DNS, Cloudflare, SMTP), software development, AI analytics and training, Google Ads
+management, search engine optimization, and e-commerce growth.
 
 ---
 
@@ -28,8 +42,10 @@ Custom Software, SEO, AEO and Marketing.
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home: hero, services, process, industries, lead form, FAQ, latest articles |
-| `/services` | All seven services |
+| `/` | Home: hero with a live product preview, products, services, industries, lead form, FAQ, latest articles |
+| `/products` | All six core products |
+| `/products/[slug]` | One page per product, with features, rollout, FAQ and lead form |
+| `/services` | All six services |
 | `/services/[slug]` | One page per service, each with its own FAQ and lead form |
 | `/about` | Company, principles, industries |
 | `/contact` | Contact details and the main enquiry form |
@@ -48,9 +64,20 @@ Custom Software, SEO, AEO and Marketing.
 | `/admin/account` | Change password, review account and session details |
 
 **Animation** — every section fades or slides in as it scrolls into view, the hero has a
-drifting gradient backdrop and an animated chart, the industries strip scrolls
+drifting gradient backdrop and a live M5 dashboard mock-up, the industries strip scrolls
 continuously, and the primary call-to-action carries a moving sheen. All of it collapses
 to an instant state change for visitors with `prefers-reduced-motion: reduce`.
+
+**Brand** — the logo is rebuilt as inline SVG from the supplied artwork
+(`components/Logo.tsx`: the mark, an app-icon tile and the full lockup), and the palette
+is taken from it — navy `#0A1A3E` as `brand`, orange `#E7580A` as `accent`. The source
+PDFs are raster, so the mark is redrawn rather than traced; it is a single stroked
+polyline whose corner radius comes from `stroke-linejoin: round`.
+
+**Product preview** — `components/M5Dashboard.tsx` recreates the M5 Restaurant Suite
+dashboard in HTML and CSS rather than embedding a screenshot, so it stays sharp, weighs
+nothing and follows dark mode. **Every figure in it is illustrative**, labelled as such on
+the page, and the whole block is `aria-hidden`.
 
 ---
 
@@ -120,9 +147,12 @@ missing or malformed value fails loudly rather than silently degrading.
 | `ALLOWED_ORIGINS` | no | Extra origins permitted to submit forms, comma separated. Only needed when the site answers on more than one hostname. |
 | `TRUST_PROXY` | no | Set to `1` **only** behind a reverse proxy you control. See [Rate limiting](#rate-limiting-and-the-login-lockout). |
 
-Business details — phone number, email, address, service copy, pricing — all live in
-`lib/site.ts`. Change them there and every page, the sitemap and the structured data
-follow.
+Content lives in three files, and every page, the sitemap and the structured data follow
+from them:
+
+- `lib/site.ts` — brand, contact details, navigation, company FAQs, industries
+- `lib/products.ts` — the six core products
+- `lib/services.ts` — the six services
 
 ---
 
@@ -163,8 +193,8 @@ sitemap. Publishing refreshes the home page, the blog index and the sitemap imme
 ## Security
 
 The site was built against a security checklist and verified with an automated browser
-suite (202 assertions, all passing) covering the lockout, access control, injection and
-XSS handling.
+suite (295 assertions, all passing) covering the lockout, access control, injection and
+XSS handling, as well as SEO, mobile layout and the catalogue content.
 
 ### Authentication
 
@@ -300,9 +330,11 @@ Set in `next.config.ts` and `proxy.ts`:
 - Mobile-first, verified at 390 px for horizontal overflow and minimum text size
 - `prefers-reduced-motion` respected throughout
 
-**Structured data** — `Organization` / `ProfessionalService`, `WebSite`, `Service` (per
-service page), `FAQPage`, `BlogPosting`, `Blog`, `BreadcrumbList`, `ItemList`, `AboutPage`
-and `ContactPage`.
+**Structured data** — `Organization` / `ProfessionalService`, `WebSite`,
+`SoftwareApplication` (per product), `Service` (per service), `FAQPage`, `BlogPosting`,
+`Blog`, `BreadcrumbList`, `ItemList`, `AboutPage` and `ContactPage`. Products use the
+application type rather than the service type, which is what lets search and answer
+engines describe them correctly.
 
 **AEO (Answer Engine Optimisation)** — answer engines quote sources that are easy to parse
 and unambiguous, so the site:
@@ -321,12 +353,16 @@ and unambiguous, so the site:
 ```
 app/
   (site)/              public marketing site (header + footer layout)
+    products/          the six core products
+    services/          the six services
   admin/               console — every page calls requireSession()
   actions/             Server Actions: lead.ts (public), admin.ts (authenticated)
   api/                 health check, CSV export
   layout.tsx           metadata defaults, site-wide JSON-LD, animation enabler
   sitemap.ts           robots.ts  opengraph-image.tsx  apple-icon.tsx
 components/            UI; components/admin/ is console-only
+  Logo.tsx             the mark, app-icon tile and full lockup, as inline SVG
+  M5Dashboard.tsx      the Restaurant Suite dashboard mock-up (illustrative figures)
 lib/
   env.ts               validated configuration — the only reader of process.env
   db.ts  schema.sql    SQLite connection and schema
@@ -337,7 +373,10 @@ lib/
   validate.ts          every input validator
   markdown.ts          the escape-first Markdown renderer
   leads.ts  posts.ts   data access
-  seo.ts  site.ts      metadata builders and all business content
+  seo.ts               metadata and JSON-LD builders
+  site.ts              brand, contact, navigation, company FAQs
+  products.ts          the six core products (M5–M10)
+  services.ts          the six services
 proxy.ts               per-request CSP nonce and security headers
 scripts/               migrate.mjs, create-admin.mjs
 ```
@@ -395,4 +434,4 @@ hashing code that drift apart is a very bad failure mode.
 
 ---
 
-© GamaTech Systems. Built in the Philippines.
+© GaMatech Systems. Built in the Philippines.

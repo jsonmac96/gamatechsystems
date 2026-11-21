@@ -8,7 +8,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
   description:
-    "How GamaTech Systems collects, uses and protects the personal information you submit through this website, in line with the Philippine Data Privacy Act of 2012.",
+    "How GaMatech Systems collects, uses and protects the personal information you submit through this website, in line with the Philippine Data Privacy Act of 2012.",
   path: "/privacy",
 });
 

@@ -22,7 +22,7 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          background: "linear-gradient(135deg, #072f44 0%, #0d6b90 45%, #06a9d4 100%)",
+          background: "linear-gradient(135deg, #06112A 0%, #0A1A3E 55%, #1B2C57 100%)",
           fontFamily: "sans-serif",
           position: "relative",
         }}
@@ -47,19 +47,19 @@ export default function OpengraphImage() {
               width: 64,
               height: 64,
               borderRadius: 18,
-              background: "#ffffff",
+              background: "#E7580A",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: 38,
               fontWeight: 800,
-              color: "#06a9d4",
+              color: "#ffffff",
             }}
           >
             G
           </div>
           <div style={{ display: "flex", fontSize: 34, fontWeight: 700, color: "#ffffff" }}>
-            GamaTech Systems
+            GaMatech Systems
           </div>
         </div>
 
@@ -76,16 +76,16 @@ export default function OpengraphImage() {
               maxWidth: 940,
             }}
           >
-            Software and systems that run your business
+            Business systems that run themselves
           </div>
-          <div style={{ display: "flex", fontSize: 30, color: "#cff8fe", maxWidth: 880 }}>
-            Custom software, automation, web, SEO, AEO and marketing for Philippine SMEs.
+          <div style={{ display: "flex", fontSize: 30, color: "#C2D0EC", maxWidth: 880 }}>
+POS, ERP, payroll, service desk and CRM for Philippine SMEs.
           </div>
         </div>
 
         {/* Footer row */}
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          {["Software Development", "Systems Automation", "Web", "SEO & AEO"].map((tag) => (
+          {["Restaurant & Retail POS", "ERP", "Payroll & HRIS", "CRM"].map((tag) => (
             <div
               key={tag}
               style={{

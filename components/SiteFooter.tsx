@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { SERVICES, SITE } from "@/lib/site";
+import { SITE } from "@/lib/site";
+import { PRODUCTS } from "@/lib/products";
+import { SERVICES } from "@/lib/services";
 import Logo from "@/components/Logo";
 
 /**
@@ -17,21 +19,18 @@ export default function SiteFooter() {
       <div className="container-page py-14">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
           {/* Brand */}
-          <div className="lg:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-2.5" aria-label={`${SITE.name} — home`}>
-              <Logo className="h-9 w-9" />
-              <span className="text-lg font-bold tracking-tight text-ink-900 dark:text-white">
-                GamaTech<span className="text-brand-500"> Systems</span>
-              </span>
+          <div className="lg:col-span-5 lg:pr-6">
+            <Link href="/" className="inline-flex" aria-label={`${SITE.name} — home`}>
+              <Logo markClassName="h-10 w-10" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-600 dark:text-ink-300">
-              Software, automation and growth systems for small and medium businesses in the
-              Philippines. Fixed scope, documented handover, no lock-in.
+              Point of sale, ERP, payroll, service desk and CRM for Philippine SMEs — plus the
+              websites, software and marketing around them. No lock-in.
             </p>
             <div className="mt-5 flex items-center gap-3">
               <a
                 href={SITE.social.facebook}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-300 text-ink-600 transition-all hover:-translate-y-0.5 hover:border-brand-400 hover:text-brand-600 dark:border-ink-700 dark:text-ink-300"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-300 text-ink-600 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-600 dark:border-ink-700 dark:text-ink-300"
                 aria-label={`${SITE.name} on Facebook`}
                 rel="noopener noreferrer me"
                 target="_blank"
@@ -42,7 +41,7 @@ export default function SiteFooter() {
               </a>
               <a
                 href={SITE.social.linkedin}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-300 text-ink-600 transition-all hover:-translate-y-0.5 hover:border-brand-400 hover:text-brand-600 dark:border-ink-700 dark:text-ink-300"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-ink-300 text-ink-600 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-600 dark:border-ink-700 dark:text-ink-300"
                 aria-label={`${SITE.name} on LinkedIn`}
                 rel="noopener noreferrer me"
                 target="_blank"
@@ -55,6 +54,24 @@ export default function SiteFooter() {
           </div>
 
           {/* Services */}
+          <nav aria-labelledby="footer-products" className="lg:col-span-2">
+            <h2 id="footer-products" className="text-sm font-bold uppercase tracking-[0.12em] text-ink-900 dark:text-white">
+              Products
+            </h2>
+            <ul className="mt-4 space-y-2.5">
+              {PRODUCTS.map((product) => (
+                <li key={product.slug}>
+                  <Link
+                    href={`/products/${product.slug}`}
+                    className="text-sm text-ink-600 transition-colors hover:text-accent-700 dark:text-ink-300 dark:hover:text-accent-400"
+                  >
+                    {product.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
           <nav aria-labelledby="footer-services" className="lg:col-span-3">
             <h2 id="footer-services" className="text-sm font-bold uppercase tracking-[0.12em] text-ink-900 dark:text-white">
               Services
@@ -64,7 +81,7 @@ export default function SiteFooter() {
                 <li key={service.slug}>
                   <Link
                     href={`/services/${service.slug}`}
-                    className="text-sm text-ink-600 transition-colors hover:text-brand-700 dark:text-ink-300 dark:hover:text-brand-300"
+                    className="text-sm text-ink-600 transition-colors hover:text-accent-700 dark:text-ink-300 dark:hover:text-accent-400"
                   >
                     {service.name}
                   </Link>
@@ -81,6 +98,7 @@ export default function SiteFooter() {
             <ul className="mt-4 space-y-2.5">
               {[
                 { href: "/about", label: "About us" },
+                { href: "/products", label: "All products" },
                 { href: "/services", label: "All services" },
                 { href: "/blog", label: "Insights" },
                 { href: "/contact", label: "Contact" },
@@ -89,7 +107,7 @@ export default function SiteFooter() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-ink-600 transition-colors hover:text-brand-700 dark:text-ink-300 dark:hover:text-brand-300"
+                    className="text-sm text-ink-600 transition-colors hover:text-accent-700 dark:text-ink-300 dark:hover:text-accent-400"
                   >
                     {link.label}
                   </Link>
@@ -99,18 +117,18 @@ export default function SiteFooter() {
           </nav>
 
           {/* Contact */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-12 xl:col-span-12">
             <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-ink-900 dark:text-white">
               Talk to us
             </h2>
             <ul className="mt-4 space-y-3 text-sm text-ink-600 dark:text-ink-300">
               <li>
-                <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-brand-700 dark:hover:text-brand-300">
+                <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-accent-700 dark:hover:text-accent-400">
                   {SITE.email}
                 </a>
               </li>
               <li>
-                <a href={`tel:${SITE.phoneHref}`} className="transition-colors hover:text-brand-700 dark:hover:text-brand-300">
+                <a href={`tel:${SITE.phoneHref}`} className="transition-colors hover:text-accent-700 dark:hover:text-accent-400">
                   {SITE.phoneDisplay}
                 </a>
               </li>

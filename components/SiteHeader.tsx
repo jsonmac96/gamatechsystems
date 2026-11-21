@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { NAV_LINKS, SERVICES, SITE } from "@/lib/site";
+import { NAV_LINKS, SITE } from "@/lib/site";
+import { PRODUCTS } from "@/lib/products";
+import { SERVICES } from "@/lib/services";
 import Logo from "@/components/Logo";
 
 /**
@@ -61,19 +63,16 @@ export default function SiteHeader() {
         <div className="flex h-[4.5rem] items-center justify-between gap-4">
           <Link
             href="/"
-            className="group flex items-center gap-2.5 rounded-xl py-1 transition-opacity hover:opacity-90"
+            className="group rounded-xl py-1 transition-opacity hover:opacity-90"
             aria-label={`${SITE.name} — home`}
           >
-            <Logo className="h-9 w-9 transition-transform duration-500 group-hover:rotate-[10deg]" />
-            <span className="text-lg font-bold tracking-tight text-ink-900 dark:text-white">
-              GamaTech<span className="text-brand-500"> Systems</span>
-            </span>
+            <Logo markClassName="h-9 w-9 transition-transform duration-500 group-hover:-rotate-6" />
           </Link>
 
           {/* Desktop navigation */}
           <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link) =>
-              link.href === "/services" ? (
+              link.href === "/products" ? (
                 <div
                   key={link.href}
                   className="relative"
@@ -81,13 +80,13 @@ export default function SiteHeader() {
                   onMouseLeave={() => setServicesOpen(false)}
                 >
                   <Link
-                    href="/services"
+                    href="/products"
                     aria-expanded={servicesOpen}
                     aria-haspopup="true"
                     className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-colors ${
                       isActive(link.href)
-                        ? "text-brand-700 dark:text-brand-300"
-                        : "text-ink-700 hover:text-brand-700 dark:text-ink-200 dark:hover:text-brand-300"
+                        ? "text-accent-700 dark:text-accent-400"
+                        : "text-ink-700 hover:text-accent-700 dark:text-ink-200 dark:hover:text-accent-400"
                     }`}
                   >
                     {link.label}
@@ -113,17 +112,20 @@ export default function SiteHeader() {
                     }`}
                   >
                     <div className="grid grid-cols-2 gap-1 rounded-2xl border border-ink-200 bg-white p-2.5 shadow-lift dark:border-ink-800 dark:bg-ink-900">
-                      {SERVICES.map((service) => (
+                      {PRODUCTS.map((product) => (
                         <Link
-                          key={service.slug}
-                          href={`/services/${service.slug}`}
+                          key={product.slug}
+                          href={`/products/${product.slug}`}
                           className="rounded-xl px-3.5 py-2.5 transition-colors hover:bg-brand-50 dark:hover:bg-ink-800"
                         >
                           <span className="block text-sm font-semibold text-ink-900 dark:text-white">
-                            {service.name}
+                            <span className="mr-1.5 text-xs font-bold text-accent-600 dark:text-accent-400">
+                              {product.code}
+                            </span>
+                            {product.name}
                           </span>
                           <span className="mt-0.5 block text-xs leading-snug text-ink-500 dark:text-ink-400">
-                            {service.summary.split(/[—.]/)[0]?.trim()}
+                            {product.summary.split(/[—:.]/)[0]?.trim()}
                           </span>
                         </Link>
                       ))}
@@ -137,8 +139,8 @@ export default function SiteHeader() {
                   aria-current={isActive(link.href) ? "page" : undefined}
                   className={`rounded-xl px-3.5 py-2 text-sm font-semibold transition-colors ${
                     isActive(link.href)
-                      ? "text-brand-700 dark:text-brand-300"
-                      : "text-ink-700 hover:text-brand-700 dark:text-ink-200 dark:hover:text-brand-300"
+                      ? "text-accent-700 dark:text-accent-400"
+                      : "text-ink-700 hover:text-accent-700 dark:text-ink-200 dark:hover:text-accent-400"
                   }`}
                 >
                   {link.label}
@@ -150,13 +152,13 @@ export default function SiteHeader() {
           <div className="hidden items-center gap-3 lg:flex">
             <a
               href={`tel:${SITE.phoneHref}`}
-              className="text-sm font-semibold text-ink-600 transition-colors hover:text-brand-700 dark:text-ink-300 dark:hover:text-brand-300"
+              className="text-sm font-semibold text-ink-600 transition-colors hover:text-accent-700 dark:text-ink-300 dark:hover:text-accent-400"
             >
               {SITE.phoneDisplay}
             </a>
             <Link
               href="/contact"
-              className="rounded-xl bg-ink-900 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-glow dark:bg-brand-500 dark:text-ink-950 dark:hover:bg-brand-400"
+              className="rounded-xl bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-glow dark:bg-accent-500 dark:hover:bg-accent-400"
             >
               Get a free consultation
             </Link>
@@ -169,7 +171,7 @@ export default function SiteHeader() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-ink-300 text-ink-800 transition-colors hover:border-brand-400 hover:text-brand-700 lg:hidden dark:border-ink-700 dark:text-ink-100"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-ink-300 text-ink-800 transition-colors hover:border-accent-400 hover:text-accent-700 lg:hidden dark:border-ink-700 dark:text-ink-100"
           >
             <span className="sr-only">{mobileOpen ? "Close menu" : "Open menu"}</span>
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -198,11 +200,30 @@ export default function SiteHeader() {
                   aria-current={isActive(link.href) ? "page" : undefined}
                   className={`block rounded-xl px-4 py-3 text-base font-semibold transition-colors ${
                     isActive(link.href)
-                      ? "bg-brand-50 text-brand-800 dark:bg-ink-900 dark:text-brand-300"
+                      ? "bg-accent-50 text-accent-800 dark:bg-ink-900 dark:text-accent-400"
                       : "text-ink-800 hover:bg-ink-50 dark:text-ink-100 dark:hover:bg-ink-900"
                   }`}
                 >
                   {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-6 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-ink-500 dark:text-ink-400">
+            Core products
+          </p>
+          <ul className="mt-2 space-y-1">
+            {PRODUCTS.map((product) => (
+              <li key={product.slug}>
+                <Link
+                  href={`/products/${product.slug}`}
+                  className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 hover:text-accent-700 dark:text-ink-200 dark:hover:bg-ink-900"
+                >
+                  <span className="text-xs font-bold text-accent-600 dark:text-accent-400">
+                    {product.code}
+                  </span>
+                  {product.name}
                 </Link>
               </li>
             ))}
@@ -216,7 +237,7 @@ export default function SiteHeader() {
               <li key={service.slug}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="block rounded-xl px-4 py-2.5 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 hover:text-brand-700 dark:text-ink-200 dark:hover:bg-ink-900"
+                  className="block rounded-xl px-4 py-2.5 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 hover:text-accent-700 dark:text-ink-200 dark:hover:bg-ink-900"
                 >
                   {service.name}
                 </Link>

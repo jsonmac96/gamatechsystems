@@ -1,31 +1,34 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { SERVICES } from "@/lib/site";
+import { SERVICES } from "@/lib/services";
+import { PRODUCTS } from "@/lib/products";
+import { SITE } from "@/lib/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
-import ServiceIcon from "@/components/ServiceIcon";
-import CtaBand from "@/components/CtaBand";
+import CatalogIcon from "@/components/CatalogIcon";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { SITE } from "@/lib/site";
+import CtaBand from "@/components/CtaBand";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Services — Software, Automation, Web & Growth",
+  title: "Services — Web, Software, AI, Ads & SEO",
   description:
-    "Seven services for Philippine SMEs: software development, automation, web development, custom software, SEO, AEO and marketing. Fixed-price scoping.",
+    "Websites and infrastructure, custom software development, AI analytics and training, Google Ads management, SEO and e-commerce growth for Philippine SMEs.",
   path: "/services",
   keywords: [
-    "software services Philippines",
-    "automation services Philippines",
-    "SEO AEO marketing Philippines",
+    "digital services Philippines",
+    "software development SEO Google Ads Philippines",
+    "AI training SME Philippines",
   ],
 });
 
+export const dynamic = "force-dynamic";
+
 export default function ServicesPage() {
-  const itemListSchema = {
+  const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "GamaTech Systems services",
+    name: "GaMatech Systems services",
     itemListElement: SERVICES.map((service, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -39,7 +42,7 @@ export default function ServicesPage() {
     <>
       <JsonLd
         data={[
-          itemListSchema,
+          itemList,
           breadcrumbSchema([
             { name: "Home", path: "/" },
             { name: "Services", path: "/services" },
@@ -49,8 +52,8 @@ export default function ServicesPage() {
 
       <section className="relative overflow-hidden py-16 sm:py-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white dark:from-ink-900 dark:to-ink-950" />
-          <div className="blob right-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-brand-300/35 dark:bg-brand-800/25" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
+          <div className="blob left-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
         </div>
 
         <div className="container-page">
@@ -58,19 +61,17 @@ export default function ServicesPage() {
 
           <Reveal className="mt-8 max-w-3xl">
             <span className="eyebrow">Services</span>
-            <h1 className="h1 mt-5">
-              Everything your business needs to run — and to grow
-            </h1>
+            <h1 className="h1 mt-5">The work that goes around the systems</h1>
             <p className="lede mt-6">
-              Four services build the system. Three fill it with customers. You can start with
-              one, and most clients do — but having them under one roof is why the handoffs
-              between them do not drop anything.
+              Our products cover the systems most businesses need. These six services cover
+              everything else — building and running your web presence, writing the software no
+              product sells, and bringing customers to all of it.
             </p>
           </Reveal>
         </div>
       </section>
 
-      <section aria-labelledby="all-services" className="pb-20 sm:pb-28">
+      <section aria-labelledby="all-services" className="pb-20 sm:pb-24">
         <h2 id="all-services" className="sr-only">
           All services
         </h2>
@@ -80,16 +81,16 @@ export default function ServicesPage() {
               <Reveal key={service.slug} delay={index * 60}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="group block rounded-3xl border border-ink-200/80 bg-white/90 p-7 shadow-card backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lift sm:p-9 dark:border-ink-800 dark:bg-ink-900/60 dark:hover:border-brand-700"
+                  className="group block rounded-3xl border border-ink-200/80 bg-white/90 p-7 shadow-card backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-accent-300 hover:shadow-lift sm:p-9 dark:border-ink-800 dark:bg-ink-900/60 dark:hover:border-accent-800"
                 >
                   <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                    <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-100 text-brand-700 transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-white dark:bg-brand-950/60 dark:text-brand-300">
-                      <ServiceIcon name={service.icon} className="h-7 w-7" />
+                    <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-900 text-white transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
+                      <CatalogIcon name={service.icon} className="h-7 w-7" />
                     </span>
 
                     <div className="flex-1">
                       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                        <h3 className="text-xl font-bold text-ink-900 group-hover:text-brand-700 sm:text-2xl dark:text-white dark:group-hover:text-brand-300">
+                        <h3 className="text-xl font-bold text-ink-900 group-hover:text-accent-700 sm:text-2xl dark:text-white dark:group-hover:text-accent-400">
                           {service.name}
                         </h3>
                         <span className="text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-500">
@@ -111,10 +112,6 @@ export default function ServicesPage() {
                           </li>
                         ))}
                       </ul>
-
-                      <p className="mt-5 text-sm font-medium text-ink-500 dark:text-ink-400">
-                        {service.engagement}
-                      </p>
                     </div>
 
                     <span className="btn-ghost shrink-0 self-start sm:self-center">
@@ -128,12 +125,35 @@ export default function ServicesPage() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={120} className="mt-10">
+            <div className="rounded-3xl border border-ink-200 bg-ink-50/70 p-7 sm:p-9 dark:border-ink-800 dark:bg-ink-900/50">
+              <h2 className="h3">Looking for a ready-made system instead?</h2>
+              <p className="mt-3 max-w-2xl prose-body">
+                Our six core products cover point of sale, ERP, payroll, service desk and CRM.
+                If one of them fits, it is faster and cheaper than building from scratch.
+              </p>
+              <ul className="mt-6 flex flex-wrap gap-2.5">
+                {PRODUCTS.map((product) => (
+                  <li key={product.slug}>
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-accent-600 dark:hover:text-accent-400"
+                    >
+                      <span className="text-ink-400 dark:text-ink-500">{product.code}</span>
+                      {product.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       <CtaBand
-        heading="Which one do you need first?"
-        sub="If you are not sure, that is the normal starting point. Tell us what hurts and we will tell you which service pays back fastest."
+        heading="Which of these do you need?"
+        sub="Tell us what is slowing the business down and we will tell you which service moves the needle first — and which can wait."
       />
     </>
   );

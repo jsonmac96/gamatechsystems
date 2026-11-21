@@ -9,37 +9,55 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      /**
+       * Brand palette, taken from the supplied logo artwork.
+       *
+       *   brand  — GaMatech navy, #0A1A3E, sampled from the mark
+       *   accent — GaMatech orange, #E7580A, the dot in the mark
+       *   ink    — neutral greys tuned to sit beside the navy
+       *
+       * The ramps around each anchor were generated to keep contrast
+       * predictable: 600+ on white and 300- on navy both clear WCAG AA.
+       */
       colors: {
         ink: {
-          50: "#f4f7fb",
-          100: "#e7edf6",
-          200: "#c9d7e9",
-          300: "#9fb5d3",
-          400: "#6d8cb7",
-          500: "#4a6c9d",
-          600: "#395682",
-          700: "#2f466a",
-          800: "#1f2e46",
-          900: "#131c2b",
-          950: "#0a101a",
+          50: "#f4f5f9",
+          100: "#e7eaf1",
+          200: "#ccd2e0",
+          300: "#a6b0c8",
+          400: "#7987a8",
+          500: "#5a6b8c",
+          600: "#475571",
+          700: "#39445a",
+          800: "#242d41",
+          900: "#141b2c",
+          950: "#0a1020",
         },
         brand: {
-          50: "#ecfdff",
-          100: "#cff8fe",
-          200: "#a5effc",
-          300: "#67e1f9",
-          400: "#22c9ee",
-          500: "#06a9d4",
-          600: "#0787b2",
-          700: "#0d6b90",
-          800: "#145775",
-          900: "#154863",
-          950: "#072f44",
+          50: "#f1f4fb",
+          100: "#dfe6f5",
+          200: "#c2d0ec",
+          300: "#95aedd",
+          400: "#6286ca",
+          500: "#3f66b3",
+          600: "#2f4e97",
+          700: "#283f7a",
+          800: "#1b2c57",
+          900: "#0a1a3e",
+          950: "#06112a",
         },
         accent: {
-          400: "#ffc34d",
-          500: "#ffae1a",
-          600: "#e89100",
+          50: "#fff5ed",
+          100: "#ffe8d4",
+          200: "#ffcda8",
+          300: "#ffa970",
+          400: "#fd7b36",
+          500: "#e7580a",
+          600: "#d84c07",
+          700: "#b43808",
+          800: "#8f2e0f",
+          900: "#74290f",
+          950: "#3f1105",
         },
       },
       fontFamily: {
@@ -49,9 +67,10 @@ const config: Config = {
       maxWidth: { content: "72rem" },
       borderRadius: { "4xl": "2rem" },
       boxShadow: {
-        glow: "0 0 0 1px rgb(6 169 212 / 0.25), 0 18px 50px -18px rgb(6 169 212 / 0.45)",
-        lift: "0 24px 60px -24px rgb(10 16 26 / 0.55)",
-        card: "0 1px 2px rgb(10 16 26 / 0.06), 0 12px 32px -16px rgb(10 16 26 / 0.18)",
+        glow: "0 0 0 1px rgb(231 88 10 / 0.28), 0 18px 50px -18px rgb(231 88 10 / 0.45)",
+        "glow-navy": "0 0 0 1px rgb(10 26 62 / 0.18), 0 18px 50px -18px rgb(10 26 62 / 0.5)",
+        lift: "0 24px 60px -24px rgb(10 16 32 / 0.55)",
+        card: "0 1px 2px rgb(10 16 32 / 0.06), 0 12px 32px -16px rgb(10 16 32 / 0.18)",
       },
       keyframes: {
         "fade-up": {

@@ -148,14 +148,26 @@ export function oneOf<T extends string>(
 // Lead form
 // ---------------------------------------------------------------------------
 
+/**
+ * What the enquiry form offers in its "what do you need help with" select.
+ *
+ * Mirrors the six core products and six services. Kept as a literal list
+ * rather than derived from `lib/products.ts` so that a product rename never
+ * silently invalidates historic lead records, which store the chosen label.
+ */
 export const SERVICE_OPTIONS = [
+  "M5 Restaurant Suite",
+  "M6 Retail Suite",
+  "M7 ERP",
+  "M8 Payroll & HRIS",
+  "M9 Triage",
+  "M10 CRM",
+  "Websites & Infrastructure",
   "Software Development",
-  "Systems Automation",
-  "Web Development",
-  "Custom Software",
-  "SEO",
-  "AEO",
-  "Marketing",
+  "AI Analytics & Training",
+  "Google Ads Management",
+  "Search Engine Optimization",
+  "E-commerce Growth",
   "Not sure yet",
 ] as const;
 
@@ -299,7 +311,7 @@ export function validatePost(form: { get(key: string): unknown }): Validated<Pos
   }
 
   const status = oneOf(form.get("status"), ["draft", "published"] as const, "draft");
-  const authorName = cleanText(form.get("authorName"), 80) || "GamaTech Systems";
+  const authorName = cleanText(form.get("authorName"), 80) || "GaMatech Systems";
 
   if (Object.keys(errors).length > 0) return { ok: false, errors };
 
