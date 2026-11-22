@@ -3,10 +3,13 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
   audit,
-  getDb,
-  isoSecondsFromNow,
-  nowIso,
+  execute,
+  ms,
+  now,
   pruneExpired,
+  queryOne,
+  ready,
+  secondsFromNow,
 } from "@/lib/db";
 import { env } from "@/lib/env";
 import { keyedHash, randomToken } from "@/lib/crypto";
@@ -50,19 +53,19 @@ type UserRow = {
   username: string;
   display_name: string;
   password_hash: string;
-  must_change_pw: number;
-  is_active: number;
+  must_change_pw: boolean;
+  is_active: boolean;
 };
 
 type SessionRow = {
   token_hash: string;
   user_id: number;
-  last_seen_at: string;
-  absolute_expires_at: string;
+  last_seen_at: Date;
+  absolute_expires_at: Date;
   username: string;
   display_name: string;
-  must_change_pw: number;
-  is_active: number;
+  must_change_pw: boolean;
+  is_active: boolean;
 };
 
 const tokenHash = (token: string) => keyedHash("session", token);
@@ -86,15 +89,16 @@ export async function login(
   usernameRaw: string,
   password: string,
 ): Promise<LoginOutcome> {
+  await ready();
   const username = normaliseUsername(usernameRaw);
   const { ipHash, uaHash } = await getClientContext();
 
   const GENERIC_FAILURE = "Incorrect username or password.";
 
   // 1. Throttle first, before touching the password at all.
-  const throttle = checkLoginThrottle(username, ipHash);
+  const throttle = await checkLoginThrottle(username, ipHash);
   if (throttle.locked) {
-    audit({
+    await audit({
       actor: username || "unknown",
       action: "login.locked_out",
       detail: `cooldown ${throttle.retryAfterSeconds}s after ${throttle.failuresSoFar} failures`,
@@ -111,27 +115,25 @@ export async function login(
 
   // 2. Basic shape checks. Still counted as attempts so blank-form spam throttles.
   if (!username || typeof password !== "string" || password.length === 0) {
-    recordLoginAttempt(username, ipHash, false);
+    await recordLoginAttempt(username, ipHash, false);
     return { ok: false, message: GENERIC_FAILURE };
   }
 
-  const db = getDb();
-  const user = db
-    .prepare(
-      `SELECT id, username, display_name, password_hash, must_change_pw, is_active
-         FROM admin_users WHERE username = ?`,
-    )
-    .get(username) as UserRow | undefined;
+  const user = await queryOne<UserRow>(
+    `SELECT id, username, display_name, password_hash, must_change_pw, is_active
+       FROM admin_users WHERE username = $1`,
+    [username],
+  );
 
   // 3. Verify. When the user does not exist, verify against a dummy hash so
   //    the request takes the same amount of time either way.
   const storedHash = user?.password_hash ?? "scrypt$131072$8$1$AAAAAAAAAAAAAAAAAAAAAA$AAAA";
   const passwordOk = await verifyPassword(password, storedHash);
 
-  if (!user || !passwordOk || user.is_active !== 1) {
-    recordLoginAttempt(username, ipHash, false);
-    const after = checkLoginThrottle(username, ipHash);
-    audit({
+  if (!user || !passwordOk || !user.is_active) {
+    await recordLoginAttempt(username, ipHash, false);
+    const after = await checkLoginThrottle(username, ipHash);
+    await audit({
       actor: username,
       action: "login.failed",
       detail: user ? "bad password or inactive account" : "unknown username",
@@ -146,7 +148,7 @@ export async function login(
         )}.`,
       };
     }
-    const left = after.locked ? 0 : after.remainingAttempts;
+    const left = after.remainingAttempts;
     return {
       ok: false,
       message:
@@ -158,40 +160,42 @@ export async function login(
 
   // 4. Success: clear failures, rotate the stored hash if policy has tightened,
   //    and issue a fresh session (preventing session fixation).
-  recordLoginAttempt(username, ipHash, true);
-  clearLoginFailures(username, ipHash);
+  await recordLoginAttempt(username, ipHash, true);
+  await clearLoginFailures(username, ipHash);
 
   if (needsRehash(user.password_hash)) {
     try {
       const upgraded = await hashPassword(password);
-      db.prepare(
-        `UPDATE admin_users SET password_hash = ?, password_changed_at = ? WHERE id = ?`,
-      ).run(upgraded, nowIso(), user.id);
+      await execute(
+        `UPDATE admin_users SET password_hash = $1, password_changed_at = $2 WHERE id = $3`,
+        [upgraded, now(), user.id],
+      );
     } catch {
       /* a failed upgrade must not block a valid login */
     }
   }
 
-  db.prepare(`UPDATE admin_users SET last_login_at = ? WHERE id = ?`).run(nowIso(), user.id);
+  await execute(`UPDATE admin_users SET last_login_at = $1 WHERE id = $2`, [now(), user.id]);
 
   // Invalidate any other sessions for this account, so a stolen cookie dies
   // the moment the real owner signs in again.
-  db.prepare(`DELETE FROM sessions WHERE user_id = ?`).run(user.id);
+  await execute(`DELETE FROM sessions WHERE user_id = $1`, [user.id]);
 
   const token = randomToken(32);
-  const now = nowIso();
-  db.prepare(
+  const issuedAt = now();
+  await execute(
     `INSERT INTO sessions
        (token_hash, user_id, created_at, last_seen_at, absolute_expires_at, ip_hash, user_agent_hash)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-  ).run(
-    tokenHash(token),
-    user.id,
-    now,
-    now,
-    isoSecondsFromNow(ABSOLUTE_LIFETIME_SECONDS),
-    ipHash,
-    uaHash,
+     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+    [
+      tokenHash(token),
+      user.id,
+      issuedAt,
+      issuedAt,
+      secondsFromNow(ABSOLUTE_LIFETIME_SECONDS),
+      ipHash,
+      uaHash,
+    ],
   );
 
   const jar = await cookies();
@@ -203,8 +207,8 @@ export async function login(
     maxAge: ABSOLUTE_LIFETIME_SECONDS,
   });
 
-  audit({ actor: username, action: "login.success", ipHash });
-  pruneExpired();
+  await audit({ actor: username, action: "login.success", ipHash });
+  await pruneExpired();
 
   return { ok: true };
 }
@@ -219,39 +223,39 @@ export async function getSession(): Promise<AdminSession | null> {
   const token = jar.get(COOKIE_NAME)?.value;
   if (!token || token.length < 20 || token.length > 128) return null;
 
-  const db = getDb();
-  const row = db
-    .prepare(
-      `SELECT s.token_hash, s.user_id, s.last_seen_at, s.absolute_expires_at,
-              u.username, u.display_name, u.must_change_pw, u.is_active
-         FROM sessions s
-         JOIN admin_users u ON u.id = s.user_id
-        WHERE s.token_hash = ?`,
-    )
-    .get(tokenHash(token)) as SessionRow | undefined;
+  await ready();
+
+  const row = await queryOne<SessionRow>(
+    `SELECT s.token_hash, s.user_id, s.last_seen_at, s.absolute_expires_at,
+            u.username, u.display_name, u.must_change_pw, u.is_active
+       FROM sessions s
+       JOIN admin_users u ON u.id = s.user_id
+      WHERE s.token_hash = $1`,
+    [tokenHash(token)],
+  );
 
   if (!row) return null;
 
-  const now = Date.now();
-  const absoluteExpired = Date.parse(row.absolute_expires_at) <= now;
-  const idleExpired = Date.parse(row.last_seen_at) + IDLE_TIMEOUT_SECONDS * 1000 <= now;
+  const current = Date.now();
+  const absoluteExpired = ms(row.absolute_expires_at) <= current;
+  const idleExpired = ms(row.last_seen_at) + IDLE_TIMEOUT_SECONDS * 1000 <= current;
 
-  if (absoluteExpired || idleExpired || row.is_active !== 1) {
-    db.prepare(`DELETE FROM sessions WHERE token_hash = ?`).run(row.token_hash);
+  if (absoluteExpired || idleExpired || !row.is_active) {
+    await execute(`DELETE FROM sessions WHERE token_hash = $1`, [row.token_hash]);
     return null;
   }
 
   // Sliding idle window: touch the session, but never past its absolute expiry.
-  db.prepare(`UPDATE sessions SET last_seen_at = ? WHERE token_hash = ?`).run(
-    nowIso(),
+  await execute(`UPDATE sessions SET last_seen_at = $1 WHERE token_hash = $2`, [
+    now(),
     row.token_hash,
-  );
+  ]);
 
   return {
     userId: row.user_id,
     username: row.username,
     displayName: row.display_name || row.username,
-    mustChangePassword: row.must_change_pw === 1,
+    mustChangePassword: row.must_change_pw,
   };
 }
 
@@ -280,7 +284,7 @@ export async function logout(): Promise<void> {
 
   if (token) {
     try {
-      getDb().prepare(`DELETE FROM sessions WHERE token_hash = ?`).run(tokenHash(token));
+      await execute(`DELETE FROM sessions WHERE token_hash = $1`, [tokenHash(token)]);
     } catch {
       /* already gone */
     }
@@ -304,32 +308,33 @@ export async function changePassword(
   currentPassword: string,
   newPassword: string,
 ): Promise<{ ok: true } | { ok: false; message: string }> {
-  const db = getDb();
-  const row = db
-    .prepare(`SELECT id, username, password_hash FROM admin_users WHERE id = ?`)
-    .get(userId) as Pick<UserRow, "id" | "username" | "password_hash"> | undefined;
+  const row = await queryOne<Pick<UserRow, "id" | "username" | "password_hash">>(
+    `SELECT id, username, password_hash FROM admin_users WHERE id = $1`,
+    [userId],
+  );
 
   if (!row) return { ok: false, message: "Account not found." };
 
   const ok = await verifyPassword(currentPassword, row.password_hash);
   if (!ok) {
     const { ipHash } = await getClientContext();
-    audit({ actor: row.username, action: "password.change_failed", ipHash });
+    await audit({ actor: row.username, action: "password.change_failed", ipHash });
     return { ok: false, message: "Your current password is incorrect." };
   }
 
   const hash = await hashPassword(newPassword);
-  db.prepare(
+  await execute(
     `UPDATE admin_users
-        SET password_hash = ?, password_changed_at = ?, must_change_pw = 0
-      WHERE id = ?`,
-  ).run(hash, nowIso(), userId);
+        SET password_hash = $1, password_changed_at = $2, must_change_pw = false
+      WHERE id = $3`,
+    [hash, now(), userId],
+  );
 
   // Force every session to re-authenticate with the new credentials.
-  db.prepare(`DELETE FROM sessions WHERE user_id = ?`).run(userId);
+  await execute(`DELETE FROM sessions WHERE user_id = $1`, [userId]);
 
   const { ipHash } = await getClientContext();
-  audit({ actor: row.username, action: "password.changed", ipHash });
+  await audit({ actor: row.username, action: "password.changed", ipHash });
   return { ok: true };
 }
 

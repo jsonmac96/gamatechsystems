@@ -12,7 +12,10 @@ const isProd = process.env.NODE_ENV === "production";
 
 function readSiteUrl(): string {
   const raw = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim();
-  const fallback = "http://localhost:3000";
+  // On Vercel, fall back to the project's production domain so a missing
+  // variable degrades to correct canonical URLs rather than to localhost.
+  const vercelProduction = vercelHost("VERCEL_PROJECT_PRODUCTION_URL");
+  const fallback = vercelProduction ? `https://${vercelProduction}` : "http://localhost:3000";
   const value = raw || fallback;
   let url: URL;
   try {
@@ -85,6 +88,46 @@ function readAppSecret(isPublicDeployment: boolean): Buffer {
   return Buffer.from(raw, "hex");
 }
 
+/**
+ * PostgreSQL connection string.
+ *
+ * Required wherever the site actually runs. On a serverless host point this
+ * at a **pooled** endpoint — on Neon, the host containing `-pooler` — so that
+ * short-lived invocations do not exhaust the connection limit.
+ */
+function readDatabaseUrl(): string {
+  const raw = (process.env.DATABASE_URL ?? "").trim();
+  if (!raw) return "";
+  if (!/^postgres(ql)?:\/\//.test(raw)) {
+    throw new Error(
+      "DATABASE_URL must be a postgres:// or postgresql:// connection string.",
+    );
+  }
+  return raw;
+}
+
+/**
+ * TLS is on unless the URL opts out. `sslmode=disable` and `sslmode=no-verify`
+ * are for a local database only; a hosted provider always wants a verified
+ * connection, and silently disabling verification is how credentials end up
+ * exposed to whoever is between you and the database.
+ */
+function requiresSsl(url: string): boolean {
+  if (!url) return false;
+  const mode = /[?&]sslmode=([a-z-]+)/i.exec(url)?.[1]?.toLowerCase();
+  if (mode === "disable" || mode === "no-verify") return false;
+  // A local socket or localhost connection does not need TLS.
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    if (host === "localhost" || host === "127.0.0.1" || host === "" || host === "::1") {
+      return mode === "require" || mode === "verify-full";
+    }
+  } catch {
+    /* fall through to the default */
+  }
+  return true;
+}
+
 function readAllowedOrigins(siteUrl: string): readonly string[] {
   const extra = (process.env.ALLOWED_ORIGINS ?? "")
     .split(",")
@@ -102,7 +145,26 @@ function readAllowedOrigins(siteUrl: string): readonly string[] {
   if (!isProd) {
     base.push("http://localhost:3000", "http://127.0.0.1:3000");
   }
+  // On Vercel the same build is served from several hostnames: the production
+  // domain, a per-branch preview URL and a per-deployment URL. Vercel sets
+  // these itself — they are not request input — so forms submitted from any of
+  // them are genuinely same-site.
+  for (const name of ["VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"]) {
+    const host = vercelHost(name);
+    if (host) base.push(`https://${host}`);
+  }
   return Array.from(new Set([...base, ...extra]));
+}
+
+/**
+ * A hostname from one of Vercel's system environment variables, which hold a
+ * bare host such as `my-app-git-main-team.vercel.app` with no scheme.
+ * Anything that does not look like a plain hostname is ignored.
+ */
+function vercelHost(name: string): string {
+  const raw = (process.env[name] ?? "").trim().toLowerCase();
+  if (!raw) return "";
+  return /^[a-z0-9](?:[a-z0-9.-]{0,251}[a-z0-9])?$/.test(raw) ? raw : "";
 }
 
 const siteUrl = readSiteUrl();
@@ -120,7 +182,9 @@ export const env = {
   siteUrl,
   /** Whether cookies should carry the `Secure` attribute. */
   useSecureCookies: siteUrl.startsWith("https://"),
-  databasePath: (process.env.DATABASE_PATH ?? "./data/gamatech.db").trim(),
+  databaseUrl: readDatabaseUrl(),
+  /** Whether to negotiate TLS. Hosted providers require it; a local socket does not. */
+  databaseSsl: requiresSsl(readDatabaseUrl()),
   appSecret: readAppSecret(isPublicDeployment),
   allowedOrigins: readAllowedOrigins(siteUrl),
   /** Only trust X-Forwarded-For when explicitly told to (prevents spoofed rate-limit keys). */

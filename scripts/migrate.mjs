@@ -5,60 +5,43 @@
  *
  *   npm run db:migrate
  *
- * `lib/schema.sql` is written to be idempotent, so running this repeatedly is
- * safe. The application also applies it on first boot; this script exists so a
- * deployment can create the database before serving any traffic.
+ * `lib/schema.sql` is idempotent, so running this repeatedly is safe. The app
+ * also applies it on its first query, but running it once at deploy time means
+ * no visitor ever pays for that on a cold start.
  */
 
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
-import { dirname, isAbsolute, join } from "node:path";
 import process from "node:process";
-import Database from "better-sqlite3";
+import { applySchema, openPool } from "./db.mjs";
 
-const projectRoot = process.cwd();
-const configured = (process.env.DATABASE_PATH ?? "./data/gamatech.db").trim();
-const file = isAbsolute(configured) ? configured : join(projectRoot, configured);
+const pool = openPool();
 
-const dir = dirname(file);
-if (!existsSync(dir)) {
-  mkdirSync(dir, { recursive: true, mode: 0o700 });
-  console.log(`Created ${dir}`);
+try {
+  await applySchema(pool);
+
+  const { rows: tables } = await pool.query(
+    `SELECT table_name FROM information_schema.tables
+      WHERE table_schema = 'public' AND table_type = 'BASE TABLE'
+      ORDER BY table_name`,
+  );
+
+  console.log("\n✓ Schema applied\n");
+  console.log("Tables:");
+  for (const { table_name: name } of tables) {
+    // The name comes from the catalogue, never from user input; quote it anyway.
+    const { rows } = await pool.query(`SELECT COUNT(*)::int AS n FROM "${String(name).replace(/"/g, '""')}"`);
+    const n = rows[0]?.n ?? 0;
+    console.log(`  · ${String(name).padEnd(16)} ${n} row${n === 1 ? "" : "s"}`);
+  }
+
+  const { rows: admins } = await pool.query(`SELECT COUNT(*)::int AS n FROM admin_users`);
+  if ((admins[0]?.n ?? 0) === 0) {
+    console.log("\nNo admin account exists yet. Create one with:\n\n  npm run admin:create\n");
+  } else {
+    console.log("");
+  }
+} catch (error) {
+  console.error("\n✗ Migration failed:", error instanceof Error ? error.message : error, "\n");
+  process.exitCode = 1;
+} finally {
+  await pool.end();
 }
-
-const db = new Database(file);
-db.pragma("journal_mode = WAL");
-db.pragma("foreign_keys = ON");
-
-const schema = readFileSync(join(projectRoot, "lib", "schema.sql"), "utf8");
-db.exec(schema);
-
-const tables = /** @type {{name: string}[]} */ (
-  db
-    .prepare(
-      `SELECT name FROM sqlite_master
-        WHERE type = 'table' AND name NOT LIKE 'sqlite_%'
-        ORDER BY name`,
-    )
-    .all()
-);
-
-console.log(`\n✓ Schema applied to ${file}\n`);
-console.log("Tables:");
-for (const table of tables) {
-  const count = /** @type {{n: number}} */ (
-    db.prepare(`SELECT COUNT(*) AS n FROM "${table.name}"`).get()
-  ).n;
-  console.log(`  · ${table.name.padEnd(16)} ${count} row${count === 1 ? "" : "s"}`);
-}
-
-const admins = /** @type {{n: number}} */ (
-  db.prepare("SELECT COUNT(*) AS n FROM admin_users").get()
-).n;
-
-if (admins === 0) {
-  console.log("\nNo admin account exists yet. Create one with:\n\n  npm run admin:create\n");
-} else {
-  console.log("");
-}
-
-db.close();

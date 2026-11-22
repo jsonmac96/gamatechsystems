@@ -1,56 +1,101 @@
 import "server-only";
-import Database from "better-sqlite3";
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
-import { dirname, isAbsolute, join } from "node:path";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { Pool, types } from "pg";
 import { env } from "@/lib/env";
 
 /**
- * SQLite access layer.
+ * PostgreSQL access layer.
+ *
+ * Uses `pg` (node-postgres), which talks to any PostgreSQL server — Neon,
+ * Supabase, RDS or one on your laptop. It is pure JavaScript, so there is no
+ * native module to compile at install time.
+ *
+ * On a serverless platform every invocation may open its own connection, so
+ * point `DATABASE_URL` at a **pooled** endpoint. On Neon that is the host
+ * containing `-pooler`; its built-in PgBouncer multiplexes those connections
+ * and stops a busy site exhausting the database's connection limit.
  *
  * Rules enforced here and relied on by the rest of the app:
- *   - One connection per process, reused across requests (Next.js hot-reload safe).
- *   - WAL journaling so reads never block the lead form writing a new row.
- *   - Foreign keys ON, so cascade deletes actually cascade.
- *   - Every query in this project is a *prepared, parameterised* statement.
- *     No SQL string anywhere is built by concatenating user input, which is
- *     what makes SQL injection structurally impossible rather than merely
- *     unlikely.
+ *   - One pool per process, reused across requests (hot-reload safe).
+ *   - Every query in this project is parameterised with `$1`-style
+ *     placeholders. No SQL anywhere is built by concatenating user input,
+ *     which is what makes injection structurally impossible rather than
+ *     merely unlikely.
+ *   - Timestamps are `timestamptz` and come back as JavaScript `Date`s.
  */
 
-type Db = Database.Database;
+// `bigint` (OID 20) arrives as a string so precision is not lost. Every
+// bigint this schema produces is a COUNT, which is always within safe integer
+// range, so parse it to a number and keep the call sites simple.
+types.setTypeParser(20, (value: string) => Number.parseInt(value, 10));
 
-function resolveDbPath(): string {
-  const configured = env.databasePath;
-  // Runtime-only path to a data file. The bundler is told not to trace it,
-  // otherwise it would try to include the whole project directory in the
-  // server output.
-  return isAbsolute(configured)
-    ? configured
-    : join(/* turbopackIgnore: true */ process.cwd(), configured);
+type Primitive = string | number | boolean | Date | null;
+
+const globalForDb = globalThis as unknown as {
+  __gamatechPool?: Pool;
+  __gamatechMigrated?: Promise<void>;
+};
+
+function createPool(): Pool {
+  if (!env.databaseUrl) {
+    throw new Error(
+      "DATABASE_URL is not set. Point it at a PostgreSQL database — see .env.example.",
+    );
+  }
+  return new Pool({
+    connectionString: env.databaseUrl,
+    // A small ceiling per instance: serverless invocations are short-lived and
+    // the pooled endpoint multiplexes on the database side.
+    max: 5,
+    // Neon and most hosted providers require TLS. `rejectUnauthorized: false`
+    // would silently accept any certificate, so verification stays on; set
+    // `sslmode=require` (or `no-verify` locally) in the URL instead.
+    ssl: env.databaseSsl ? { rejectUnauthorized: true } : undefined,
+    idleTimeoutMillis: 30_000,
+    connectionTimeoutMillis: 10_000,
+  });
 }
 
-function openDatabase(): Db {
-  const file = resolveDbPath();
-  const dir = dirname(file);
-  if (!existsSync(dir)) {
-    // 0o700: only the service user may read the database directory.
-    mkdirSync(dir, { recursive: true, mode: 0o700 });
+export function getPool(): Pool {
+  if (!globalForDb.__gamatechPool) {
+    globalForDb.__gamatechPool = createPool();
   }
+  return globalForDb.__gamatechPool;
+}
 
-  const db = new Database(file);
-  db.pragma("journal_mode = WAL");
-  db.pragma("foreign_keys = ON");
-  db.pragma("busy_timeout = 5000");
-  db.pragma("synchronous = NORMAL");
-  // Defence in depth: refuse to load SQLite extensions at runtime.
-  try {
-    db.loadExtension = (() => {
-      throw new Error("Loading SQLite extensions is disabled.");
-    }) as Db["loadExtension"];
-  } catch {
-    /* property not configurable on this build — not fatal */
-  }
-  return db;
+/**
+ * Run a parameterised query and return the rows.
+ *
+ * `sql` is always a literal from this codebase; `params` carries every value
+ * that came from a request.
+ */
+export async function query<T = Record<string, unknown>>(
+  sql: string,
+  params: readonly Primitive[] = [],
+): Promise<T[]> {
+  await ready();
+  const result = await getPool().query(sql, params as Primitive[]);
+  return result.rows as T[];
+}
+
+/** Run a query expected to match at most one row. */
+export async function queryOne<T = Record<string, unknown>>(
+  sql: string,
+  params: readonly Primitive[] = [],
+): Promise<T | undefined> {
+  const rows = await query<T>(sql, params);
+  return rows[0];
+}
+
+/** Run a statement and report how many rows it affected. */
+export async function execute(
+  sql: string,
+  params: readonly Primitive[] = [],
+): Promise<number> {
+  await ready();
+  const result = await getPool().query(sql, params as Primitive[]);
+  return result.rowCount ?? 0;
 }
 
 /**
@@ -61,86 +106,97 @@ function openDatabase(): Db {
  * lists it in `outputFileTracingIncludes` so it is always present in a
  * production deployment.
  */
-export function migrate(db: Db = getDb()): void {
+export async function migrate(): Promise<void> {
   const schemaPath = join(/* turbopackIgnore: true */ process.cwd(), "lib", "schema.sql");
   const sql = readFileSync(schemaPath, "utf8");
-  db.exec(sql);
+  await getPool().query(sql);
 }
 
-// Next.js reloads modules in development; cache the handle on globalThis so we
-// do not leak a file handle per edit.
-const globalForDb = globalThis as unknown as {
-  __gamatechDb?: Db;
-  __gamatechMigrated?: boolean;
-};
-
-export function getDb(): Db {
-  if (!globalForDb.__gamatechDb) {
-    globalForDb.__gamatechDb = openDatabase();
-  }
-  const db = globalForDb.__gamatechDb;
+/**
+ * Ensure the schema exists before the first query of a process.
+ *
+ * `query` and `execute` call this themselves, so no caller can forget it.
+ *
+ * Cached as a promise so concurrent requests during a cold start wait on one
+ * migration rather than racing several. In a serverless deployment the
+ * migration should really be run once at deploy time (`npm run db:migrate`);
+ * this is the safety net that stops a fresh environment 500-ing.
+ */
+export function ready(): Promise<void> {
   if (!globalForDb.__gamatechMigrated) {
-    globalForDb.__gamatechMigrated = true;
-    migrate(db);
+    globalForDb.__gamatechMigrated = migrate().catch((error) => {
+      // Let the next request retry rather than caching a failure forever.
+      globalForDb.__gamatechMigrated = undefined;
+      throw error;
+    });
   }
-  return db;
+  return globalForDb.__gamatechMigrated;
 }
 
-/** ISO-8601 timestamp in UTC, the single time format used across the schema. */
-export function nowIso(): string {
-  return new Date().toISOString();
+/** Current time as a `Date`, for passing into `timestamptz` columns. */
+export function now(): Date {
+  return new Date();
 }
 
-/** ISO timestamp `seconds` in the past — for "within the last N seconds" windows. */
-export function isoSecondsAgo(seconds: number): string {
-  return new Date(Date.now() - seconds * 1000).toISOString();
+/** A `Date` `seconds` in the past — for "within the last N seconds" windows. */
+export function secondsAgo(seconds: number): Date {
+  return new Date(Date.now() - seconds * 1000);
 }
 
-/** ISO timestamp `seconds` in the future. */
-export function isoSecondsFromNow(seconds: number): string {
-  return new Date(Date.now() + seconds * 1000).toISOString();
+/** A `Date` `seconds` in the future. */
+export function secondsFromNow(seconds: number): Date {
+  return new Date(Date.now() + seconds * 1000);
 }
 
 /** Append a row to the audit trail. Never pass raw IPs or secrets as `detail`. */
-export function audit(entry: {
+export async function audit(entry: {
   actor?: string;
   action: string;
   target?: string;
   detail?: string;
   ipHash?: string;
-}): void {
+}): Promise<void> {
   try {
-    getDb()
-      .prepare(
-        `INSERT INTO audit_log (actor, action, target, detail, ip_hash, created_at)
-         VALUES (@actor, @action, @target, @detail, @ipHash, @createdAt)`,
-      )
-      .run({
-        actor: entry.actor ?? "system",
-        action: entry.action,
-        target: entry.target ?? "",
-        detail: (entry.detail ?? "").slice(0, 500),
-        ipHash: entry.ipHash ?? "",
-        createdAt: nowIso(),
-      });
+    await execute(
+      `INSERT INTO audit_log (actor, action, target, detail, ip_hash, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [
+        entry.actor ?? "system",
+        entry.action,
+        entry.target ?? "",
+        (entry.detail ?? "").slice(0, 500),
+        entry.ipHash ?? "",
+        now(),
+      ],
+    );
   } catch {
     // Auditing must never break the request it is describing.
   }
 }
 
 /** Delete expired sessions and stale throttle rows. Cheap; safe to call often. */
-export function pruneExpired(): void {
-  const db = getDb();
-  const now = nowIso();
+export async function pruneExpired(): Promise<void> {
   try {
-    db.prepare(`DELETE FROM sessions WHERE absolute_expires_at <= ?`).run(now);
-    db.prepare(`DELETE FROM login_attempts WHERE created_at <= ?`).run(
-      isoSecondsAgo(60 * 60 * 24 * 7),
-    );
-    db.prepare(`DELETE FROM rate_events WHERE created_at <= ?`).run(
-      isoSecondsAgo(60 * 60 * 24),
-    );
+    await execute(`DELETE FROM sessions WHERE absolute_expires_at <= $1`, [now()]);
+    await execute(`DELETE FROM login_attempts WHERE created_at <= $1`, [
+      secondsAgo(60 * 60 * 24 * 7),
+    ]);
+    await execute(`DELETE FROM rate_events WHERE created_at <= $1`, [
+      secondsAgo(60 * 60 * 24),
+    ]);
   } catch {
-    /* housekeeping is best-effort */
+    // Housekeeping is best-effort.
   }
+}
+
+/** Convert a `timestamptz` column to an ISO-8601 string for rendering. */
+export function iso(value: Date | string | null | undefined): string {
+  if (!value) return "";
+  return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+}
+
+/** Milliseconds since the epoch for a `timestamptz` column. */
+export function ms(value: Date | string | null | undefined): number {
+  if (!value) return 0;
+  return value instanceof Date ? value.getTime() : Date.parse(value);
 }

@@ -1,5 +1,5 @@
 import "server-only";
-import { getDb, isoSecondsAgo, nowIso } from "@/lib/db";
+import { execute, ms, now, query, queryOne, secondsAgo } from "@/lib/db";
 
 /**
  * Throttling.
@@ -15,8 +15,9 @@ import { getDb, isoSecondsAgo, nowIso } from "@/lib/db";
  *  2. `consumeRateLimit` — a generic sliding-window counter used by the public
  *     lead form so one client cannot flood the inbox.
  *
- * State lives in SQLite rather than in process memory, so limits survive a
- * restart and hold across multiple application instances sharing the database.
+ * State lives in the database rather than in process memory, so limits survive
+ * a restart and hold across every serverless instance at once — which is the
+ * whole point on a platform that may run dozens of them.
  */
 
 // ---------------------------------------------------------------------------
@@ -39,7 +40,7 @@ export type ThrottleState =
   | { locked: false; failuresSoFar: number; remainingAttempts: number }
   | { locked: true; retryAfterSeconds: number; failuresSoFar: number };
 
-type AttemptRow = { succeeded: number; created_at: string };
+type AttemptRow = { succeeded: boolean; created_at: Date };
 
 /**
  * Current lockout state for an account + source address pair.
@@ -48,9 +49,14 @@ type AttemptRow = { succeeded: number; created_at: string };
  * restrictive wins. That stops both "hammer one account from everywhere" and
  * "spray many usernames from one host".
  */
-export function checkLoginThrottle(username: string, ipHash: string): ThrottleState {
-  const byUser = evaluate("username", username);
-  const byIp = evaluate("ip_hash", ipHash);
+export async function checkLoginThrottle(
+  username: string,
+  ipHash: string,
+): Promise<ThrottleState> {
+  const [byUser, byIp] = await Promise.all([
+    evaluate("username", username),
+    evaluate("ip_hash", ipHash),
+  ]);
 
   if (byUser.locked || byIp.locked) {
     const retryAfterSeconds = Math.max(
@@ -72,32 +78,34 @@ export function checkLoginThrottle(username: string, ipHash: string): ThrottleSt
   };
 }
 
-function evaluate(column: "username" | "ip_hash", value: string): ThrottleState {
-  if (!value) return { locked: false, failuresSoFar: 0, remainingAttempts: LOGIN_FAIL_THRESHOLD };
+async function evaluate(
+  column: "username" | "ip_hash",
+  value: string,
+): Promise<ThrottleState> {
+  if (!value) {
+    return { locked: false, failuresSoFar: 0, remainingAttempts: LOGIN_FAIL_THRESHOLD };
+  }
 
-  const db = getDb();
   // The column name is a literal from this module's own union type, never from
   // user input; the *value* is always bound as a parameter.
   const sql =
     column === "username"
       ? `SELECT succeeded, created_at FROM login_attempts
-           WHERE username = ? AND created_at > ?
+           WHERE username = $1 AND created_at > $2
            ORDER BY created_at DESC LIMIT 50`
       : `SELECT succeeded, created_at FROM login_attempts
-           WHERE ip_hash = ? AND created_at > ?
+           WHERE ip_hash = $1 AND created_at > $2
            ORDER BY created_at DESC LIMIT 50`;
 
-  const rows = db.prepare(sql).all(value, isoSecondsAgo(FAILURE_MEMORY_SECONDS)) as AttemptRow[];
+  const rows = await query<AttemptRow>(sql, [value, secondsAgo(FAILURE_MEMORY_SECONDS)]);
 
   // Count the unbroken run of failures since the most recent success.
   let failures = 0;
   let newestFailureAt: number | null = null;
   for (const row of rows) {
-    if (row.succeeded === 1) break;
+    if (row.succeeded) break;
     failures += 1;
-    if (newestFailureAt === null) {
-      newestFailureAt = Date.parse(row.created_at);
-    }
+    if (newestFailureAt === null) newestFailureAt = ms(row.created_at);
   }
 
   if (failures < LOGIN_FAIL_THRESHOLD || newestFailureAt === null) {
@@ -113,8 +121,7 @@ function evaluate(column: "username" | "ip_hash", value: string): ThrottleState 
     LOCKOUT_LADDER_SECONDS.length - 1,
   );
   const cooldown = LOCKOUT_LADDER_SECONDS[tier] ?? 60;
-  const unlockAt = newestFailureAt + cooldown * 1000;
-  const remainingMs = unlockAt - Date.now();
+  const remainingMs = newestFailureAt + cooldown * 1000 - Date.now();
 
   if (remainingMs <= 0) {
     // Cooldown served. Allow another try without wiping history, so the next
@@ -130,27 +137,27 @@ function evaluate(column: "username" | "ip_hash", value: string): ThrottleState 
 }
 
 /** Record the outcome of a login attempt. */
-export function recordLoginAttempt(
+export async function recordLoginAttempt(
   username: string,
   ipHash: string,
   succeeded: boolean,
-): void {
-  getDb()
-    .prepare(
-      `INSERT INTO login_attempts (username, ip_hash, succeeded, created_at)
-       VALUES (?, ?, ?, ?)`,
-    )
-    .run(username.slice(0, 120), ipHash, succeeded ? 1 : 0, nowIso());
+): Promise<void> {
+  await execute(
+    `INSERT INTO login_attempts (username, ip_hash, succeeded, created_at)
+     VALUES ($1, $2, $3, $4)`,
+    [username.slice(0, 120), ipHash, succeeded, now()],
+  );
 }
 
 /** Clear a user's failure history after a successful login. */
-export function clearLoginFailures(username: string, ipHash: string): void {
-  const db = getDb();
-  db.prepare(`DELETE FROM login_attempts WHERE username = ? AND succeeded = 0`).run(
+export async function clearLoginFailures(username: string, ipHash: string): Promise<void> {
+  await execute(`DELETE FROM login_attempts WHERE username = $1 AND succeeded = false`, [
     username.slice(0, 120),
-  );
+  ]);
   if (ipHash) {
-    db.prepare(`DELETE FROM login_attempts WHERE ip_hash = ? AND succeeded = 0`).run(ipHash);
+    await execute(`DELETE FROM login_attempts WHERE ip_hash = $1 AND succeeded = false`, [
+      ipHash,
+    ]);
   }
 }
 
@@ -169,24 +176,23 @@ export type RateLimitResult =
  * @param limit      maximum events allowed in the window
  * @param windowSecs length of the sliding window in seconds
  */
-export function consumeRateLimit(
+export async function consumeRateLimit(
   bucket: string,
   limit: number,
   windowSecs: number,
-): RateLimitResult {
-  const db = getDb();
-  const since = isoSecondsAgo(windowSecs);
+): Promise<RateLimitResult> {
+  const since = secondsAgo(windowSecs);
   const key = bucket.slice(0, 160);
 
-  const row = db
-    .prepare(
-      `SELECT COUNT(*) AS n, MIN(created_at) AS oldest
-         FROM rate_events WHERE bucket = ? AND created_at > ?`,
-    )
-    .get(key, since) as { n: number; oldest: string | null };
+  const row = await queryOne<{ n: number; oldest: Date | null }>(
+    `SELECT COUNT(*)::bigint AS n, MIN(created_at) AS oldest
+       FROM rate_events WHERE bucket = $1 AND created_at > $2`,
+    [key, since],
+  );
 
-  if (row.n >= limit) {
-    const oldestMs = row.oldest ? Date.parse(row.oldest) : Date.now();
+  const count = row?.n ?? 0;
+  if (count >= limit) {
+    const oldestMs = row?.oldest ? ms(row.oldest) : Date.now();
     const retryAfterSeconds = Math.max(
       1,
       Math.ceil((oldestMs + windowSecs * 1000 - Date.now()) / 1000),
@@ -194,8 +200,8 @@ export function consumeRateLimit(
     return { allowed: false, retryAfterSeconds };
   }
 
-  db.prepare(`INSERT INTO rate_events (bucket, created_at) VALUES (?, ?)`).run(key, nowIso());
-  return { allowed: true, remaining: Math.max(0, limit - row.n - 1) };
+  await execute(`INSERT INTO rate_events (bucket, created_at) VALUES ($1, $2)`, [key, now()]);
+  return { allowed: true, remaining: Math.max(0, limit - count - 1) };
 }
 
 /** Human-friendly rendering of a cooldown, e.g. "58 seconds" or "4 minutes". */

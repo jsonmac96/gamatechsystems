@@ -8,6 +8,7 @@ import {
   postTags,
   type Post,
 } from "@/lib/posts";
+import { iso } from "@/lib/db";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -28,8 +29,10 @@ export const metadata: Metadata = pageMetadata({
  */
 export const dynamic = "force-dynamic";
 
-export default function BlogIndexPage() {
-  const posts = listPublishedPosts(60);
+export default async function BlogIndexPage() {
+  // Falls back to the empty state rather than an error page if the database
+  // is briefly unreachable.
+  const posts = await listPublishedPosts(60).catch(() => []);
   const [featured, ...rest] = posts;
 
   const blogSchema = {
@@ -46,8 +49,8 @@ export default function BlogIndexPage() {
       "@type": "BlogPosting",
       headline: post.title,
       url: `${SITE.url}/blog/${post.slug}`,
-      datePublished: post.published_at ?? post.created_at,
-      dateModified: post.updated_at,
+      datePublished: iso(post.published_at ?? post.created_at),
+      dateModified: iso(post.updated_at),
       author: { "@type": "Organization", name: post.author_name },
     })),
   };
@@ -199,7 +202,7 @@ export default function BlogIndexPage() {
 }
 
 function PostMeta({ post }: { post: Post }) {
-  const published = post.published_at ?? post.created_at;
+  const published = iso(post.published_at ?? post.created_at);
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
       <time dateTime={published}>

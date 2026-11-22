@@ -42,7 +42,7 @@ management, search engine optimization, and e-commerce growth.
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home: hero with a live product preview, products, services, industries, lead form, FAQ, latest articles |
+| `/` | Home: hero with the six-product catalogue, products, services, industries, lead form, FAQ, latest articles |
 | `/products` | All six core products |
 | `/products/[slug]` | One page per product, with features, rollout, FAQ and lead form |
 | `/services` | All six services |
@@ -64,7 +64,7 @@ management, search engine optimization, and e-commerce growth.
 | `/admin/account` | Change password, review account and session details |
 
 **Animation** — every section fades or slides in as it scrolls into view, the hero has a
-drifting gradient backdrop and a live M5 dashboard mock-up, the industries strip scrolls
+drifting gradient backdrop and a floating panel of the six products, the industries strip scrolls
 continuously, and the primary call-to-action carries a moving sheen. All of it collapses
 to an instant state change for visitors with `prefers-reduced-motion: reduce`.
 
@@ -73,11 +73,6 @@ to an instant state change for visitors with `prefers-reduced-motion: reduce`.
 is taken from it — navy `#0A1A3E` as `brand`, orange `#E7580A` as `accent`. The source
 PDFs are raster, so the mark is redrawn rather than traced; it is a single stroked
 polyline whose corner radius comes from `stroke-linejoin: round`.
-
-**Product preview** — `components/M5Dashboard.tsx` recreates the M5 Restaurant Suite
-dashboard in HTML and CSS rather than embedding a screenshot, so it stays sharp, weighs
-nothing and follows dark mode. **Every figure in it is illustrative**, labelled as such on
-the page, and the whole block is `aria-hidden`.
 
 ---
 
@@ -99,7 +94,8 @@ Generate a secret and paste it into `.env.local` as `APP_SECRET`:
 openssl rand -hex 32
 ```
 
-Create the database:
+Point `DATABASE_URL` in `.env.local` at a PostgreSQL database — a free
+[Neon](https://neon.tech) project, or a local server — then create the tables:
 
 ```bash
 npm run db:migrate
@@ -143,7 +139,7 @@ missing or malformed value fails loudly rather than silently degrading.
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | yes in production | Canonical origin. Must be `https://` for any non-local hostname; used for canonical tags, sitemap, OpenGraph and secure-cookie detection. |
 | `APP_SECRET` | yes in production | Exactly 64 hex characters. Keys the HMACs for session tokens, IP hashes and form tokens. Rotating it logs everyone out, which is safe. |
-| `DATABASE_PATH` | no | Defaults to `./data/gamatech.db`. Keep it outside the web root. |
+| `DATABASE_URL` | yes | PostgreSQL connection string. On Vercel + Neon use the **pooled** string (host contains `-pooler`). TLS is on unless the URL says `sslmode=disable`. |
 | `ALLOWED_ORIGINS` | no | Extra origins permitted to submit forms, comma separated. Only needed when the site answers on more than one hostname. |
 | `TRUST_PROXY` | no | Set to `1` **only** behind a reverse proxy you control. See [Rate limiting](#rate-limiting-and-the-login-lockout). |
 
@@ -218,7 +214,8 @@ history.
 
 The lockout is evaluated per **username** and per **source address** independently, which
 blocks both "hammer one account from many hosts" and "spray many usernames from one host".
-State lives in SQLite, so it survives a restart and holds across multiple app instances.
+State lives in PostgreSQL, so it survives a restart and holds across every serverless
+instance at once — essential on a platform that may run dozens of them.
 
 It is enforced **entirely on the server**. The countdown and disabled fields in the UI are
 a courtesy; re-enabling them in devtools changes nothing (there is a test for exactly
@@ -293,7 +290,8 @@ Set in `next.config.ts` and `proxy.ts`:
   enough to rate-limit but is not personal data to protect or disclose.
 - **Audit log.** Every sign-in, lockout, lead change, post change and export is recorded.
 - **Dependencies.** Four runtime dependencies (`next`, `react`, `react-dom`,
-  `better-sqlite3`). `npm audit` reports **0 vulnerabilities**.
+  `pg`). All are pure JavaScript, so there is no native module to compile at install
+  time. `npm audit` reports **0 vulnerabilities**.
 - **Secrets.** `.env*` is git-ignored (`.env.example` excepted), the database directory is
   created `0700` and git-ignored, and secrets are confined to `server-only` modules — an
   accidental client import is a build error. The client bundles were scanned to confirm no
@@ -302,10 +300,11 @@ Set in `next.config.ts` and `proxy.ts`:
 
 ### Not applicable here
 
-- **Row-level security** is a Postgres/Supabase feature. This project uses SQLite, where
-  the equivalent protection is that all data access goes through the server-side
-  functions in `lib/`, each of which checks the session first. If you later migrate to
-  Postgres or Supabase, enable RLS on every table.
+- **Row-level security.** All data access goes through the server-side functions in
+  `lib/`, each of which checks the session first, and the database role is never
+  exposed to the browser — so there is no client that RLS would be protecting against.
+  If you ever give a browser direct database access (Supabase client libraries, for
+  example), enable RLS on every table before you do.
 - **CORS** headers are deliberately not set, so the browser default (same-origin only)
   applies.
 - **File upload validation** and **webhook signature verification** — there are no uploads
@@ -362,10 +361,10 @@ app/
   sitemap.ts           robots.ts  opengraph-image.tsx  apple-icon.tsx
 components/            UI; components/admin/ is console-only
   Logo.tsx             the mark, app-icon tile and full lockup, as inline SVG
-  M5Dashboard.tsx      the Restaurant Suite dashboard mock-up (illustrative figures)
+  ProductConstellation.tsx  the hero panel linking to all six products
 lib/
   env.ts               validated configuration — the only reader of process.env
-  db.ts  schema.sql    SQLite connection and schema
+  db.ts  schema.sql    PostgreSQL pool, query helpers and schema
   auth.ts              sessions, sign-in, password change
   password.mjs         scrypt hashing (plain JS: shared by the app and the CLI)
   rate-limit.ts        login lockout and the sliding-window limiter
@@ -385,8 +384,37 @@ scripts/               migrate.mjs, create-admin.mjs
 
 ## Deployment
 
-The app is a standard Next.js server plus a SQLite file, so it runs anywhere Node runs
-with a **persistent disk** — a VPS, a container with a volume, Fly.io, Railway, Render.
+The app is a standard Next.js application backed by PostgreSQL. It is built to run on
+**Vercel with a Neon database**, and works the same on any Node host with any Postgres.
+
+### Vercel + Neon
+
+1. **Create the database.** In Vercel, open the project → *Storage* → *Create Database*
+   → *Neon*, and connect it to the project. Vercel adds `DATABASE_URL` for you. (Or
+   create a project at neon.tech and copy its **pooled** connection string — the one
+   whose host contains `-pooler`.)
+2. **Set the environment variables** under *Settings → Environment Variables*:
+   - `DATABASE_URL` — the pooled Neon string, if Vercel did not add it
+   - `APP_SECRET` — the output of `openssl rand -hex 32`
+   - `NEXT_PUBLIC_SITE_URL` — your public https address, e.g. `https://www.gamatechsystems.com`
+   - `TRUST_PROXY` — `1` (Vercel rewrites `X-Forwarded-For`, so it can be trusted)
+3. **Create the tables and your admin account** from your own machine, pointed at the
+   same database:
+
+   ```bash
+   DATABASE_URL='postgresql://…-pooler…/neondb?sslmode=require' npm run db:migrate
+   ```
+
+   ```bash
+   DATABASE_URL='postgresql://…-pooler…/neondb?sslmode=require' npm run admin:create
+   ```
+
+4. **Redeploy.** The build needs no database access; the site connects at request time.
+
+The app also creates any missing tables on its first query, so a forgotten step 3
+migration does not take the site down — but run it anyway, so no visitor pays for it.
+
+### Any other host
 
 ```bash
 npm ci
@@ -396,18 +424,18 @@ npm run admin:create
 npm start
 ```
 
-Behind Nginx or Caddy, terminate TLS at the proxy, forward to the Node process, and set
-`TRUST_PROXY=1` so rate limiting sees real client addresses.
+Behind Nginx or Caddy, terminate TLS at the proxy and set `TRUST_PROXY=1`.
 
-Back up `data/gamatech.db` — it holds every lead and every article. A plain file copy is
-enough when the app is stopped; use `sqlite3 data/gamatech.db ".backup out.db"` while it
-is running.
+### Backups
 
-> **Serverless platforms** (Vercel, Netlify, Cloudflare) have ephemeral filesystems, so
-> SQLite will not persist there. To deploy on one, replace `lib/db.ts`, `lib/leads.ts` and
-> `lib/posts.ts` with a hosted database — Postgres, Turso or Supabase. The rest of the
-> app, including every security control, is unaffected. If you move to Postgres or
-> Supabase, **enable row-level security on every table**.
+Neon keeps point-in-time history (the window depends on your plan). For an independent
+copy:
+
+```bash
+pg_dump "$DATABASE_URL" --format=custom --file=gamatech-$(date +%F).dump
+```
+
+Dumps contain every lead and admin password hash — store them like secrets.
 
 ---
 
@@ -417,7 +445,7 @@ is running.
 trade-off: the strict CSP issues a fresh nonce per request, and a nonce cannot be baked
 into static HTML. Statically prerendering these pages silently dropped all structured data
 from blog articles during development, which is precisely the kind of bug that is
-invisible until rankings fall. The cost is small — the only I/O is an indexed SQLite read
+invisible until rankings fall. The cost is small — the only I/O is an indexed Postgres read
 on the same machine — and every response still carries full cache-control headers for a
 CDN in front.
 

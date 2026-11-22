@@ -22,14 +22,13 @@ next-env.d.ts
 secrets.json
 credentials.json
 
-# database (contains real leads + password hashes)
+# local database files and dumps (contain real leads + password hashes)
 data/
 *.sqlite
 *.sqlite3
 *.db
-*.db-journal
-*.db-wal
-*.db-shm
+*.dump
+*.sql.gz
 
 # logs
 *.log

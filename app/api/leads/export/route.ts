@@ -32,11 +32,11 @@ export async function GET(request: NextRequest) {
     ? (statusParam as LeadStatus)
     : "all";
 
-  const { rows } = listLeads({ status, limit: 200, offset: 0 });
+  const { rows } = await listLeads({ status, limit: 200, offset: 0 });
   const csv = leadsToCsv(rows);
 
   const { ipHash } = await getClientContext();
-  audit({
+  await audit({
     actor: session.username,
     action: "leads.exported",
     detail: `${rows.length} rows, status=${status}`,

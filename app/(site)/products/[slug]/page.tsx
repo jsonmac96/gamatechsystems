@@ -15,7 +15,6 @@ import CatalogIcon from "@/components/CatalogIcon";
 import FaqList from "@/components/FaqList";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadForm from "@/components/LeadForm";
-import M5Dashboard from "@/components/M5Dashboard";
 import { issueFormToken } from "@/lib/form-token";
 
 type Params = { slug: string };
@@ -51,8 +50,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
 
   const pageUrl = `${SITE.url}/products/${product.slug}`;
   const others = PRODUCTS.filter((p) => p.slug !== product.slug);
-  // Only the Restaurant Suite has a built dashboard preview so far.
-  const showDashboard = product.slug === "restaurant-suite";
 
   return (
     <>
@@ -86,7 +83,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           />
 
           <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:gap-10">
-            <div className={showDashboard ? "lg:col-span-6" : "lg:col-span-7"}>
+            <div className="lg:col-span-7">
               <Reveal>
                 <div className="flex items-center gap-3">
                   <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-900 text-white">
@@ -131,53 +128,13 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               </Reveal>
             </div>
 
-            {/* Dashboard preview, or the pain points */}
-            {showDashboard ? (
-              <Reveal variant="right" delay={140} className="lg:col-span-6">
-                <figure className="relative">
-                  <div aria-hidden="true" className="absolute -inset-3 -z-10 rounded-[1.75rem] bg-gradient-to-br from-accent-400/25 to-brand-500/20 blur-2xl" />
-                  <M5Dashboard />
-                  <figcaption className="mt-3 text-center text-xs text-ink-500 dark:text-ink-400">
-                    The {product.code} dashboard: live net sales, food cost and margin.
-                    Figures shown are illustrative.
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ) : (
-              <Reveal variant="right" delay={140} className="lg:col-span-5">
-                <div className="card border-ink-300/70 bg-white sm:p-8 dark:bg-ink-900/70">
-                  <h2 className="text-base font-bold uppercase tracking-wider text-ink-500 dark:text-ink-400">
-                    Sound familiar?
-                  </h2>
-                  <ul className="mt-5 space-y-4">
-                    {product.painPoints.map((point) => (
-                      <li key={point} className="flex gap-3">
-                        <span className="mt-1.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-600 dark:text-accent-400">
-                          <svg className="h-3 w-3" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
-                            <path d="M6 1a.8.8 0 0 1 .8.8v4a.8.8 0 0 1-1.6 0v-4A.8.8 0 0 1 6 1Zm0 7.4a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z" />
-                          </svg>
-                        </span>
-                        <span className="text-ink-700 dark:text-ink-200">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Pain points, when the hero showed the dashboard instead */}
-      {showDashboard ? (
-        <section aria-labelledby="pain-heading" className="pb-4">
-          <div className="container-page">
-            <Reveal>
+            {/* Pain points */}
+            <Reveal variant="right" delay={140} className="lg:col-span-5">
               <div className="card border-ink-300/70 bg-white sm:p-8 dark:bg-ink-900/70">
-                <h2 id="pain-heading" className="text-base font-bold uppercase tracking-wider text-ink-500 dark:text-ink-400">
+                <h2 className="text-base font-bold uppercase tracking-wider text-ink-500 dark:text-ink-400">
                   Sound familiar?
                 </h2>
-                <ul className="mt-5 grid gap-4 sm:grid-cols-2">
+                <ul className="mt-5 space-y-4">
                   {product.painPoints.map((point) => (
                     <li key={point} className="flex gap-3">
                       <span className="mt-1.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-600 dark:text-accent-400">
@@ -192,8 +149,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               </div>
             </Reveal>
           </div>
-        </section>
-      ) : null}
+        </div>
+      </section>
+
 
       {/* Features */}
       <section aria-labelledby="features-heading" className="border-y border-ink-200 bg-ink-50/60 py-20 dark:border-ink-800 dark:bg-ink-900/40">

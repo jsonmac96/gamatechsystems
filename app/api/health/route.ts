@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { query } from "@/lib/db";
 
 /**
  * Liveness probe for uptime monitoring.
@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   let databaseOk = false;
   try {
-    getDb().prepare("SELECT 1").get();
+    await query("SELECT 1");
     databaseOk = true;
   } catch {
     databaseOk = false;

@@ -22,8 +22,7 @@ export default async function AdminPostsPage({
   const justCreated = params.created === "1";
   const justSaved = params.saved === "1";
 
-  const posts = listAllPosts(200);
-  const stats = postStats();
+  const [posts, stats] = await Promise.all([listAllPosts(200), postStats()]);
 
   return (
     <div className="space-y-6">
@@ -112,7 +111,7 @@ export default async function AdminPostsPage({
                     </td>
 
                     <td className="table-cell whitespace-nowrap text-ink-500 dark:text-ink-400">
-                      <time dateTime={post.updated_at}>
+                      <time dateTime={post.updated_at.toISOString()}>
                         {new Date(post.updated_at).toLocaleDateString("en-PH", {
                           year: "numeric",
                           month: "short",

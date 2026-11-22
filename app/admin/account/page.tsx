@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { requireSession } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { ms, queryOne } from "@/lib/db";
 import { PASSWORD_POLICY } from "@/lib/password.mjs";
 import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 
@@ -14,26 +14,26 @@ export const dynamic = "force-dynamic";
 type UserMeta = {
   username: string;
   display_name: string;
-  created_at: string;
-  password_changed_at: string;
-  last_login_at: string | null;
+  created_at: Date;
+  password_changed_at: Date;
+  last_login_at: Date | null;
 };
 
 export default async function AccountPage() {
   const session = await requireSession("/admin/account");
 
-  const user = getDb()
-    .prepare(
+  const [user, sessionRow] = await Promise.all([
+    queryOne<UserMeta>(
       `SELECT username, display_name, created_at, password_changed_at, last_login_at
-         FROM admin_users WHERE id = ?`,
-    )
-    .get(session.userId) as UserMeta | undefined;
-
-  const sessionCount = (
-    getDb()
-      .prepare(`SELECT COUNT(*) AS n FROM sessions WHERE user_id = ?`)
-      .get(session.userId) as { n: number }
-  ).n;
+         FROM admin_users WHERE id = $1`,
+      [session.userId],
+    ),
+    queryOne<{ n: number }>(
+      `SELECT COUNT(*)::bigint AS n FROM sessions WHERE user_id = $1`,
+      [session.userId],
+    ),
+  ]);
+  const sessionCount = sessionRow?.n ?? 0;
 
   return (
     <div className="space-y-6">
@@ -111,10 +111,10 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   );
 }
 
-function formatDate(iso: string | null | undefined): string {
-  if (!iso) return "—";
-  const value = Date.parse(iso);
-  if (!Number.isFinite(value)) return "—";
+function formatDate(input: Date | string | null | undefined): string {
+  if (!input) return "—";
+  const value = ms(input);
+  if (!Number.isFinite(value) || value === 0) return "—";
   return new Date(value).toLocaleString("en-PH", {
     dateStyle: "medium",
     timeStyle: "short",
