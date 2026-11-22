@@ -13,7 +13,7 @@ import { listPublishedPosts } from "@/lib/posts";
  */
 export const revalidate = 3600;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -42,9 +42,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   let postPages: MetadataRoute.Sitemap = [];
   try {
-    postPages = listPublishedPosts(500).map((post) => ({
+    postPages = (await listPublishedPosts(500)).map((post) => ({
       url: `${SITE.url}/blog/${post.slug}`,
-      lastModified: new Date(post.updated_at),
+      lastModified: post.updated_at,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     }));

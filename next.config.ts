@@ -57,8 +57,9 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   // Fail the production build on type errors rather than shipping them.
   typescript: { ignoreBuildErrors: false },
-  // `better-sqlite3` is a native module: keep it external to the server bundle.
-  serverExternalPackages: ["better-sqlite3"],
+  // node-postgres optionally probes for a native addon; keep it out of the
+  // bundler so it is loaded as a normal Node module at runtime.
+  serverExternalPackages: ["pg"],
   // The schema file is read at runtime by lib/db.ts, so it must be shipped
   // even though nothing imports it as a module.
   outputFileTracingIncludes: { "/**": ["./lib/schema.sql"] },

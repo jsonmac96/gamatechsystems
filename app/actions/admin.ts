@@ -122,7 +122,7 @@ export async function updateLeadStatusAction(formData: FormData): Promise<void> 
   const statusRaw = cleanText(formData.get("status"), 20);
   if (!id || !(LEAD_STATUSES as readonly string[]).includes(statusRaw)) return;
 
-  updateLeadStatus(id, statusRaw as LeadStatus, session.username);
+  await updateLeadStatus(id, statusRaw as LeadStatus, session.username);
   revalidatePath("/admin/leads");
   revalidatePath("/admin");
 }
@@ -134,7 +134,7 @@ export async function updateLeadNotesAction(formData: FormData): Promise<void> {
   const id = asId(formData.get("id"));
   if (!id) return;
 
-  updateLeadNotes(id, cleanMultiline(formData.get("notes"), 4000), session.username);
+  await updateLeadNotes(id, cleanMultiline(formData.get("notes"), 4000), session.username);
   revalidatePath("/admin/leads");
 }
 
@@ -145,7 +145,7 @@ export async function deleteLeadAction(formData: FormData): Promise<void> {
   const id = asId(formData.get("id"));
   if (!id) return;
 
-  deleteLead(id, session.username);
+  await deleteLead(id, session.username);
   revalidatePath("/admin/leads");
   revalidatePath("/admin");
 }
@@ -166,7 +166,7 @@ export async function createPostAction(
     return { error: "Please fix the highlighted fields.", errors: validated.errors, values: keepPostValues(formData) };
   }
 
-  const result = createPost(validated.value, session.userId, session.username);
+  const result = await createPost(validated.value, session.userId, session.username);
   if (!result.ok) {
     return {
       error: result.message,
@@ -194,7 +194,7 @@ export async function updatePostAction(
     return { error: "Please fix the highlighted fields.", errors: validated.errors, values: keepPostValues(formData) };
   }
 
-  const result = updatePost(id, validated.value, session.username);
+  const result = await updatePost(id, validated.value, session.username);
   if (!result.ok) {
     return {
       error: result.message,
@@ -215,7 +215,7 @@ export async function setPostStatusAction(formData: FormData): Promise<void> {
   const status = cleanText(formData.get("status"), 20);
   if (!id || (status !== "draft" && status !== "published")) return;
 
-  setPostStatus(id, status, session.username);
+  await setPostStatus(id, status, session.username);
   revalidateBlog();
   revalidatePath("/admin/posts");
 }
@@ -227,7 +227,7 @@ export async function deletePostAction(formData: FormData): Promise<void> {
   const id = asId(formData.get("id"));
   if (!id) return;
 
-  deletePost(id, session.username);
+  await deletePost(id, session.username);
   revalidateBlog();
   revalidatePath("/admin/posts");
 }

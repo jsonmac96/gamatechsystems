@@ -49,7 +49,7 @@ export default function LeadRow({ lead }: { lead: Lead }) {
 
           <div className="flex shrink-0 items-center gap-3">
             <time
-              dateTime={lead.created_at}
+              dateTime={created.toISOString()}
               className="text-xs text-ink-400 dark:text-ink-500"
               title={created.toISOString()}
             >

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // @ts-check
 /**
- * Create or update a GamaTech Systems admin account.
+ * Create or update a GaMatech Systems admin account.
  *
  *   npm run admin:create
  *
@@ -11,49 +11,32 @@
  * for that reason.
  *
  * For unattended setup, set ADMIN_USERNAME and ADMIN_PASSWORD in the
- * environment instead — but prefer the prompt when a human is present.
+ * environment instead — the account is then flagged to require a password
+ * change at first sign-in. Prefer the prompt when a human is present.
  */
 
 import { createInterface } from "node:readline";
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
-import { dirname, isAbsolute, join } from "node:path";
 import process from "node:process";
-import Database from "better-sqlite3";
+import { applySchema, openPool } from "./db.mjs";
 import {
   checkPasswordStrength,
   hashPassword,
   PASSWORD_POLICY,
 } from "../lib/password.mjs";
 
-const projectRoot = process.cwd();
-
-function resolveDbPath() {
-  const configured = (process.env.DATABASE_PATH ?? "./data/gamatech.db").trim();
-  return isAbsolute(configured) ? configured : join(projectRoot, configured);
-}
-
-function openDb() {
-  const file = resolveDbPath();
-  const dir = dirname(file);
-  if (!existsSync(dir)) mkdirSync(dir, { recursive: true, mode: 0o700 });
-
-  const db = new Database(file);
-  db.pragma("journal_mode = WAL");
-  db.pragma("foreign_keys = ON");
-  // Apply the schema; it is idempotent.
-  db.exec(readFileSync(join(projectRoot, "lib", "schema.sql"), "utf8"));
-  return db;
-}
-
-/** Read a line of input, optionally with echo suppressed. */
+/**
+ * Read a line of input, optionally with echo suppressed.
+ * @param {string} question
+ * @param {{ silent?: boolean }} [options]
+ * @returns {Promise<string>}
+ */
 function prompt(question, { silent = false } = {}) {
   return new Promise((resolve) => {
     const rl = createInterface({ input: process.stdin, output: process.stdout, terminal: true });
 
     if (silent && process.stdin.isTTY) {
-      // Suppress echo by intercepting the output stream's writes.
       const output = /** @type {any} */ (rl).output;
-      /** @type {any} */ (rl)._writeToOutput = function (chunk) {
+      /** @type {any} */ (rl)._writeToOutput = function (/** @type {string} */ chunk) {
         if (chunk.includes(question)) output.write(question);
       };
     }
@@ -66,125 +49,132 @@ function prompt(question, { silent = false } = {}) {
   });
 }
 
+/** @param {unknown} raw */
 function normaliseUsername(raw) {
   return String(raw ?? "").trim().toLowerCase().normalize("NFKC").slice(0, 64);
 }
 
+/** @param {string} username */
 function validUsername(username) {
   return /^[a-z0-9][a-z0-9._-]{2,63}$/.test(username);
 }
 
 async function main() {
-  console.log("\nGamaTech Systems — create admin account");
+  console.log("\nGaMatech Systems — create admin account");
   console.log("=======================================\n");
 
-  const db = openDb();
+  const pool = openPool();
+  try {
+    await applySchema(pool);
 
-  // ---- username ----------------------------------------------------------
-  let username = normaliseUsername(process.env.ADMIN_USERNAME);
-  if (!username) {
-    username = normaliseUsername(await prompt("Username: "));
-  }
-  if (!validUsername(username)) {
-    console.error(
-      "\n✗ Invalid username. Use 3–64 characters: lowercase letters, numbers, dot, underscore or hyphen, starting with a letter or number.\n",
-    );
-    process.exit(1);
-  }
-
-  const existing = db
-    .prepare("SELECT id, username FROM admin_users WHERE username = ?")
-    .get(username);
-
-  if (existing) {
-    const confirm = (await prompt(`Account "${username}" exists. Reset its password? [y/N] `))
-      .trim()
-      .toLowerCase();
-    if (confirm !== "y" && confirm !== "yes") {
-      console.log("\nCancelled. No changes made.\n");
-      process.exit(0);
+    // ---- username ------------------------------------------------------
+    let username = normaliseUsername(process.env.ADMIN_USERNAME);
+    if (!username) username = normaliseUsername(await prompt("Username: "));
+    if (!validUsername(username)) {
+      console.error(
+        "\n✗ Invalid username. Use 3–64 characters: lowercase letters, numbers, dot, underscore or hyphen, starting with a letter or number.\n",
+      );
+      process.exitCode = 1;
+      return;
     }
-  }
 
-  // ---- display name ------------------------------------------------------
-  let displayName = String(process.env.ADMIN_DISPLAY_NAME ?? "").trim().slice(0, 80);
-  if (!displayName && !process.env.ADMIN_PASSWORD) {
-    displayName = (await prompt(`Display name [${username}]: `)).trim().slice(0, 80);
-  }
-  if (!displayName) displayName = username;
-
-  // ---- password ----------------------------------------------------------
-  let password = process.env.ADMIN_PASSWORD ?? "";
-  let fromEnv = password.length > 0;
-
-  if (!fromEnv) {
-    console.log(
-      `\nPassword requirements: at least ${PASSWORD_POLICY.minLength} characters, mixing at least`,
+    const { rows: existingRows } = await pool.query(
+      "SELECT id, username FROM admin_users WHERE username = $1",
+      [username],
     );
-    console.log("three of lowercase, uppercase, numbers and symbols. Input is hidden.\n");
+    const existing = existingRows[0];
 
-    password = await prompt("Password: ", { silent: true });
-    const again = await prompt("Confirm password: ", { silent: true });
+    const fromEnv = Boolean(process.env.ADMIN_PASSWORD);
 
-    if (password !== again) {
-      console.error("\n✗ Passwords did not match. Nothing was changed.\n");
-      process.exit(1);
+    if (existing && !fromEnv) {
+      const confirm = (await prompt(`Account "${username}" exists. Reset its password? [y/N] `))
+        .trim()
+        .toLowerCase();
+      if (confirm !== "y" && confirm !== "yes") {
+        console.log("\nCancelled. No changes made.\n");
+        return;
+      }
     }
-  }
 
-  const problems = checkPasswordStrength(password, { username });
-  if (problems.length > 0) {
-    console.error("\n✗ Password rejected:");
-    for (const problem of problems) console.error(`  · ${problem}`);
-    console.error("");
-    process.exit(1);
-  }
+    // ---- display name --------------------------------------------------
+    let displayName = String(process.env.ADMIN_DISPLAY_NAME ?? "").trim().slice(0, 80);
+    if (!displayName && !fromEnv) {
+      displayName = (await prompt(`Display name [${username}]: `)).trim().slice(0, 80);
+    }
+    if (!displayName) displayName = username;
 
-  // ---- write -------------------------------------------------------------
-  process.stdout.write("Hashing password (this takes a moment by design)… ");
-  const hash = await hashPassword(password);
-  console.log("done.");
+    // ---- password ------------------------------------------------------
+    let password = process.env.ADMIN_PASSWORD ?? "";
+    if (!fromEnv) {
+      console.log(
+        `\nPassword requirements: at least ${PASSWORD_POLICY.minLength} characters, mixing at least`,
+      );
+      console.log("three of lowercase, uppercase, numbers and symbols. Input is hidden.\n");
 
-  const now = new Date().toISOString();
+      password = await prompt("Password: ", { silent: true });
+      const again = await prompt("Confirm password: ", { silent: true });
+      if (password !== again) {
+        console.error("\n✗ Passwords did not match. Nothing was changed.\n");
+        process.exitCode = 1;
+        return;
+      }
+    }
 
-  if (existing) {
-    db.prepare(
-      `UPDATE admin_users
-          SET password_hash = ?, display_name = ?, password_changed_at = ?,
-              must_change_pw = ?, is_active = 1
-        WHERE id = ?`,
-    ).run(hash, displayName, now, fromEnv ? 1 : 0, existing.id);
+    const problems = checkPasswordStrength(password, { username });
+    if (problems.length > 0) {
+      console.error("\n✗ Password rejected:");
+      for (const problem of problems) console.error(`  · ${problem}`);
+      console.error("");
+      process.exitCode = 1;
+      return;
+    }
 
-    // A password reset must invalidate every existing session.
-    db.prepare("DELETE FROM sessions WHERE user_id = ?").run(existing.id);
-    db.prepare("DELETE FROM login_attempts WHERE username = ?").run(username);
+    // ---- write ---------------------------------------------------------
+    process.stdout.write("Hashing password (this takes a moment by design)… ");
+    const hash = await hashPassword(password);
+    console.log("done.");
 
-    console.log(`\n✓ Password reset for "${username}". All sessions were signed out.\n`);
-  } else {
-    db.prepare(
-      `INSERT INTO admin_users
-         (username, display_name, password_hash, must_change_pw, is_active,
-          created_at, password_changed_at)
-       VALUES (?, ?, ?, ?, 1, ?, ?)`,
-    ).run(username, displayName, hash, fromEnv ? 1 : 0, now, now);
+    const now = new Date();
 
-    console.log(`\n✓ Admin account "${username}" created.\n`);
-  }
+    if (existing) {
+      await pool.query(
+        `UPDATE admin_users
+            SET password_hash = $1, display_name = $2, password_changed_at = $3,
+                must_change_pw = $4, is_active = true
+          WHERE id = $5`,
+        [hash, displayName, now, fromEnv, existing.id],
+      );
+      // A password reset must invalidate every existing session.
+      await pool.query("DELETE FROM sessions WHERE user_id = $1", [existing.id]);
+      await pool.query("DELETE FROM login_attempts WHERE username = $1", [username]);
+      console.log(`\n✓ Password reset for "${username}". All sessions were signed out.\n`);
+    } else {
+      await pool.query(
+        `INSERT INTO admin_users
+           (username, display_name, password_hash, must_change_pw, is_active,
+            created_at, password_changed_at)
+         VALUES ($1, $2, $3, $4, true, $5, $5)`,
+        [username, displayName, hash, fromEnv, now],
+      );
+      console.log(`\n✓ Admin account "${username}" created.\n`);
+    }
 
-  db.prepare(
-    `INSERT INTO audit_log (actor, action, target, detail, created_at)
-     VALUES (?, ?, ?, ?, ?)`,
-  ).run("cli", existing ? "admin.password_reset" : "admin.created", `user:${username}`, "", now);
-
-  if (fromEnv) {
-    console.log(
-      "Note: the password came from ADMIN_PASSWORD, so the account is flagged to require a",
+    await pool.query(
+      `INSERT INTO audit_log (actor, action, target, detail, created_at)
+       VALUES ($1, $2, $3, '', $4)`,
+      ["cli", existing ? "admin.password_reset" : "admin.created", `user:${username}`, now],
     );
-    console.log("password change at first sign-in. Unset that variable now.\n");
-  }
 
-  console.log("Sign in at /admin/login\n");
-  db.close();
+    if (fromEnv) {
+      console.log(
+        "Note: the password came from ADMIN_PASSWORD, so the account must change it at first",
+      );
+      console.log("sign-in. Unset that variable now.\n");
+    }
+    console.log("Sign in at /admin/login\n");
+  } finally {
+    await pool.end();
+  }
 }
 
 main().catch((error) => {

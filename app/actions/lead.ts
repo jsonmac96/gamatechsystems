@@ -1,6 +1,6 @@
 "use server";
 
-import { audit } from "@/lib/db";
+import { audit, ready } from "@/lib/db";
 import { createLead } from "@/lib/leads";
 import { consumeRateLimit, formatCooldown } from "@/lib/rate-limit";
 import { assertSameOrigin, getClientContext } from "@/lib/request-context";
@@ -44,8 +44,19 @@ export async function submitLead(
 
   const { ipHash } = await getClientContext();
 
+  try {
+    await ready();
+  } catch {
+    return {
+      status: "error",
+      message: "We could not save enquiries just now. Please email hello@gamatechsystems.com instead.",
+      errors: {},
+      values: keepValues(formData),
+    };
+  }
+
   // 2. Rate limit
-  const hourly = consumeRateLimit(`lead:h:${ipHash}`, RATE_LIMIT_HOURLY, 3600);
+  const hourly = await consumeRateLimit(`lead:h:${ipHash}`, RATE_LIMIT_HOURLY, 3600);
   if (!hourly.allowed) {
     return {
       status: "error",
@@ -55,7 +66,7 @@ export async function submitLead(
       errors: {},
     };
   }
-  const daily = consumeRateLimit(`lead:d:${ipHash}`, RATE_LIMIT_DAILY, 86_400);
+  const daily = await consumeRateLimit(`lead:d:${ipHash}`, RATE_LIMIT_DAILY, 86_400);
   if (!daily.allowed) {
     return {
       status: "error",
@@ -102,10 +113,10 @@ export async function submitLead(
   const status = looksAutomated ? "spam" : "new";
 
   try {
-    createLead(result.value, { ipHash, status });
+    await createLead(result.value, { ipHash, status });
   } catch {
     // Never surface a database error message to the public.
-    audit({ actor: "public", action: "lead.create_failed", ipHash });
+    await audit({ actor: "public", action: "lead.create_failed", ipHash });
     return {
       status: "error",
       message:

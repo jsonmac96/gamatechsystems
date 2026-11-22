@@ -17,6 +17,7 @@ import {
 } from "@/lib/posts";
 import { extractHeadings, renderMarkdown, toPlainText } from "@/lib/markdown";
 import { isValidSlug } from "@/lib/validate";
+import { iso } from "@/lib/db";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -49,7 +50,7 @@ export async function generateMetadata({
     return { title: "Article not found", robots: { index: false, follow: false } };
   }
 
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) {
     return { title: "Article not found", robots: { index: false, follow: false } };
   }
@@ -59,8 +60,8 @@ export async function generateMetadata({
     description: postMetaDescription(post),
     path: `/blog/${post.slug}`,
     type: "article",
-    publishedTime: post.published_at ?? post.created_at,
-    modifiedTime: post.updated_at,
+    publishedTime: iso(post.published_at ?? post.created_at),
+    modifiedTime: iso(post.updated_at),
     authors: [post.author_name],
     keywords: postTags(post),
   });
@@ -72,13 +73,13 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
   if (!isValidSlug(slug)) notFound();
 
   // `getPostBySlug` defaults to published-only, so a draft URL 404s for the public.
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
 
   const html = renderMarkdown(post.body_md);
   const headings = extractHeadings(post.body_md);
-  const related = relatedPosts(post.id, 3);
-  const published = post.published_at ?? post.created_at;
+  const related = await relatedPosts(post.id, 3);
+  const published = iso(post.published_at ?? post.created_at);
   const tags = postTags(post);
   const wordCount = toPlainText(post.body_md, 200_000).split(/\s+/).filter(Boolean).length;
 
@@ -91,7 +92,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             description: postMetaDescription(post),
             slug: post.slug,
             publishedAt: published,
-            updatedAt: post.updated_at,
+            updatedAt: iso(post.updated_at),
             author: post.author_name,
             tags,
             wordCount,
@@ -241,7 +242,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                   <Reveal as="li" key={item.id} delay={index * 80}>
                     <Link href={`/blog/${item.slug}`} className="card-interactive group flex h-full flex-col">
                       <time
-                        dateTime={item.published_at ?? item.created_at}
+                        dateTime={iso(item.published_at ?? item.created_at)}
                         className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400"
                       >
                         {new Date(item.published_at ?? item.created_at).toLocaleDateString("en-PH", {

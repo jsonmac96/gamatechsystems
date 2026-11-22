@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { requireSession } from "@/lib/auth";
 import { leadStats, listLeads } from "@/lib/leads";
 import { postStats, listAllPosts } from "@/lib/posts";
-import { getDb } from "@/lib/db";
+import { iso, ms, query } from "@/lib/db";
 import StatusBadge from "@/components/admin/StatusBadge";
 
 export const metadata: Metadata = {
@@ -19,24 +19,24 @@ type AuditRow = {
   action: string;
   target: string;
   detail: string;
-  created_at: string;
+  created_at: Date;
 };
 
 export default async function AdminDashboardPage() {
   // Authorisation happens here, at the point of data access.
   const session = await requireSession("/admin");
 
-  const leads = leadStats();
-  const posts = postStats();
-  const recentLeads = listLeads({ limit: 6 }).rows;
-  const recentPosts = listAllPosts(5);
-
-  const audit = getDb()
-    .prepare(
+  const [leads, posts, recent, recentPosts, audit] = await Promise.all([
+    leadStats(),
+    postStats(),
+    listLeads({ limit: 6 }),
+    listAllPosts(5),
+    query<AuditRow>(
       `SELECT id, actor, action, target, detail, created_at
          FROM audit_log ORDER BY created_at DESC LIMIT 8`,
-    )
-    .all() as AuditRow[];
+    ),
+  ]);
+  const recentLeads = recent.rows;
 
   return (
     <div className="space-y-8">
@@ -136,7 +136,7 @@ export default async function AdminDashboardPage() {
                     </div>
                     <div className="flex shrink-0 flex-col items-end gap-1.5">
                       <StatusBadge status={lead.status} />
-                      <time dateTime={lead.created_at} className="text-xs text-ink-400 dark:text-ink-500">
+                      <time dateTime={iso(lead.created_at)} className="text-xs text-ink-400 dark:text-ink-500">
                         {formatRelative(lead.created_at)}
                       </time>
                     </div>
@@ -219,7 +219,7 @@ export default async function AdminDashboardPage() {
                         <span className="text-ink-400 dark:text-ink-500"> · {entry.target}</span>
                       ) : null}
                     </p>
-                    <time dateTime={entry.created_at} className="text-xs text-ink-400 dark:text-ink-500">
+                    <time dateTime={iso(entry.created_at)} className="text-xs text-ink-400 dark:text-ink-500">
                       {formatRelative(entry.created_at)}
                     </time>
                   </li>
@@ -264,8 +264,8 @@ function StatCard({
   );
 }
 
-function formatRelative(iso: string): string {
-  const then = Date.parse(iso);
+function formatRelative(value: Date | string): string {
+  const then = ms(value);
   if (!Number.isFinite(then)) return "";
   const seconds = Math.floor((Date.now() - then) / 1000);
 

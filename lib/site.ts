@@ -19,7 +19,12 @@ export const SITE = {
     "GaMatech Systems builds and implements the core business systems Philippine SMEs run on — restaurant and retail POS, ERP, payroll and HRIS, service desk and CRM — plus the websites, software, AI analytics and digital marketing around them.",
   // Read from the environment at render time so staging and production differ
   // without a code change.
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.gamatechsystems.com").replace(/\/+$/, ""),
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "https://www.gamatechsystems.com")
+  ).replace(/\/+$/, ""),
   locale: "en_PH",
   language: "en-PH",
   email: "hello@gamatechsystems.com",

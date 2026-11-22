@@ -34,7 +34,7 @@ export default async function AdminLeadsPage({
   const search = cleanText(first(params.q), 80);
   const page = toPage(first(params.page));
 
-  const { rows, total } = listLeads({
+  const { rows, total } = await listLeads({
     status,
     search,
     limit: PAGE_SIZE,

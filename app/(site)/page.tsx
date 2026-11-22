@@ -6,13 +6,14 @@ import { SERVICES } from "@/lib/services";
 import { companyFaqSchema, pageMetadata } from "@/lib/seo";
 import { listPublishedPosts } from "@/lib/posts";
 import { issueFormToken } from "@/lib/form-token";
+import { iso } from "@/lib/db";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import CatalogIcon from "@/components/CatalogIcon";
 import FaqList from "@/components/FaqList";
 import CtaBand from "@/components/CtaBand";
 import LeadForm from "@/components/LeadForm";
-import M5Dashboard from "@/components/M5Dashboard";
+import ProductConstellation from "@/components/ProductConstellation";
 
 export const metadata: Metadata = pageMetadata({
   title: "Business Systems for Philippine SMEs",
@@ -35,8 +36,10 @@ export const metadata: Metadata = pageMetadata({
  */
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
-  const posts = listPublishedPosts(3);
+export default async function HomePage() {
+  // The latest-articles strip is optional: if the database is unreachable the
+  // catalog still renders, just without it.
+  const posts = await listPublishedPosts(3).catch(() => []);
 
   return (
     <>
@@ -146,20 +149,9 @@ export default function HomePage() {
               </Reveal>
             </div>
 
-            {/* Live product preview */}
+            {/* The catalogue itself, as the hero visual */}
             <Reveal variant="scale" delay={220} className="lg:col-span-6">
-              <figure className="relative mx-auto max-w-xl lg:max-w-none">
-                <div aria-hidden="true" className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-gradient-to-br from-accent-400/25 to-brand-500/20 blur-2xl" />
-                <div className="animate-float">
-                  <M5Dashboard />
-                </div>
-                <figcaption className="mt-4 text-center text-xs text-ink-500 dark:text-ink-400">
-                  <Link href="/products/restaurant-suite" className="font-semibold text-accent-700 hover:underline dark:text-accent-400">
-                    M5 Restaurant Suite
-                  </Link>{" "}
-                  — live sales, food cost and margin. Figures shown are illustrative.
-                </figcaption>
-              </figure>
+              <ProductConstellation />
             </Reveal>
           </div>
         </div>
@@ -408,7 +400,7 @@ export default function HomePage() {
                 <Reveal as="li" key={post.id} delay={index * 90}>
                   <Link href={`/blog/${post.slug}`} className="card-interactive group flex h-full flex-col">
                     <time
-                      dateTime={post.published_at ?? post.created_at}
+                      dateTime={iso(post.published_at ?? post.created_at)}
                       className="text-xs font-semibold uppercase tracking-wider text-accent-600 dark:text-accent-400"
                     >
                       {formatDate(post.published_at ?? post.created_at)}
@@ -433,8 +425,8 @@ export default function HomePage() {
   );
 }
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-PH", {
+function formatDate(value: Date): string {
+  return value.toLocaleDateString("en-PH", {
     year: "numeric",
     month: "short",
     day: "numeric",

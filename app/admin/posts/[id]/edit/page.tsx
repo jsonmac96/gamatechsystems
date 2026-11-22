@@ -30,7 +30,7 @@ export default async function EditPostPage({
   const id = parseId(rawId);
   if (id === null) notFound();
 
-  const post = getPostById(id);
+  const post = await getPostById(id);
   if (!post) notFound();
 
   return (
