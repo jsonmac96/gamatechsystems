@@ -37,9 +37,9 @@ export const SERVICES: readonly Service[] = [
     longName: "Website Building, Maintenance & Infrastructure",
     summary:
       "Websites built and then actually looked after — DNS, Cloudflare, mail delivery, certificates, backups and patching.",
-    metaTitle: "Website Building & Maintenance Philippines",
+    metaTitle: "Website Building & Maintenance",
     metaDescription:
-      "Website building and maintenance, DNS configuration, Cloudflare setup and SMTP server management for Philippine businesses, by GaMatech Systems.",
+      "Website building and maintenance, DNS configuration, Cloudflare setup and SMTP server management for businesses worldwide, by GaMatech Systems.",
     icon: "web",
     intro: [
       "A website is not a one-off purchase; it is a small piece of infrastructure that needs a domain pointing at it, a certificate that renews, mail that reaches the inbox and software that gets patched.",
@@ -65,7 +65,7 @@ export const SERVICES: readonly Service[] = [
       { q: "What does Cloudflare actually give us?", a: "A cache close to your visitors so pages load faster, TLS certificates that renew themselves, protection against bot and denial-of-service traffic, and a firewall in front of your origin server." },
       { q: "Who owns the domain and accounts?", a: "You do. Everything is registered in your name under your billing, and we work as an authorised user. You can remove our access at any time without losing anything." },
     ],
-    keywords: ["website maintenance Philippines", "DNS configuration", "Cloudflare setup Philippines", "SMTP email deliverability"],
+    keywords: ["website maintenance", "DNS configuration", "Cloudflare setup", "SMTP email deliverability"],
   },
   {
     slug: "software-development",
@@ -73,9 +73,9 @@ export const SERVICES: readonly Service[] = [
     longName: "Custom Software Development",
     summary:
       "Bespoke systems for the parts of your operation no product covers — scoped, fixed-price and handed over with the code.",
-    metaTitle: "Custom Software Development Philippines",
+    metaTitle: "Custom Software Development",
     metaDescription:
-      "Custom software development for Philippine SMEs: discovery sprint, fixed price, releases every two weeks, documented handover and full code ownership.",
+      "Custom software development for SMEs worldwide: discovery sprint, fixed price, releases every two weeks, documented handover and full code ownership.",
     icon: "code",
     intro: [
       "Our core products cover the systems most businesses need. Software development is for everything else: the workflow that is particular to you, the integration between two tools that refuse to talk, the internal application nobody sells off the shelf.",
@@ -101,7 +101,7 @@ export const SERVICES: readonly Service[] = [
       { q: "Who owns the source code?", a: "You do, in full, from the first commit. The repository sits under your account and the handover package includes documentation, credentials and deployment runbooks." },
       { q: "Can you take over software someone else built?", a: "Yes. We start with a technical audit covering security, dependencies and test coverage, then give you a written assessment and a remediation plan before changing anything." },
     ],
-    keywords: ["custom software development Philippines", "software company Manila", "bespoke software SME", "system integration Philippines"],
+    keywords: ["custom software development", "bespoke software for SMEs", "system integration", "software company Philippines"],
   },
   {
     slug: "ai-analytics",
@@ -109,9 +109,9 @@ export const SERVICES: readonly Service[] = [
     longName: "AI Analytics and Leveraging Training",
     summary:
       "Turn the data your systems already collect into decisions — and teach your team to use AI tools properly instead of guessing.",
-    metaTitle: "AI Analytics & Team AI Training Philippines",
+    metaTitle: "AI Analytics & Team AI Training",
     metaDescription:
-      "AI analytics on your own operational data, plus practical AI training for Philippine SME teams. Dashboards, forecasting and safe, useful day-to-day usage.",
+      "AI analytics on your own operational data, plus practical AI training for SME teams. Dashboards, forecasting and safe, useful day-to-day usage.",
     icon: "ai",
     intro: [
       "Most SMEs are sitting on years of sales, stock and customer data that nobody has ever asked a question of. The value is not in buying an AI product; it is in connecting what you already record to the decisions you already make.",
@@ -137,7 +137,7 @@ export const SERVICES: readonly Service[] = [
       { q: "What does the training cover?", a: "Role-specific, hands-on sessions using your own documents: where these tools are reliable, where they confidently make things up, how to check output, and what must never be pasted in. Usually a half day per team." },
       { q: "Can you add AI to the systems we already run?", a: "Yes, where it earns its place. Our own CRM includes AI-assisted automation, and we add similar capabilities — classification, summarising, drafting — to existing systems through their APIs." },
     ],
-    keywords: ["AI analytics Philippines", "AI training for business", "data dashboards SME", "business intelligence Philippines"],
+    keywords: ["AI analytics", "AI training for business", "data dashboards SME", "business intelligence for SMEs"],
   },
   {
     slug: "google-ads",
@@ -145,9 +145,9 @@ export const SERVICES: readonly Service[] = [
     longName: "Google Ads Management",
     summary:
       "Paid search aimed at people who are already looking to buy, measured on cost per qualified enquiry rather than clicks.",
-    metaTitle: "Google Ads Management Philippines",
+    metaTitle: "Google Ads Management",
     metaDescription:
-      "Google Ads management for Philippine SMEs. Conversion tracking first, intent-led campaigns, weekly optimisation and reporting on cost per qualified lead.",
+      "Google Ads management for SMEs. Conversion tracking first, intent-led campaigns, weekly optimisation and reporting on cost per qualified lead.",
     icon: "ads",
     intro: [
       "Google Ads is the fastest way to find out whether people want what you sell, because it puts you in front of demand that already exists. It is also the fastest way to spend money without learning anything, if conversions are not tracked properly.",
@@ -173,7 +173,7 @@ export const SERVICES: readonly Service[] = [
       { q: "Who owns the ad account?", a: "You do. It is created under your billing with us as a managed user, so if we part ways you keep the account, the history and the learning." },
       { q: "Do you require a long contract?", a: "A three-month initial term, because measurement and optimisation need that long to mean anything, then month to month. No automatic annual renewals." },
     ],
-    keywords: ["Google Ads management Philippines", "PPC agency Philippines", "paid search management", "lead generation Google Ads"],
+    keywords: ["Google Ads management", "PPC management", "paid search management", "lead generation Google Ads"],
   },
   {
     slug: "seo",
@@ -181,9 +181,9 @@ export const SERVICES: readonly Service[] = [
     longName: "Search Engine Optimization",
     summary:
       "Technical and content SEO that earns enquiries from people already searching for what you sell — reported on leads, not rankings.",
-    metaTitle: "SEO Services Philippines",
+    metaTitle: "SEO Services — Technical, Local & Content",
     metaDescription:
-      "Technical SEO, local SEO and content for Philippine SMEs. Core Web Vitals, structured data, Google Business Profile and reporting on qualified enquiries.",
+      "Technical SEO, local SEO and content for SMEs. Core Web Vitals, structured data, Google Business Profile and reporting on qualified enquiries.",
     icon: "seo",
     intro: [
       "SEO is three things done properly: a site search engines can crawl and render, pages that answer what people actually search for, and enough credibility that those pages are trusted.",
@@ -193,7 +193,7 @@ export const SERVICES: readonly Service[] = [
       { title: "Technical audit and fixes", detail: "Crawlability, indexation, Core Web Vitals, canonicals and structured data — fixed, not merely listed in a report." },
       { title: "Keyword and intent mapping", detail: "One page per intent, mapped to the stage of the buying decision it serves." },
       { title: "On-page optimisation", detail: "Titles, meta descriptions, heading structure, internal links and image alt text across the site." },
-      { title: "Local SEO", detail: "Google Business Profile, Philippine citations, service-area pages and a review strategy." },
+      { title: "Local SEO", detail: "Google Business Profile, local directory citations, service-area pages and a review strategy." },
       { title: "Content production", detail: "Articles and service pages written to rank and to convince the person reading them." },
       { title: "Answer engine readiness", detail: "Structured data, consistent business facts and answer-first copy, so AI assistants can cite you accurately." },
       { title: "Monthly reporting", detail: "Impressions, clicks, positions and — the number that matters — enquiries attributed to organic search." },
@@ -205,12 +205,12 @@ export const SERVICES: readonly Service[] = [
       "Competitors with worse service outrank you.",
     ],
     faqs: [
-      { q: "How long does SEO take to work?", a: "Technical fixes can move rankings in two to six weeks. Content-driven growth in a competitive Philippine market shows clear movement at three to four months and compounds from there. Anyone promising page one in a fortnight is selling something else." },
+      { q: "How long does SEO take to work?", a: "Technical fixes can move rankings in two to six weeks. Content-driven growth in a competitive market shows clear movement at three to four months and compounds from there. Anyone promising page one in a fortnight is selling something else." },
       { q: "How much does SEO cost?", a: "A one-off technical audit runs ₱35,000 to ₱80,000. Ongoing retainers start at ₱35,000 a month for local service businesses and rise with the breadth of content production." },
       { q: "Do you guarantee first-page rankings?", a: "No, and no honest agency does — Google's ranking systems are not ours to guarantee. We commit to the work, to transparent reporting, and to being measured on qualified enquiries." },
-      { q: "Is local SEO different?", a: "Yes. It adds Google Business Profile optimisation, consistent Philippine business citations, location pages and review generation. For a business serving one city it is usually the highest-return SEO work available." },
+      { q: "Is local SEO different?", a: "Yes. It adds Google Business Profile optimisation, consistent local business citations, location pages and review generation. For a business serving one city it is usually the highest-return SEO work available." },
     ],
-    keywords: ["SEO services Philippines", "SEO agency Manila", "local SEO Philippines", "technical SEO Philippines"],
+    keywords: ["SEO services", "technical SEO", "local SEO", "SEO agency Philippines"],
   },
   {
     slug: "ecommerce-growth",
@@ -218,12 +218,12 @@ export const SERVICES: readonly Service[] = [
     longName: "E-commerce Growth",
     summary:
       "Grow online revenue across your own store and the marketplaces — with stock, pricing and orders staying in one place.",
-    metaTitle: "E-commerce Growth Philippines | Shopee & Lazada",
+    metaTitle: "E-commerce Growth | Stores & Marketplaces",
     metaDescription:
-      "E-commerce growth for Philippine sellers: conversion optimisation, Shopee and Lazada operations, inventory synchronisation and retention marketing.",
+      "E-commerce growth for online sellers: conversion optimisation, marketplace operations including Shopee and Lazada, inventory synchronisation and retention marketing.",
     icon: "cart",
     intro: [
-      "Online growth in the Philippines rarely happens on one channel. Most sellers run their own store alongside Shopee, Lazada and TikTok Shop, and the operational cost of keeping those in step quietly eats the margin.",
+      "Online growth rarely happens on one channel. Most sellers run their own store alongside Shopee, Lazada and TikTok Shop, and the operational cost of keeping those in step quietly eats the margin.",
       "We work both halves: lifting conversion and repeat purchase on the demand side, and connecting stock, pricing and orders on the operations side so growth does not create chaos.",
     ],
     deliverables: [
@@ -246,7 +246,7 @@ export const SERVICES: readonly Service[] = [
       { q: "Which platforms do you work with?", a: "Shopify and WooCommerce for own-brand stores, plus Shopee, Lazada and TikTok Shop. Where our own products are involved, orders can flow straight into inventory and accounting." },
       { q: "What is the fastest win for an existing store?", a: "Usually retention. Abandoned-cart and replenishment flows to customers who already bought from you cost almost nothing to run and typically pay back within a month — before any new acquisition spend." },
     ],
-    keywords: ["ecommerce growth Philippines", "Shopee Lazada management", "online store optimisation", "ecommerce inventory sync"],
+    keywords: ["ecommerce growth", "marketplace management", "online store optimisation", "ecommerce inventory sync"],
   },
 ] as const;
 

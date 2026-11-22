@@ -24,7 +24,7 @@ export default function SiteFooter() {
               <Logo markClassName="h-10 w-10" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-600 dark:text-ink-300">
-              Point of sale, ERP, payroll, service desk and CRM for Philippine SMEs — plus the
+              Point of sale, ERP, payroll, service desk and CRM for growing businesses — plus the
               websites, software and marketing around them. No lock-in.
             </p>
             <div className="mt-5 flex items-center gap-3">
@@ -150,7 +150,7 @@ export default function SiteFooter() {
             © {year} {SITE.legalName}. All rights reserved.
           </p>
           <p>
-            Built in the Philippines. Serving SMEs nationwide.
+            Based in the Philippines. Serving clients worldwide.
           </p>
         </div>
       </div>

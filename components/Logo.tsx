@@ -107,11 +107,14 @@ export default function Logo({
   className = "",
   markClassName = "h-10 w-10",
   tone = "navy",
+  wordClassName = "text-[1.3rem]",
   showSystems = true,
   stacked = false,
 }: {
   className?: string;
   markClassName?: string;
+  /** Size of the "GaMatech" wordmark; the SYSTEMS line scales with the mark. */
+  wordClassName?: string;
   tone?: LogoTone;
   showSystems?: boolean;
   stacked?: boolean;
@@ -127,7 +130,7 @@ export default function Logo({
     >
       <LogoMark className={markClassName} tone={tone} />
       <span className={`inline-flex flex-col ${stacked ? "items-center" : "items-start"} leading-none`}>
-        <span className={`text-[1.3rem] tracking-tight ${wordColor}`}>
+        <span className={`${wordClassName} tracking-tight ${wordColor}`}>
           <span className="font-extrabold">GaMa</span>
           <span className="font-light">tech</span>
         </span>

@@ -55,7 +55,7 @@ export const PRODUCTS: readonly Product[] = [
       "Everything a restaurant runs on in one system: POS, kitchen display, mobile order taking, back office and inventory down to the recipe.",
     metaTitle: "M5 Restaurant Suite — POS & Kitchen System",
     metaDescription:
-      "Restaurant POS, kitchen display, mobile order taker, back office and recipe-level inventory with production. Built by GaMatech Systems for Philippine food businesses.",
+      "Restaurant POS, kitchen display, mobile order taker, back office and recipe-level inventory with production. Built for restaurants and food businesses.",
     icon: "restaurant",
     audience:
       "Single outlets through to multi-branch restaurant groups, commissaries and food service operators.",
@@ -90,7 +90,7 @@ export const PRODUCTS: readonly Product[] = [
       { q: "Does it handle more than one branch?", a: "Yes. Branches share one back office, with stock transfers between them, per-branch dashboards and a consolidated group view. A central commissary can run production for the others." },
       { q: "Is it BIR compliant?", a: "The system produces the sales records, VAT breakdowns and discount logs your accountant needs. BIR accreditation of a specific POS configuration is handled as part of the rollout — talk to us about where you are in that process." },
     ],
-    keywords: ["restaurant POS Philippines", "kitchen display system", "restaurant inventory software", "food cost software Philippines"],
+    keywords: ["restaurant POS system", "kitchen display system", "restaurant inventory software", "restaurant POS Philippines"],
   },
   {
     slug: "retail-suite",
@@ -101,7 +101,7 @@ export const PRODUCTS: readonly Product[] = [
       "POS, back office and batch-aware inventory for retailers who need stock, tax and margin to agree with each other.",
     metaTitle: "M6 Retail Suite — Retail POS & Inventory",
     metaDescription:
-      "Retail POS with batch management, back office, tax handling, dashboards and inventory management. Built by GaMatech Systems for Philippine retailers.",
+      "Retail POS with batch management, back office, tax handling, dashboards and inventory management. Built by GaMatech Systems for retailers and distributors.",
     icon: "retail",
     audience:
       "Single shops, multi-branch retailers, distributors and anyone handling goods with batches or expiry dates.",
@@ -136,7 +136,7 @@ export const PRODUCTS: readonly Product[] = [
       { q: "Will it work with our existing barcodes and scanners?", a: "Standard USB and Bluetooth scanners work out of the box, and existing barcodes are imported with the catalogue. We confirm hardware compatibility during scoping." },
       { q: "How is this different from the Restaurant Suite?", a: "The Restaurant Suite adds kitchen display, mobile order taking and recipe-based production, which retail does not need. The Retail Suite instead leans on batch and expiry tracking. Pick by whether you sell what you make or what you buy." },
     ],
-    keywords: ["retail POS Philippines", "inventory management system Philippines", "batch tracking software", "retail software SME"],
+    keywords: ["retail POS software", "inventory management system", "batch tracking software", "retail POS Philippines"],
   },
   {
     slug: "erp",
@@ -147,7 +147,7 @@ export const PRODUCTS: readonly Product[] = [
       "Accounting, production, sales, purchasing and warehousing on one ledger, with approval procedures and a customer portal.",
     metaTitle: "M7 ERP — Accounting, Production & Inventory",
     metaDescription:
-      "ERP for Philippine SMEs: accounting, production, sales, purchasing, approvals, WMS, batch management and configurable valuation. From GaMatech Systems.",
+      "ERP for SMEs: accounting, production, sales, purchasing, approvals, WMS, batch management and configurable valuation. From GaMatech Systems.",
     icon: "erp",
     audience:
       "Manufacturers, distributors and growing businesses whose spreadsheets and separate tools no longer reconcile.",
@@ -187,7 +187,7 @@ export const PRODUCTS: readonly Product[] = [
       { q: "Can it integrate with our existing systems?", a: "Yes. There is a documented API, and we routinely connect e-commerce platforms, marketplaces, logistics providers and accounting exports. Integration points are agreed during process mapping." },
       { q: "Do we have to take the whole thing at once?", a: "No, and we would advise against it. Most clients start with inventory and purchasing, prove the numbers, then add sales, production and the accounting close in stages." },
     ],
-    keywords: ["ERP Philippines", "ERP for SMEs", "manufacturing ERP Philippines", "inventory ERP WMS"],
+    keywords: ["ERP for SMEs", "manufacturing ERP", "inventory ERP WMS", "ERP Philippines"],
   },
   {
     slug: "payroll-hris",
@@ -196,9 +196,9 @@ export const PRODUCTS: readonly Product[] = [
     longName: "M8 Payroll & HRIS",
     summary:
       "Payroll, time and attendance, and the full employee lifecycle — with a self-service portal so HR stops answering the same questions.",
-    metaTitle: "M8 Payroll & HRIS — Philippine Payroll System",
+    metaTitle: "M8 Payroll & HRIS — Payroll & HR System",
     metaDescription:
-      "Philippine payroll and HRIS: timekeeping, deductions, payslips, leave, onboarding, offboarding and performance management, with an employee self-service portal.",
+      "Payroll and HRIS: timekeeping, deductions, payslips, leave, onboarding, offboarding and performance management, with an employee self-service portal.",
     icon: "people",
     audience:
       "Businesses from around 20 staff upwards, especially those running shifts across several sites.",
@@ -238,7 +238,7 @@ export const PRODUCTS: readonly Product[] = [
       { q: "What timekeeping hardware does it support?", a: "Common biometric devices, plus app-based clock in with geofencing for field staff. Existing devices are assessed during scoping — in most cases they can be kept." },
       { q: "How do we move across without a payroll disaster?", a: "By running two complete cycles in parallel and reconciling them to the peso before switching. We do not cut over on faith." },
     ],
-    keywords: ["payroll system Philippines", "HRIS Philippines", "timekeeping payroll software", "employee self service portal"],
+    keywords: ["payroll and HRIS software", "timekeeping payroll software", "employee self service portal", "payroll system Philippines"],
   },
   {
     slug: "triage",
@@ -284,7 +284,7 @@ export const PRODUCTS: readonly Product[] = [
       { q: "Does the knowledge base actually reduce tickets?", a: "It does when it is maintained. We seed it with articles for your most common requests during rollout and surface relevant articles as a customer types their question." },
       { q: "Can it work alongside our existing email?", a: "Yes. Support mailboxes can be routed into queues so customers carry on emailing as they always have, while your team works in a structured system." },
     ],
-    keywords: ["service desk software Philippines", "ticketing system", "SLA management software", "customer support portal"],
+    keywords: ["service desk software", "ticketing system", "SLA management software", "customer support portal"],
   },
   {
     slug: "crm",
@@ -330,7 +330,7 @@ export const PRODUCTS: readonly Product[] = [
       { q: "Will it capture leads from our website?", a: "Yes. Website forms, landing pages, ad platforms and marketplace enquiries can all feed the CRM directly, with routing rules deciding who picks each one up." },
       { q: "How long before the team is actually using it?", a: "Most teams are working in it within a fortnight. Adoption depends far more on the pipeline matching how they really sell than on training, which is why pipeline design comes first." },
     ],
-    keywords: ["CRM Philippines", "sales pipeline software", "lead management system", "CRM with AI automation"],
+    keywords: ["CRM software", "sales pipeline software", "lead management system", "CRM with AI automation"],
   },
 ] as const;
 

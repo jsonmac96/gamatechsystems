@@ -226,7 +226,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       </section>
 
       {/* Lead form */}
-      <section id="enquire" aria-labelledby="product-enquire-heading" className="scroll-mt-24 border-t border-ink-200 py-20 dark:border-ink-800">
+      <section id="enquire" aria-labelledby="product-enquire-heading" className="scroll-mt-28 border-t border-ink-200 py-20 dark:border-ink-800">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <Reveal variant="left" className="lg:col-span-5">

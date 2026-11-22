@@ -33,7 +33,7 @@
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     /* Offset for the sticky header when jumping to an in-page anchor. */
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 7rem;
   }
 
   body {

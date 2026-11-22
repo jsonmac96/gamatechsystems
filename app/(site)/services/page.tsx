@@ -13,12 +13,12 @@ import CtaBand from "@/components/CtaBand";
 export const metadata: Metadata = pageMetadata({
   title: "Services — Web, Software, AI, Ads & SEO",
   description:
-    "Websites and infrastructure, custom software development, AI analytics and training, Google Ads management, SEO and e-commerce growth for Philippine SMEs.",
+    "Websites and infrastructure, custom software development, AI analytics and training, Google Ads management, SEO and e-commerce growth for growing businesses worldwide.",
   path: "/services",
   keywords: [
-    "digital services Philippines",
-    "software development SEO Google Ads Philippines",
-    "AI training SME Philippines",
+    "digital services for SMEs",
+    "software development SEO Google Ads",
+    "AI training for business teams",
   ],
 });
 
