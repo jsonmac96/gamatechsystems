@@ -264,12 +264,25 @@ export async function getSession(): Promise<AdminSession | null> {
  *
  * Called by every admin page and every admin Server Action — authorisation is
  * checked at the point of use, not inferred from how the request was routed.
+ *
+ * An account still on a temporary password (set by the bootstrap or the CLI)
+ * can do one thing only: replace it. Every other page and action sends it to
+ * the account screen, so a temporary password that has been seen anywhere —
+ * a chat, an email, a hosting dashboard — never unlocks leads or the blog.
+ * Only the change-password screen and action opt out, via
+ * `allowPendingPasswordChange`.
  */
-export async function requireSession(returnTo?: string): Promise<AdminSession> {
+export async function requireSession(
+  returnTo?: string,
+  options: { allowPendingPasswordChange?: boolean } = {},
+): Promise<AdminSession> {
   const session = await getSession();
   if (!session) {
     const target = sanitiseReturnTo(returnTo);
     redirect(target ? `/admin/login?next=${encodeURIComponent(target)}` : "/admin/login");
+  }
+  if (session.mustChangePassword && !options.allowPendingPasswordChange) {
+    redirect("/admin/account?required=1");
   }
   return session;
 }

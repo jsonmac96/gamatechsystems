@@ -86,7 +86,7 @@ export async function changePasswordAction(
   formData: FormData,
 ): Promise<PasswordState> {
   await assertSameOrigin();
-  const session = await requireSession();
+  const session = await requireSession(undefined, { allowPendingPasswordChange: true });
 
   const current = asString(formData.get("currentPassword"));
   const next = asString(formData.get("newPassword"));

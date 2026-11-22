@@ -20,7 +20,7 @@ type UserMeta = {
 };
 
 export default async function AccountPage() {
-  const session = await requireSession("/admin/account");
+  const session = await requireSession("/admin/account", { allowPendingPasswordChange: true });
 
   const [user, sessionRow] = await Promise.all([
     queryOne<UserMeta>(

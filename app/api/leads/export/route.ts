@@ -23,7 +23,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const session = await getSession();
-  if (!session) {
+  // A temporary password unlocks nothing but the change-password screen.
+  if (!session || session.mustChangePassword) {
     return new NextResponse("Not found", { status: 404 });
   }
 
