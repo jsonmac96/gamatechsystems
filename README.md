@@ -78,7 +78,7 @@ polyline whose corner radius comes from `stroke-linejoin: round`.
 
 ## Quick start
 
-Requires **Node.js 20.9+** (developed and tested on Node 22).
+Requires **Node.js 22** (pinned in `package.json`).
 
 ```bash
 npm install
@@ -396,10 +396,16 @@ The app is a standard Next.js application backed by PostgreSQL. It is built to r
 2. **Set the environment variables** under *Settings → Environment Variables*:
    - `DATABASE_URL` — the pooled Neon string, if Vercel did not add it
    - `APP_SECRET` — the output of `openssl rand -hex 32`
-   - `NEXT_PUBLIC_SITE_URL` — your public https address, e.g. `https://www.gamatechsystems.com`
+   - `NEXT_PUBLIC_SITE_URL` — optional; your public https address. If unset, the site uses
+     Vercel's production domain, which switches to your custom domain once you add one
    - `TRUST_PROXY` — `1` (Vercel rewrites `X-Forwarded-For`, so it can be trusted)
-3. **Create the tables and your admin account** from your own machine, pointed at the
-   same database:
+3. **Create the tables and your admin account.** Either let the site do it on first run —
+   set `ADMIN_BOOTSTRAP_USERNAME` and `ADMIN_BOOTSTRAP_PASSWORD` (mark the password
+   *Sensitive*). The account is created only while no admin exists, must change its
+   password at first sign-in, and the variables can be deleted afterwards. This is the
+   route to take when Vercel manages the Neon credentials and you cannot read them.
+
+   Or, if you can see the connection string, run the scripts from your own machine:
 
    ```bash
    DATABASE_URL='postgresql://…-pooler…/neondb?sslmode=require' npm run db:migrate

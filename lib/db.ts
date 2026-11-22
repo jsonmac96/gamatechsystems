@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Pool, types } from "pg";
 import { env } from "@/lib/env";
+import { checkPasswordStrength, hashPassword } from "@/lib/password.mjs";
 
 /**
  * PostgreSQL access layer.
@@ -109,7 +110,56 @@ export async function execute(
 export async function migrate(): Promise<void> {
   const schemaPath = join(/* turbopackIgnore: true */ process.cwd(), "lib", "schema.sql");
   const sql = readFileSync(schemaPath, "utf8");
-  await getPool().query(sql);
+  const pool = getPool();
+  await pool.query(sql);
+  await bootstrapAdmin(pool);
+}
+
+/**
+ * Create the first admin account from ADMIN_BOOTSTRAP_USERNAME and
+ * ADMIN_BOOTSTRAP_PASSWORD — but only when the admin table is completely
+ * empty. Once any admin exists this is a no-op, so leftover variables can
+ * never reset, replace or add an account.
+ *
+ * The account is flagged `must_change_pw`: the bootstrap password works for
+ * exactly one sign-in before its owner has to choose their own.
+ *
+ * Uses the pool directly rather than `query()`, which waits on `ready()` and
+ * would therefore wait on this very function.
+ */
+async function bootstrapAdmin(pool: Pool): Promise<void> {
+  const { username, password } = env.bootstrapAdmin;
+  if (!username || !password) return;
+
+  const existing = await pool.query("SELECT 1 FROM admin_users LIMIT 1");
+  if ((existing.rowCount ?? 0) > 0) return;
+
+  // Same rules as the CLI. A bad value is skipped, not half-applied.
+  if (!/^[a-z0-9][a-z0-9._-]{2,63}$/.test(username)) {
+    console.warn("ADMIN_BOOTSTRAP_USERNAME is not a valid username; no admin was created.");
+    return;
+  }
+  if (checkPasswordStrength(password, { username }).length > 0) {
+    console.warn("ADMIN_BOOTSTRAP_PASSWORD does not meet the password policy; no admin was created.");
+    return;
+  }
+
+  const hash = await hashPassword(password);
+  // ON CONFLICT covers two cold-starting instances racing to create it.
+  const inserted = await pool.query(
+    `INSERT INTO admin_users
+       (username, display_name, password_hash, must_change_pw, is_active, created_at, password_changed_at)
+     VALUES ($1, $1, $2, true, true, now(), now())
+     ON CONFLICT (username) DO NOTHING`,
+    [username, hash],
+  );
+  if ((inserted.rowCount ?? 0) > 0) {
+    await pool.query(
+      `INSERT INTO audit_log (actor, action, target, detail, created_at)
+       VALUES ('system', 'admin.bootstrapped', $1, '', now())`,
+      [`user:${username}`],
+    );
+  }
 }
 
 /**

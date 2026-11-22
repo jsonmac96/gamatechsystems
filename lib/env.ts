@@ -68,7 +68,8 @@ function readAppSecret(isPublicDeployment: boolean): Buffer {
   if (placeholder) {
     if (isPublicDeployment) {
       throw new Error(
-        "APP_SECRET is required when NEXT_PUBLIC_SITE_URL points at a public hostname. " +
+        "APP_SECRET is required for a public deployment (the site URL resolves to a public " +
+          "hostname, from NEXT_PUBLIC_SITE_URL or Vercel's production domain). " +
           "Generate one with: openssl rand -hex 32",
       );
     }
@@ -189,4 +190,14 @@ export const env = {
   allowedOrigins: readAllowedOrigins(siteUrl),
   /** Only trust X-Forwarded-For when explicitly told to (prevents spoofed rate-limit keys). */
   trustProxy: process.env.TRUST_PROXY === "1",
+  /**
+   * First-run admin account, created only while no admin exists at all.
+   * Exists for hosts where nobody can run `npm run admin:create` against the
+   * database directly — e.g. Vercel with an integration-managed Neon database
+   * whose credentials are write-only. Clear both variables once signed in.
+   */
+  bootstrapAdmin: {
+    username: (process.env.ADMIN_BOOTSTRAP_USERNAME ?? "").trim().toLowerCase().slice(0, 64),
+    password: process.env.ADMIN_BOOTSTRAP_PASSWORD ?? "",
+  },
 } as const;
