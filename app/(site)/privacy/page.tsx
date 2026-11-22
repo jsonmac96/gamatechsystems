@@ -34,7 +34,7 @@ export default function PrivacyPage() {
               Last updated: {LAST_UPDATED}
             </p>
 
-            <div className="mt-10 space-y-10 prose-body">
+            <div data-reveal-children className="mt-10 space-y-10 prose-body">
               <section>
                 <h2 className="h3">In short</h2>
                 <p className="mt-3">

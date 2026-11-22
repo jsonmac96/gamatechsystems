@@ -21,11 +21,15 @@ import { useEffect, useRef, type ElementType, type ReactNode } from "react";
  *
  * ## Failing safe
  *
- * Three independent guarantees that content is never stuck hidden:
+ * Independent guarantees that content is never stuck hidden:
  *   1. The CSS that hides a pending element only applies under `html.js-anim`,
  *      a class set by a tiny inline script. No JavaScript, no hiding.
  *   2. A `<noscript>` rule in the root layout forces everything visible.
- *   3. A backstop timer reveals anything still pending after 5 seconds.
+ *   3. A safety sweep runs on a timer as well as on scroll, so anything on
+ *      screen is revealed within a second even if every scroll event were
+ *      lost. Content further down still waits for the visitor to reach it,
+ *      which is what makes it animate in rather than already being there.
+ *   4. Print styles show everything, and any exception shows everything.
  */
 
 type RevealProps = {
@@ -39,33 +43,44 @@ type RevealProps = {
   className?: string;
 };
 
-type Pending = { node: HTMLElement; delay: number };
+type Pending = { node: HTMLElement; delay: number; auto: boolean };
 
 const pending = new Set<Pending>();
 let listening = false;
 let frameQueued = false;
-let backstop: number | undefined;
 
 /** How far above the viewport bottom an element must reach before revealing. */
 const TRIGGER_INSET = 60;
-/** Reveal anything still pending after this long, whatever the scroll position. */
-const BACKSTOP_MS = 5000;
+/** How often the safety sweep re-checks pending elements without a scroll. */
+const SAFETY_SWEEP_MS = 700;
+/** Slightly longer than the reveal transition in globals.css. */
+const SETTLE_MS = 900;
+
+function reveal(entry: Pending): void {
+  entry.node.dataset.reveal = "in";
+  if (!entry.auto) return;
+  // Elements tagged automatically are ordinary page content — cards with
+  // their own hover lift, form fields and so on. Once the entrance has
+  // played, hand them back their own transform and transition entirely.
+  window.setTimeout(() => {
+    delete entry.node.dataset.reveal;
+    delete entry.node.dataset.revealAuto;
+  }, SETTLE_MS);
+}
 
 function show(entry: Pending): void {
   pending.delete(entry);
   if (entry.delay > 0) {
-    window.setTimeout(() => {
-      entry.node.dataset.reveal = "in";
-    }, entry.delay);
+    window.setTimeout(() => reveal(entry), entry.delay);
   } else {
-    entry.node.dataset.reveal = "in";
+    reveal(entry);
   }
 }
 
 function showAll(): void {
   for (const entry of Array.from(pending)) {
     pending.delete(entry);
-    entry.node.dataset.reveal = "in";
+    reveal(entry);
   }
 }
 
@@ -99,15 +114,37 @@ function startListening(): void {
   window.addEventListener("resize", requestSweep, { passive: true });
   // Covers anchor jumps and restored scroll positions.
   window.addEventListener("hashchange", requestSweep);
-  backstop = window.setTimeout(showAll, BACKSTOP_MS);
+  // Runs for the page's lifetime: a no-op whenever nothing is pending.
+  window.setInterval(() => {
+    if (pending.size > 0) requestSweep();
+  }, SAFETY_SWEEP_MS);
 }
 
-function register(node: HTMLElement, delay: number): () => void {
-  const entry: Pending = { node, delay };
+function register(node: HTMLElement, delay: number, auto = false): () => void {
+  const entry: Pending = { node, delay, auto };
   pending.add(entry);
   startListening();
   requestSweep();
   return () => pending.delete(entry);
+}
+
+/**
+ * Animate an element that was not wrapped in <Reveal> — used by
+ * <ScrollEffects> to give every page scroll animations without wrapping each
+ * block by hand. The caller sets `data-reveal="out"` first.
+ */
+export function registerAuto(node: HTMLElement, delay: number): () => void {
+  try {
+    return register(node, delay, true);
+  } catch {
+    node.dataset.reveal = "in";
+    return () => {};
+  }
+}
+
+/** Reveal everything still pending — the escape hatch for any failure. */
+export function revealAll(): void {
+  showAll();
 }
 
 export default function Reveal({
@@ -153,11 +190,4 @@ export default function Reveal({
       {children}
     </Tag>
   );
-}
-
-// Clean up the backstop if the module is ever hot-replaced in development.
-if (typeof window !== "undefined") {
-  window.addEventListener("pagehide", () => {
-    if (backstop) window.clearTimeout(backstop);
-  });
 }

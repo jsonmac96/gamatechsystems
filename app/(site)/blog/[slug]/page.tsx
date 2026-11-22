@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
       <article>
         {/* Header */}
         <header className="relative overflow-hidden py-14 sm:py-16">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
             <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white dark:from-ink-900 dark:to-ink-950" />
             <div className="blob left-[-8rem] top-[-7rem] h-72 w-72 animate-drift bg-brand-300/30 dark:bg-brand-800/25" />
           </div>
@@ -204,6 +204,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                   and attributes. See lib/markdown.ts.
                 */}
                 <div
+                  data-reveal-children
                   className="break-words text-[1.0625rem]"
                   dangerouslySetInnerHTML={{ __html: html }}
                 />
