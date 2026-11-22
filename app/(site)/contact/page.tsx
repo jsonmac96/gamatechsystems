@@ -11,9 +11,9 @@ import { issueFormToken } from "@/lib/form-token";
 export const metadata: Metadata = pageMetadata({
   title: "Contact Us — Free Consultation",
   description:
-    "Talk to us about software, automation, web development, SEO, AEO or marketing for your Philippine business. Free consultation, reply within one business day.",
+    "Talk to us about software, automation, web development, SEO, AEO or marketing for your business. Free consultation, reply within one business day.",
   path: "/contact",
-  keywords: ["contact GaMatech Systems", "software consultation Philippines", "free IT consultation"],
+  keywords: ["contact GaMatech Systems", "software consultation", "free IT consultation"],
 });
 
 export default function ContactPage() {
@@ -108,7 +108,7 @@ export default function ContactPage() {
                       {SITE.address.city}, {SITE.address.countryName}
                     </span>
                     <span className="mt-0.5 block text-sm text-ink-500 dark:text-ink-400">
-                      Remote-first, serving SMEs nationwide
+                      Remote-first, serving clients worldwide
                     </span>
                   </ContactRow>
                 </dl>

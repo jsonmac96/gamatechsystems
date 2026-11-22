@@ -10,11 +10,11 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import CtaBand from "@/components/CtaBand";
 
 export const metadata: Metadata = pageMetadata({
-  title: "About — A Philippine Software Company for SMEs",
+  title: "About — Who We Are and How We Work",
   description:
-    "Who we are, how we work and what we refuse to do. GaMatech Systems builds the POS, ERP, payroll, service desk and CRM systems Philippine SMEs run on.",
+    "Who we are and how we work. GaMatech Systems builds the POS, ERP, payroll, service desk and CRM systems SMEs run on, from the Philippines for clients worldwide.",
   path: "/about",
-  keywords: ["about GaMatech Systems", "software company Philippines", "SME technology partner"],
+  keywords: ["about GaMatech Systems", "software company Philippines", "SME technology partner", "business systems for SMEs"],
 });
 
 const PRINCIPLES = [
@@ -128,8 +128,8 @@ export default function AboutPage() {
                 </p>
                 <p>
                   Since {SITE.founded} we have put systems into restaurants, retailers,
-                  distributors, clinics, professional services firms and manufacturers across the
-                  Philippines. The work is deliberately unglamorous: stock that reconciles,
+                  distributors, clinics, professional services firms and manufacturers, in the Philippines
+                  and beyond. The work is deliberately unglamorous: stock that reconciles,
                   payroll that lands correctly, food cost you can see during service, and
                   websites that load in under a second and actually produce enquiries.
                 </p>
@@ -157,7 +157,7 @@ export default function AboutPage() {
                     Where we work
                   </h3>
                   <p className="mt-3 text-sm text-ink-600 dark:text-ink-300">
-                    Based in {SITE.address.city}. Remote-first across the Philippines, with
+                    Based in {SITE.address.city}, {SITE.address.countryName}. Remote-first and working with clients worldwide, with
                     on-site discovery workshops and launch training where a project warrants it.
                   </p>
                 </div>

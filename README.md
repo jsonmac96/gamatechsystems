@@ -1,7 +1,7 @@
 # GaMatech Systems
 
 Marketing website, lead-capture system and admin console for **GaMatech Systems** — a
-Philippine software company serving small and medium businesses.
+software company based in the Philippines, serving small and medium businesses worldwide.
 
 The catalogue has two halves, both taken from the company's product plan:
 

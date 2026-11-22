@@ -13,11 +13,11 @@ import CtaBand from "@/components/CtaBand";
 export const metadata: Metadata = pageMetadata({
   title: "Products — POS, ERP, Payroll & CRM",
   description:
-    "Six core business systems for Philippine SMEs: Restaurant Suite, Retail Suite, ERP, Payroll & HRIS, Triage service desk and CRM. Built and maintained by GaMatech Systems.",
+    "Six core business systems for SMEs: Restaurant Suite, Retail Suite, ERP, Payroll & HRIS, Triage service desk and CRM. Built and maintained by GaMatech Systems.",
   path: "/products",
   keywords: [
-    "business systems Philippines",
-    "POS ERP payroll CRM Philippines",
+    "business systems for SMEs",
+    "POS ERP payroll CRM software",
     "SME software products",
   ],
 });

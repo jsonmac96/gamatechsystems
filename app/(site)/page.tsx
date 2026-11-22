@@ -16,15 +16,14 @@ import LeadForm from "@/components/LeadForm";
 import ProductConstellation from "@/components/ProductConstellation";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Business Systems for Philippine SMEs",
+  title: "Business Systems for SMEs Worldwide",
   description:
-    "POS, ERP, payroll, service desk and CRM built for Philippine SMEs — plus the websites, software, AI analytics and marketing around them. By GaMatech Systems.",
+    "POS, ERP, payroll, service desk and CRM for growing businesses, plus the websites, software and marketing around them. Based in the Philippines, serving worldwide.",
   path: "/",
   keywords: [
-    "business systems Philippines",
-    "restaurant POS Philippines",
-    "retail POS Philippines",
-    "ERP payroll CRM Philippines",
+    "business systems for SMEs",
+    "restaurant and retail POS",
+    "ERP payroll CRM software",
     "software company Philippines",
   ],
 });
@@ -68,7 +67,7 @@ export default async function HomePage() {
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-500 opacity-75" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500" />
                   </span>
-                  Philippine software company · SME specialists
+                  Based in the Philippines · Serving clients worldwide
                 </span>
               </Reveal>
 
@@ -102,7 +101,7 @@ export default async function HomePage() {
 
               <Reveal delay={160}>
                 <p className="lede mt-7 max-w-xl">
-                  Six core systems built for Philippine SMEs — restaurant and retail POS, ERP,
+                  Six core systems built for growing businesses — restaurant and retail POS, ERP,
                   payroll and HRIS, service desk and CRM. Plus the websites, software, analytics
                   and marketing that keep customers coming to them.
                 </p>
@@ -301,7 +300,7 @@ export default async function HomePage() {
       {/* ------------------------------------------------------------------ */}
       {/* Lead form                                                           */}
       {/* ------------------------------------------------------------------ */}
-      <section id="enquire" aria-labelledby="enquire-heading" className="scroll-mt-24 py-20 sm:py-24">
+      <section id="enquire" aria-labelledby="enquire-heading" className="scroll-mt-28 py-20 sm:py-24">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <Reveal variant="left" className="lg:col-span-5">

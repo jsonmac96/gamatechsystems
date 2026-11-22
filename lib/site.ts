@@ -16,7 +16,7 @@ export const SITE = {
   shortName: "GaMatech",
   tagline: "Business systems that run themselves",
   description:
-    "GaMatech Systems builds and implements the core business systems Philippine SMEs run on — restaurant and retail POS, ERP, payroll and HRIS, service desk and CRM — plus the websites, software, AI analytics and digital marketing around them.",
+    "GaMatech Systems builds and implements the core business systems growing companies run on — restaurant and retail POS, ERP, payroll and HRIS, service desk and CRM — plus the websites, software, AI analytics and digital marketing around them. Based in the Philippines, serving clients worldwide.",
   // Read from the environment at render time so staging and production differ
   // without a code change.
   url: (
@@ -25,8 +25,8 @@ export const SITE = {
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : "https://www.gamatechsystems.com")
   ).replace(/\/+$/, ""),
-  locale: "en_PH",
-  language: "en-PH",
+  locale: "en_US",
+  language: "en",
   email: "hello@gamatechsystems.com",
   phoneDisplay: "+63 917 000 0000",
   phoneHref: "+639170000000",
@@ -37,7 +37,8 @@ export const SITE = {
     countryName: "Philippines",
   },
   founded: "2021",
-  areaServed: ["Philippines", "Metro Manila", "Cebu", "Davao", "Southeast Asia"],
+  /** Where clients are served. The registered address above stays in the Philippines. */
+  areaServed: ["Worldwide"],
   hours: "Mon–Fri, 9:00–18:00 PHT",
   social: {
     facebook: "https://www.facebook.com/gamatechsystems",
@@ -72,7 +73,7 @@ export const COMPANY_FAQS = [
   },
   {
     q: "Who do you work with?",
-    a: "Small and medium businesses in the Philippines, typically between 5 and 200 staff — restaurants and food groups, retailers and distributors, manufacturers, clinics and professional services firms. We work with owners and operations leads, not procurement committees.",
+    a: "Small and medium businesses, typically between 5 and 200 staff — restaurants and food groups, retailers and distributors, manufacturers, clinics and professional services firms. We are based in the Philippines and work with clients worldwide, with owners and operations leads rather than procurement committees.",
   },
   {
     q: "How much does a system cost?",
@@ -83,8 +84,8 @@ export const COMPANY_FAQS = [
     a: "A Restaurant or Retail Suite outlet is usually live in two to four weeks. Payroll takes two parallel pay cycles before cutover. A full ERP rollout runs three to six months for the first live modules. We never cut over without running the old and new side by side first.",
   },
   {
-    q: "Do you work with businesses outside Metro Manila?",
-    a: "Yes. We work remotely with clients across the Philippines and Southeast Asia, with on-site visits for installation, discovery workshops and go-live training where a project warrants it.",
+    q: "Do you work with clients outside the Philippines?",
+    a: "Yes. We are based in Metro Manila and work with clients worldwide. Most scoping, implementation, training and support runs remotely; on-site visits for installation, discovery workshops or go-live training are arranged where a project needs them.",
   },
   {
     q: "Who owns our data?",

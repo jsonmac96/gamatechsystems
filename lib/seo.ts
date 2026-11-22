@@ -125,7 +125,7 @@ export function organizationSchema() {
       addressRegion: SITE.address.region,
       addressCountry: SITE.address.country,
     },
-    areaServed: SITE.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
+    areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
     knowsAbout: [
       "restaurant point of sale",
       "retail point of sale",
@@ -211,10 +211,10 @@ export function productSchema(product: Product) {
     url: `${SITE.url}/products/${product.slug}`,
     provider: { "@id": ORG_ID },
     publisher: { "@id": ORG_ID },
-    areaServed: SITE.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
+    areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
     audience: {
       "@type": "BusinessAudience",
-      name: "Small and medium businesses in the Philippines",
+      name: "Small and medium businesses worldwide",
     },
     featureList: product.features.map((feature) => feature.title),
     offers: {
@@ -238,10 +238,10 @@ export function serviceSchema(service: Service) {
     description: service.summary,
     url: `${SITE.url}/services/${service.slug}`,
     provider: { "@id": ORG_ID },
-    areaServed: SITE.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
+    areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
     audience: {
       "@type": "BusinessAudience",
-      name: "Small and medium businesses in the Philippines",
+      name: "Small and medium businesses worldwide",
     },
     hasOfferCatalog: {
       "@type": "OfferCatalog",

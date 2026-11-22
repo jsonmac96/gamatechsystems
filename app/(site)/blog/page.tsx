@@ -15,11 +15,11 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import CtaBand from "@/components/CtaBand";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Insights for Philippine SMEs",
+  title: "Insights for Growing Businesses",
   description:
-    "Practical articles on custom software, business process automation, web performance, SEO and AEO, written for owners and operations leads of Philippine SMEs.",
+    "Practical articles on custom software, business process automation, web performance, SEO and AEO, written for owners and operations leads of growing businesses.",
   path: "/blog",
-  keywords: ["software blog Philippines", "SME automation insights", "SEO AEO articles Philippines"],
+  keywords: ["business software insights", "SME automation insights", "SEO and AEO articles"],
 });
 
 /**
@@ -42,7 +42,7 @@ export default async function BlogIndexPage() {
     name: `${SITE.name} Insights`,
     url: `${SITE.url}/blog`,
     description:
-      "Practical articles on custom software, automation, web performance, SEO and AEO for Philippine SMEs.",
+      "Practical articles on custom software, automation, web performance, SEO and AEO for growing businesses.",
     inLanguage: SITE.language,
     publisher: { "@id": `${SITE.url}/#organization` },
     blogPost: posts.slice(0, 20).map((post) => ({

@@ -79,7 +79,7 @@ export default function OpengraphImage() {
             Business systems that run themselves
           </div>
           <div style={{ display: "flex", fontSize: 30, color: "#C2D0EC", maxWidth: 880 }}>
-POS, ERP, payroll, service desk and CRM for Philippine SMEs.
+POS, ERP, payroll, service desk and CRM for growing businesses worldwide.
           </div>
         </div>
 

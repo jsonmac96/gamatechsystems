@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/lib/site";
 import { organizationSchema, webSiteSchema, DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -12,27 +13,41 @@ import JsonLd from "@/components/JsonLd";
  * data, and the small inline script that drives scroll reveals.
  */
 
+/**
+ * Site typeface: Plus Jakarta Sans, a geometric sans close in spirit to the
+ * GaMatech wordmark, with the extra-bold and light weights the logo uses.
+ *
+ * `next/font` downloads it at build time and serves it from this domain, so
+ * there is no request to Google from the visitor's browser and the CSP's
+ * `font-src 'self'` needs no exception. It also emits a size-adjusted
+ * fallback, so text does not jump when the font finishes loading.
+ */
+const sans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   // Makes every relative `alternates.canonical` in a page resolve absolutely.
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — Business Systems for Philippine SMEs`,
+    default: `${SITE.name} — Business Systems for SMEs Worldwide`,
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
   applicationName: SITE.name,
   generator: undefined,
   keywords: [
-    "business systems Philippines",
-    "restaurant POS Philippines",
-    "retail POS Philippines",
-    "ERP Philippines",
-    "payroll HRIS Philippines",
-    "CRM Philippines",
-    "service desk software Philippines",
-    "software development Philippines",
-    "SEO services Philippines",
-    "Google Ads Philippines",
+    "business systems for SMEs",
+    "restaurant POS system",
+    "retail POS software",
+    "ERP for SMEs",
+    "payroll and HRIS software",
+    "CRM software",
+    "service desk software",
+    "custom software development",
+    "software company Philippines",
     "SME software",
   ],
   authors: [{ name: SITE.name, url: SITE.url }],
@@ -40,20 +55,20 @@ export const metadata: Metadata = {
   publisher: SITE.name,
   alternates: {
     canonical: "/",
-    languages: { "en-PH": "/", "x-default": "/" },
+    languages: { en: "/", "x-default": "/" },
   },
   openGraph: {
     type: "website",
     siteName: SITE.name,
     locale: SITE.locale,
     url: SITE.url,
-    title: `${SITE.name} — Business Systems for Philippine SMEs`,
+    title: `${SITE.name} — Business Systems for SMEs Worldwide`,
     description: SITE.description,
     images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} — Business Systems for Philippine SMEs`,
+    title: `${SITE.name} — Business Systems for SMEs Worldwide`,
     description: SITE.description,
     images: [DEFAULT_OG_IMAGE.url],
   },
@@ -113,7 +128,12 @@ export default async function RootLayout({
   const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
-    <html lang="en-PH" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={sans.variable}
+      suppressHydrationWarning
+    >
       <head>
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/site.webmanifest" />

@@ -59,14 +59,17 @@ export default function SiteHeader() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="container-page">
-        <div className="flex h-[4.5rem] items-center justify-between gap-4">
+      <div className="container-page pt-3">
+        <div className="flex h-20 items-center justify-between gap-4">
           <Link
             href="/"
             className="group rounded-xl py-1 transition-opacity hover:opacity-90"
             aria-label={`${SITE.name} — home`}
           >
-            <Logo markClassName="h-9 w-9 transition-transform duration-500 group-hover:-rotate-6" />
+            <Logo
+              markClassName="h-11 w-11 transition-transform duration-500 group-hover:-rotate-6"
+              wordClassName="text-[1.5rem]"
+            />
           </Link>
 
           {/* Desktop navigation */}
@@ -83,7 +86,7 @@ export default function SiteHeader() {
                     href="/products"
                     aria-expanded={servicesOpen}
                     aria-haspopup="true"
-                    className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-colors ${
+                    className={`flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-base font-semibold transition-colors ${
                       isActive(link.href)
                         ? "text-accent-700 dark:text-accent-400"
                         : "text-ink-700 hover:text-accent-700 dark:text-ink-200 dark:hover:text-accent-400"
@@ -91,7 +94,7 @@ export default function SiteHeader() {
                   >
                     {link.label}
                     <svg
-                      className={`h-3.5 w-3.5 transition-transform duration-300 ${servicesOpen ? "rotate-180" : ""}`}
+                      className={`h-4 w-4 transition-transform duration-300 ${servicesOpen ? "rotate-180" : ""}`}
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       aria-hidden="true"
@@ -118,7 +121,7 @@ export default function SiteHeader() {
                           href={`/products/${product.slug}`}
                           className="rounded-xl px-3.5 py-2.5 transition-colors hover:bg-brand-50 dark:hover:bg-ink-800"
                         >
-                          <span className="block text-sm font-semibold text-ink-900 dark:text-white">
+                          <span className="block text-[0.95rem] font-semibold text-ink-900 dark:text-white">
                             <span className="mr-1.5 text-xs font-bold text-accent-600 dark:text-accent-400">
                               {product.code}
                             </span>
@@ -137,7 +140,7 @@ export default function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   aria-current={isActive(link.href) ? "page" : undefined}
-                  className={`rounded-xl px-3.5 py-2 text-sm font-semibold transition-colors ${
+                  className={`rounded-xl px-4 py-2.5 text-base font-semibold transition-colors ${
                     isActive(link.href)
                       ? "text-accent-700 dark:text-accent-400"
                       : "text-ink-700 hover:text-accent-700 dark:text-ink-200 dark:hover:text-accent-400"
@@ -152,13 +155,13 @@ export default function SiteHeader() {
           <div className="hidden items-center gap-3 lg:flex">
             <a
               href={`tel:${SITE.phoneHref}`}
-              className="text-sm font-semibold text-ink-600 transition-colors hover:text-accent-700 dark:text-ink-300 dark:hover:text-accent-400"
+              className="text-base font-semibold text-ink-600 transition-colors hover:text-accent-700 dark:text-ink-300 dark:hover:text-accent-400"
             >
               {SITE.phoneDisplay}
             </a>
             <Link
               href="/contact"
-              className="rounded-xl bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-glow dark:bg-accent-500 dark:hover:bg-accent-400"
+              className="rounded-xl bg-brand-900 px-6 py-3 text-base font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-glow dark:bg-accent-500 dark:hover:bg-accent-400"
             >
               Get a free consultation
             </Link>
@@ -171,7 +174,7 @@ export default function SiteHeader() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-ink-300 text-ink-800 transition-colors hover:border-accent-400 hover:text-accent-700 lg:hidden dark:border-ink-700 dark:text-ink-100"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-ink-300 text-ink-800 transition-colors hover:border-accent-400 hover:text-accent-700 lg:hidden dark:border-ink-700 dark:text-ink-100"
           >
             <span className="sr-only">{mobileOpen ? "Close menu" : "Open menu"}</span>
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -191,7 +194,7 @@ export default function SiteHeader() {
         hidden={!mobileOpen}
         className="border-t border-ink-200 bg-white lg:hidden dark:border-ink-800 dark:bg-ink-950"
       >
-        <nav aria-label="Mobile navigation" className="container-page max-h-[calc(100dvh-4.5rem)] overflow-y-auto py-5">
+        <nav aria-label="Mobile navigation" className="container-page max-h-[calc(100dvh-5.75rem)] overflow-y-auto py-5">
           <ul className="space-y-1">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
