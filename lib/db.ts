@@ -45,7 +45,7 @@ function createPool(): Pool {
     );
   }
   return new Pool({
-    connectionString: env.databaseUrl,
+    connectionString: pinVerifyFull(env.databaseUrl),
     // A small ceiling per instance: serverless invocations are short-lived and
     // the pooled endpoint multiplexes on the database side.
     max: 5,
@@ -56,6 +56,19 @@ function createPool(): Pool {
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 10_000,
   });
+}
+
+/**
+ * Pin certificate verification in the connection string.
+ *
+ * Neon (and most hosts) hand out URLs ending `sslmode=require`. node-postgres 8
+ * treats that as full verification, but warns that version 9 will adopt
+ * libpq semantics, where `require` encrypts without checking the server
+ * certificate. Rewriting it to `verify-full` keeps today's behaviour after any
+ * future upgrade. `disable` and `no-verify` (local development) are left alone.
+ */
+function pinVerifyFull(url: string): string {
+  return url.replace(/([?&]sslmode=)(require|prefer|verify-ca)(?=&|$)/i, "$1verify-full");
 }
 
 export function getPool(): Pool {
