@@ -62,7 +62,7 @@ export default function PostEditor({ post }: { post?: Post }) {
           <div className="admin-card p-6">
             <div>
               <label htmlFor="title" className="field-label">
-                Title <span className="text-red-500">*</span>
+                Title <span className="text-red-500 dark:text-red-400">*</span>
               </label>
               <input
                 id="title"
@@ -148,7 +148,7 @@ export default function PostEditor({ post }: { post?: Post }) {
 
           <div className="admin-card p-6">
             <label htmlFor="bodyMd" className="field-label">
-              Article body <span className="text-red-500">*</span>
+              Article body <span className="text-red-500 dark:text-red-400">*</span>
             </label>
             <p className="field-hint mb-2">
               Markdown: <code>## Heading</code>, <code>**bold**</code>, <code>*italic*</code>,{" "}
@@ -339,7 +339,7 @@ function SaveButton({ isEdit }: { isEdit: boolean }) {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-brand-400 px-5 py-3 text-sm font-bold text-ink-950 shadow-glow transition-all duration-200 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-5 py-3 text-sm font-bold text-white shadow-glow transition-all duration-200 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
     >
       {pending ? (
         <>

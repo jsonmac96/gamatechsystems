@@ -14,7 +14,8 @@ const config: Config = {
        *
        *   brand  — GaMatech navy, #0A1A3E, sampled from the mark
        *   accent — GaMatech orange, #E7580A, the dot in the mark
-       *   ink    — neutral greys tuned to sit beside the navy
+       *   ink    — cool greys that deepen into the brand navy (950 = #0A1A3E,
+       *            the site background)
        *
        * The ramps around each anchor were generated to keep contrast
        * predictable: 600+ on white and 300- on navy both clear WCAG AA.
@@ -25,13 +26,15 @@ const config: Config = {
           100: "#e7eaf1",
           200: "#ccd2e0",
           300: "#a6b0c8",
-          400: "#7987a8",
+          400: "#8d9bbb",
           500: "#5a6b8c",
           600: "#475571",
-          700: "#39445a",
-          800: "#242d41",
-          900: "#141b2c",
-          950: "#0a1020",
+          // 700-950 are tinted toward the logo navy: the site background is
+          // ink-950, which is the GaMatech navy itself.
+          700: "#2d4272",
+          800: "#1d3263",
+          900: "#132857",
+          950: "#0a1a3e",
         },
         brand: {
           50: "#f1f4fb",

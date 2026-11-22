@@ -105,7 +105,7 @@ export default function LoginForm({
 
       <SubmitButton locked={locked} cooldown={cooldown} />
 
-      <p className="text-center text-xs text-ink-500">
+      <p className="text-center text-xs text-ink-400">
         {failThreshold} wrong attempts trigger a 1-minute cooldown.
       </p>
     </form>
@@ -120,7 +120,7 @@ function SubmitButton({ locked, cooldown }: { locked: boolean; cooldown: number 
     <button
       type="submit"
       disabled={disabled}
-      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-brand-400 px-6 py-3.5 text-base font-bold text-ink-950 shadow-glow transition-all duration-200 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-6 py-3.5 text-base font-bold text-white shadow-glow transition-all duration-200 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
     >
       {pending ? (
         <>

@@ -158,7 +158,7 @@ export default function SiteHeader() {
           <div className="hidden shrink-0 items-center lg:flex">
             <Link
               href="/contact"
-              className="whitespace-nowrap rounded-xl bg-brand-900 px-5 py-2.5 text-[0.95rem] font-semibold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-glow dark:bg-accent-500 dark:hover:bg-accent-400"
+              className="whitespace-nowrap rounded-xl bg-brand-900 px-5 py-2.5 text-[0.95rem] font-semibold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-glow dark:bg-white dark:text-brand-900 dark:hover:bg-accent-700 dark:hover:text-white"
             >
               Get a free consultation
             </Link>

@@ -18,7 +18,7 @@ export default function CtaBand({
   buttonLabel?: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-y border-ink-200 bg-ink-950 py-20 sm:py-24 dark:border-ink-800">
+    <section className="relative overflow-hidden border-y border-ink-200 bg-ink-950 py-20 sm:py-24 dark:border-white/10 dark:bg-brand-950">
       {/* Animated background: drifting blobs plus a faint grid. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="blob left-[-6rem] top-[-4rem] h-80 w-80 animate-drift bg-brand-600/25" />

@@ -136,7 +136,7 @@ export default async function AdminDashboardPage() {
                     </div>
                     <div className="flex shrink-0 flex-col items-end gap-1.5">
                       <StatusBadge status={lead.status} />
-                      <time dateTime={iso(lead.created_at)} className="text-xs text-ink-400 dark:text-ink-500">
+                      <time dateTime={iso(lead.created_at)} className="text-xs text-ink-400 dark:text-ink-400">
                         {formatRelative(lead.created_at)}
                       </time>
                     </div>
@@ -178,7 +178,7 @@ export default async function AdminDashboardPage() {
                         <span className="block truncate text-sm font-semibold text-ink-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
                           {post.title}
                         </span>
-                        <span className="mt-0.5 block text-xs text-ink-400 dark:text-ink-500">
+                        <span className="mt-0.5 block text-xs text-ink-400 dark:text-ink-400">
                           {formatRelative(post.updated_at)}
                         </span>
                       </span>
@@ -216,10 +216,10 @@ export default async function AdminDashboardPage() {
                       <span className="font-semibold">{entry.actor}</span>{" "}
                       <span className="text-ink-500 dark:text-ink-400">{entry.action}</span>
                       {entry.target ? (
-                        <span className="text-ink-400 dark:text-ink-500"> · {entry.target}</span>
+                        <span className="text-ink-400 dark:text-ink-400"> · {entry.target}</span>
                       ) : null}
                     </p>
-                    <time dateTime={iso(entry.created_at)} className="text-xs text-ink-400 dark:text-ink-500">
+                    <time dateTime={iso(entry.created_at)} className="text-xs text-ink-400 dark:text-ink-400">
                       {formatRelative(entry.created_at)}
                     </time>
                   </li>

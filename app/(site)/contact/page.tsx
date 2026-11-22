@@ -126,7 +126,7 @@ export default function ContactPage() {
                       "A written proposal within three working days, including an indicative price.",
                     ].map((step, index) => (
                       <li key={step} className="flex gap-3">
-                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-500 text-xs font-bold text-white">
+                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-700 text-xs font-bold text-white">
                           {index + 1}
                         </span>
                         <span>{step}</span>
@@ -144,7 +144,7 @@ export default function ContactPage() {
                   Tell us about your project
                 </h2>
                 <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
-                  Fields marked <span className="text-red-500">*</span> are required.
+                  Fields marked <span className="text-red-500 dark:text-red-400">*</span> are required.
                 </p>
                 <div className="mt-7">
                   <LeadForm formToken={issueFormToken()} />

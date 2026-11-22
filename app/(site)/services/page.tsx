@@ -84,7 +84,7 @@ export default function ServicesPage() {
                   className="group block rounded-3xl border border-ink-200/80 bg-white/90 p-7 shadow-card backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-accent-300 hover:shadow-lift sm:p-9 dark:border-ink-800 dark:bg-ink-900/60 dark:hover:border-accent-800"
                 >
                   <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                    <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-900 text-white transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
+                    <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-900 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.2)] dark:bg-brand-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
                       <CatalogIcon name={service.icon} className="h-7 w-7" />
                     </span>
 
@@ -93,7 +93,7 @@ export default function ServicesPage() {
                         <h3 className="text-xl font-bold text-ink-900 group-hover:text-accent-700 sm:text-2xl dark:text-white dark:group-hover:text-accent-400">
                           {service.name}
                         </h3>
-                        <span className="text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-500">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-400">
                           0{index + 1}
                         </span>
                       </div>
@@ -140,7 +140,7 @@ export default function ServicesPage() {
                       href={`/products/${product.slug}`}
                       className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-accent-600 dark:hover:text-accent-400"
                     >
-                      <span className="text-ink-400 dark:text-ink-500">{product.code}</span>
+                      <span className="text-ink-400 dark:text-ink-400">{product.code}</span>
                       {product.name}
                     </Link>
                   </li>

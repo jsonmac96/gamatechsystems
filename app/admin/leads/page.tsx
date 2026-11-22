@@ -115,7 +115,7 @@ export default async function AdminLeadsPage({
 
           <button
             type="submit"
-            className="rounded-xl bg-ink-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-600 dark:bg-brand-500 dark:text-ink-950 dark:hover:bg-brand-400"
+            className="rounded-xl bg-ink-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-600 dark:bg-white dark:text-brand-900 dark:hover:bg-brand-100"
           >
             Apply
           </button>

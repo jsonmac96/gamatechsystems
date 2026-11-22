@@ -93,11 +93,9 @@ export const viewport: Viewport = {
   initialScale: 1,
   // Never block zoom: pinch-to-zoom is an accessibility requirement.
   maximumScale: 5,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a1020" },
-  ],
-  colorScheme: "light dark",
+  // The site is set on GaMatech navy, so the browser chrome matches it.
+  themeColor: "#0a1a3e",
+  colorScheme: "dark",
 };
 
 /**
@@ -131,7 +129,7 @@ export default async function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={sans.variable}
+      className={`${sans.variable} dark`}
       suppressHydrationWarning
     >
       <head>

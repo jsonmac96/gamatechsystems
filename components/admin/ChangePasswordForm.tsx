@@ -33,7 +33,7 @@ export default function ChangePasswordForm({ minLength }: { minLength: number })
 
       <div>
         <label htmlFor="currentPassword" className="field-label">
-          Current password <span className="text-red-500">*</span>
+          Current password <span className="text-red-500 dark:text-red-400">*</span>
         </label>
         <input
           id="currentPassword"
@@ -48,7 +48,7 @@ export default function ChangePasswordForm({ minLength }: { minLength: number })
 
       <div>
         <label htmlFor="newPassword" className="field-label">
-          New password <span className="text-red-500">*</span>
+          New password <span className="text-red-500 dark:text-red-400">*</span>
         </label>
         <input
           id="newPassword"
@@ -85,7 +85,7 @@ export default function ChangePasswordForm({ minLength }: { minLength: number })
 
       <div>
         <label htmlFor="confirmPassword" className="field-label">
-          Confirm new password <span className="text-red-500">*</span>
+          Confirm new password <span className="text-red-500 dark:text-red-400">*</span>
         </label>
         <input
           id="confirmPassword"
@@ -124,7 +124,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled || pending}
-      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-brand-400 px-6 py-3.5 text-base font-bold text-ink-950 shadow-glow transition-all duration-200 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-6 py-3.5 text-base font-bold text-white shadow-glow transition-all duration-200 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
     >
       {pending ? "Updating…" : "Change password"}
     </button>
