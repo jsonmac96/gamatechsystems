@@ -67,7 +67,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
 
       {/* Hero */}
       <section className="relative overflow-hidden py-14 sm:py-20">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
           <div className="blob left-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
           <div className="absolute inset-0 opacity-25 grid-backdrop [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]" />
@@ -102,7 +102,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
               </Reveal>
 
               <Reveal delay={170}>
-                <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
                   <Link href="#enquire" className="btn-cta group">
                     Get a free consultation
                     <svg className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

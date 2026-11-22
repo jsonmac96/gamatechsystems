@@ -13,13 +13,13 @@ import { LogoMark } from "@/components/Logo";
  */
 export default function ProductConstellation() {
   return (
-    <div className="relative">
+    <div className="tilt-3d relative">
       <div
         aria-hidden="true"
         className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-gradient-to-br from-accent-400/25 to-brand-500/20 blur-2xl"
       />
 
-      <div className="animate-float rounded-3xl border border-ink-200 bg-white/95 p-5 shadow-lift backdrop-blur sm:p-6 dark:border-ink-800 dark:bg-ink-900/90">
+      <div className="animate-float rounded-3xl border border-ink-200 bg-white/95 p-5 shadow-[0_2px_6px_rgb(10_16_32/0.05),0_32px_80px_-32px_rgb(10_26_62/0.5),0_60px_120px_-60px_rgb(231_88_10/0.3)] backdrop-blur sm:p-6 dark:border-white/10 dark:bg-ink-900/80 dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.08),0_40px_100px_-40px_rgb(0_0_0/0.8),0_60px_120px_-60px_rgb(231_88_10/0.35)]">
         {/* Header strip, echoing the brand */}
         <div className="flex items-center justify-between gap-3 border-b border-ink-200 pb-4 dark:border-ink-800">
           <div className="flex items-center gap-2.5">

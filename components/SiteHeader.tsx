@@ -86,7 +86,7 @@ export default function SiteHeader() {
                     href="/products"
                     aria-expanded={servicesOpen}
                     aria-haspopup="true"
-                    className={`flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-base font-semibold transition-colors ${
+                    className={`flex items-center gap-1.5 whitespace-nowrap rounded-xl px-2.5 py-2.5 text-[0.95rem] font-semibold transition-colors xl:px-4 xl:text-base ${
                       isActive(link.href)
                         ? "text-accent-700 dark:text-accent-400"
                         : "text-ink-700 hover:text-accent-700 dark:text-ink-200 dark:hover:text-accent-400"
@@ -140,7 +140,7 @@ export default function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   aria-current={isActive(link.href) ? "page" : undefined}
-                  className={`rounded-xl px-4 py-2.5 text-base font-semibold transition-colors ${
+                  className={`whitespace-nowrap rounded-xl px-2.5 py-2.5 text-[0.95rem] font-semibold transition-colors xl:px-4 xl:text-base ${
                     isActive(link.href)
                       ? "text-accent-700 dark:text-accent-400"
                       : "text-ink-700 hover:text-accent-700 dark:text-ink-200 dark:hover:text-accent-400"
@@ -152,16 +152,13 @@ export default function SiteHeader() {
             )}
           </nav>
 
-          <div className="hidden items-center gap-3 lg:flex">
-            <a
-              href={`tel:${SITE.phoneHref}`}
-              className="text-base font-semibold text-ink-600 transition-colors hover:text-accent-700 dark:text-ink-300 dark:hover:text-accent-400"
-            >
-              {SITE.phoneDisplay}
-            </a>
+          {/* The phone number lives in the mobile menu, the call-to-action
+              band and the footer; beside the full menu it forced the
+              header onto two lines. */}
+          <div className="hidden shrink-0 items-center lg:flex">
             <Link
               href="/contact"
-              className="rounded-xl bg-brand-900 px-6 py-3 text-base font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-glow dark:bg-accent-500 dark:hover:bg-accent-400"
+              className="whitespace-nowrap rounded-xl bg-brand-900 px-5 py-2.5 text-[0.95rem] font-semibold text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-glow dark:bg-accent-500 dark:hover:bg-accent-400"
             >
               Get a free consultation
             </Link>

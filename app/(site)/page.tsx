@@ -48,7 +48,7 @@ export default async function HomePage() {
       {/* Hero                                                                */}
       {/* ------------------------------------------------------------------ */}
       <section className="relative overflow-hidden pb-20 pt-14 sm:pb-28 sm:pt-20">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white dark:from-brand-950 dark:via-ink-950 dark:to-ink-950" />
           <div className="blob left-[-10rem] top-[-8rem] h-[26rem] w-[26rem] animate-drift bg-brand-300/35 dark:bg-brand-800/30" />
           <div
@@ -60,7 +60,7 @@ export default async function HomePage() {
 
         <div className="container-page">
           <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-6">
+            <div className="parallax-fade lg:col-span-6">
               <Reveal>
                 <span className="eyebrow">
                   <span className="relative flex h-2 w-2">
@@ -108,7 +108,7 @@ export default async function HomePage() {
               </Reveal>
 
               <Reveal delay={240}>
-                <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
                   <Link href="/contact" className="btn-cta group">
                     Get your free consultation
                     <svg

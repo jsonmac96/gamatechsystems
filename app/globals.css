@@ -95,15 +95,18 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
   }
 
-  /* Primary call to action — the big button. */
+  /* Primary call to action. Prominent through colour, glow and motion
+     rather than sheer size, and never allowed to wrap onto two lines. */
   .btn-cta {
-    @apply relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-2xl
+    @apply relative inline-flex shrink-0 items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap rounded-2xl
            bg-gradient-to-r from-accent-600 via-accent-500 to-accent-600 bg-[length:200%_auto]
-           px-7 py-4 text-base font-semibold text-white shadow-glow
+           px-7 py-3.5 text-base font-semibold text-white
+           shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_0_0_1px_rgb(231_88_10/0.3),0_14px_36px_-14px_rgb(231_88_10/0.6)]
            transition-all duration-300 ease-out
-           hover:scale-[1.03] hover:bg-[position:right_center] hover:shadow-[0_0_0_1px_rgb(231_88_10/0.45),0_22px_60px_-18px_rgb(231_88_10/0.65)]
-           active:scale-[0.99]
-           sm:px-9 sm:py-5 sm:text-lg;
+           hover:-translate-y-0.5 hover:bg-[position:right_center]
+           hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.3),0_0_0_1px_rgb(231_88_10/0.45),0_22px_50px_-16px_rgb(231_88_10/0.7)]
+           active:translate-y-0
+           sm:px-8 sm:py-4 sm:text-[1.0625rem];
   }
 
   /* Moving highlight that sweeps across the CTA. */
@@ -115,8 +118,9 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-ink-300
-           bg-white/80 px-6 py-3.5 text-base font-semibold text-ink-800 backdrop-blur
+    @apply inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-ink-300
+           bg-white/80 px-6 py-[0.8125rem] text-base font-semibold text-ink-800 backdrop-blur
+           sm:py-[0.9375rem] sm:text-[1.0625rem]
            transition-all duration-200
            hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-700 hover:shadow-card
            dark:border-ink-700 dark:bg-ink-900/70 dark:text-ink-100
@@ -242,8 +246,14 @@
     transform: translate3d(0, 24px, 0);
     transition:
       opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
+  }
+
+  /* Blocks animated site-wide by <ScrollEffects> also come into focus. */
+  .js-anim [data-reveal-auto][data-reveal="out"] {
+    filter: blur(6px);
   }
 
   .js-anim [data-reveal="in"] {
@@ -271,6 +281,64 @@
 
   .js-anim [data-reveal-variant="scale"] {
     transform: scale(0.95);
+  }
+
+  /* A printed page shows everything, wherever the reader had scrolled to. */
+  @media print {
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+  }
+
+  /* Depth: hero backdrops drift slower than the page as it scrolls, and the
+     hero copy eases back. Pure CSS scroll-driven animation — no scroll
+     listener, no layout cost — in browsers that support it; elsewhere the
+     hero is simply static. Skipped entirely for reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .parallax-bg {
+        animation: parallax-sink linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+      /* Desktop only: on a phone the hero copy is still being read while it
+         scrolls, so it must not fade. */
+      @media (min-width: 1024px) {
+        .parallax-fade {
+          animation: parallax-recede linear both;
+          animation-timeline: scroll(root);
+          animation-range: 0 90vh;
+        }
+      }
+    }
+  }
+
+  @keyframes parallax-sink {
+    to {
+      transform: translate3d(0, 28vh, 0);
+    }
+  }
+
+  @keyframes parallax-recede {
+    to {
+      transform: translate3d(0, -6vh, 0) scale(0.97);
+      opacity: 0.35;
+    }
+  }
+
+  /* Hero panel tilted in 3D on desktop, settling flat on hover. */
+  @media (min-width: 1024px) {
+    .tilt-3d {
+      transform: perspective(1800px) rotateY(-9deg) rotateX(5deg);
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tilt-3d:hover,
+    .tilt-3d:focus-within {
+      transform: perspective(1800px) rotateY(0deg) rotateX(0deg);
+    }
   }
 
   .text-balance {

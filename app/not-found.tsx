@@ -37,7 +37,7 @@ export default function NotFound() {
                 It may have moved, or the link might be mistyped. Here is the way back.
               </p>
 
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
                 <Link href="/" className="btn-cta">
                   Back to home
                 </Link>
