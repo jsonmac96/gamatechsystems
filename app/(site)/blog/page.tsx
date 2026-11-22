@@ -204,7 +204,7 @@ export default async function BlogIndexPage() {
 function PostMeta({ post }: { post: Post }) {
   const published = iso(post.published_at ?? post.created_at);
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300">
       <time dateTime={published}>
         {new Date(published).toLocaleDateString("en-PH", {
           year: "numeric",

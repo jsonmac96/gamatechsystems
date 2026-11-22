@@ -17,11 +17,11 @@
   }
 
   .dark {
-    --page: 10 16 26;
-    --page-soft: 19 28 43;
+    --page: 10 26 62;
+    --page-soft: 19 40 87;
     --text: 244 247 251;
-    --text-soft: 159 181 211;
-    --line: 31 46 70;
+    --text-soft: 166 176 200;
+    --line: 63 102 179;
     color-scheme: dark;
   }
 
@@ -99,7 +99,7 @@
      rather than sheer size, and never allowed to wrap onto two lines. */
   .btn-cta {
     @apply relative inline-flex shrink-0 items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap rounded-2xl
-           bg-gradient-to-r from-accent-600 via-accent-500 to-accent-600 bg-[length:200%_auto]
+           bg-gradient-to-r from-accent-600 via-accent-700 to-accent-600 bg-[length:200%_auto]
            px-7 py-3.5 text-base font-semibold text-white
            shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_0_0_1px_rgb(231_88_10/0.3),0_14px_36px_-14px_rgb(231_88_10/0.6)]
            transition-all duration-300 ease-out
@@ -135,12 +135,14 @@
   .card {
     @apply rounded-3xl border border-ink-200/80 bg-white/90 p-7 shadow-card backdrop-blur
            transition-all duration-300
-           dark:border-ink-800 dark:bg-ink-900/60;
+           dark:border-white/10 dark:bg-ink-900/50 dark:bg-gradient-to-b dark:from-white/[0.06] dark:to-transparent
+           dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.08),0_24px_60px_-30px_rgb(0_0_0/0.65)];
   }
 
   .card-interactive {
     @apply card hover:-translate-y-1.5 hover:border-accent-300 hover:shadow-lift
-           dark:hover:border-accent-800;
+           dark:hover:border-accent-500/50
+           dark:hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.1),0_30px_70px_-30px_rgb(0_0_0/0.75),0_0_0_1px_rgb(231_88_10/0.25)];
   }
 
   .eyebrow {
@@ -203,7 +205,8 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-accent-600 via-accent-500 to-brand-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-600 via-accent-500 to-brand-500 bg-clip-text text-transparent
+           dark:from-accent-500 dark:via-accent-400 dark:to-brand-300;
   }
 
   .hairline {
@@ -367,7 +370,7 @@
   }
 
   .skip-link {
-    @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-xl bg-accent-600 px-5 py-3
+    @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-xl bg-accent-700 px-5 py-3
            text-sm font-semibold text-white transition-transform
            focus:translate-y-0;
   }

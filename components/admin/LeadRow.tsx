@@ -50,7 +50,7 @@ export default function LeadRow({ lead }: { lead: Lead }) {
           <div className="flex shrink-0 items-center gap-3">
             <time
               dateTime={created.toISOString()}
-              className="text-xs text-ink-400 dark:text-ink-500"
+              className="text-xs text-ink-400 dark:text-ink-400"
               title={created.toISOString()}
             >
               {created.toLocaleDateString("en-PH", {
@@ -135,7 +135,7 @@ export default function LeadRow({ lead }: { lead: Lead }) {
                   </select>
                   <button
                     type="submit"
-                    className="shrink-0 rounded-xl bg-ink-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-600 dark:bg-brand-500 dark:text-ink-950 dark:hover:bg-brand-400"
+                    className="shrink-0 rounded-xl bg-ink-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-600 dark:bg-white dark:text-brand-900 dark:hover:bg-brand-100"
                   >
                     Save
                   </button>
@@ -175,7 +175,7 @@ export default function LeadRow({ lead }: { lead: Lead }) {
                 >
                   Delete this lead
                 </button>
-                <p className="mt-1.5 text-center text-xs text-ink-400 dark:text-ink-500">
+                <p className="mt-1.5 text-center text-xs text-ink-400 dark:text-ink-400">
                   Permanent. Export first if you need a record.
                 </p>
               </form>

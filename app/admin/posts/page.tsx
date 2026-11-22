@@ -93,7 +93,7 @@ export default async function AdminPostsPage({
                       >
                         {post.title}
                       </Link>
-                      <span className="mt-0.5 block font-mono text-xs text-ink-400 dark:text-ink-500">
+                      <span className="mt-0.5 block font-mono text-xs text-ink-400 dark:text-ink-400">
                         /blog/{post.slug}
                       </span>
                     </td>
@@ -152,7 +152,7 @@ export default async function AdminPostsPage({
                           />
                           <button
                             type="submit"
-                            className="rounded-lg bg-ink-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-600 dark:bg-brand-500 dark:text-ink-950 dark:hover:bg-brand-400"
+                            className="rounded-lg bg-ink-900 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-600 dark:bg-white dark:text-brand-900 dark:hover:bg-brand-100"
                           >
                             {post.status === "published" ? "Unpublish" : "Publish"}
                           </button>

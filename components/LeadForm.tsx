@@ -179,7 +179,7 @@ export default function LeadForm({
 
       <div>
         <label htmlFor="message" className="field-label">
-          Tell us about the problem <span className="text-red-500">*</span>
+          Tell us about the problem <span className="text-red-500 dark:text-red-400">*</span>
         </label>
         <textarea
           id="message"
@@ -275,7 +275,7 @@ function Field({
   return (
     <div>
       <label htmlFor={id} className="field-label">
-        {label} {required ? <span className="text-red-500">*</span> : null}
+        {label} {required ? <span className="text-red-500 dark:text-red-400">*</span> : null}
       </label>
       <input
         id={id}

@@ -206,7 +206,7 @@ export default async function HomePage() {
                   className="card-interactive group flex h-full flex-col"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-900 text-white transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-900 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.2)] dark:bg-brand-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
                       <CatalogIcon name={product.icon} />
                     </span>
                     <span className="rounded-lg bg-accent-50 px-2.5 py-1 text-xs font-bold text-accent-700 dark:bg-accent-950/60 dark:text-accent-300">

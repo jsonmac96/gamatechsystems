@@ -15,13 +15,17 @@
 export type LogoTone = "navy" | "white" | "mono";
 
 const TONES: Record<LogoTone, { mark: string; dot: string }> = {
-  // Full colour on a light background.
-  navy: { mark: "#0A1A3E", dot: "#E7580A" },
+  // Full colour: navy on a light background, reversing to white under the
+  // site's navy (dark) theme. The colour comes from MARK_CLASS below.
+  navy: { mark: "currentColor", dot: "#E7580A" },
   // Reversed, for dark backgrounds.
   white: { mark: "#FFFFFF", dot: "#E7580A" },
   // One colour: inherits from `currentColor`, no orange.
   mono: { mark: "currentColor", dot: "currentColor" },
 };
+
+/** Colours the "navy" tone's mark: brand navy, or white on the navy theme. */
+const MARK_CLASS = "text-[#0A1A3E] dark:text-white";
 
 /** The "G" mark on its own. Decorative by default. */
 export function LogoMark({
@@ -37,7 +41,7 @@ export function LogoMark({
 
   return (
     <svg
-      className={className}
+      className={tone === "navy" ? `${MARK_CLASS} ${className}` : className}
       viewBox="0 0 100 100"
       fill="none"
       role={title ? "img" : undefined}
@@ -120,9 +124,17 @@ export default function Logo({
   stacked?: boolean;
 }) {
   const wordColor =
-    tone === "white" ? "text-white" : tone === "mono" ? "text-current" : "text-brand-900";
+    tone === "white"
+      ? "text-white"
+      : tone === "mono"
+        ? "text-current"
+        : "text-brand-900 dark:text-white";
   const systemsColor =
-    tone === "white" ? "text-white/70" : tone === "mono" ? "text-current opacity-70" : "text-brand-500";
+    tone === "white"
+      ? "text-white/70"
+      : tone === "mono"
+        ? "text-current opacity-70"
+        : "text-brand-500 dark:text-brand-300";
 
   return (
     <span

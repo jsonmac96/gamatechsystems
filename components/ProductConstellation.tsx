@@ -49,7 +49,7 @@ export default function ProductConstellation() {
                 className="group flex h-full flex-col rounded-2xl border border-ink-200 bg-ink-50/70 p-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-accent-300 hover:bg-white hover:shadow-card dark:border-ink-800 dark:bg-ink-950/50 dark:hover:border-accent-800 dark:hover:bg-ink-900"
               >
                 <span className="flex items-center justify-between">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-900 text-white transition-colors duration-300 group-hover:bg-accent-500">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-900 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.2)] dark:bg-brand-600 transition-colors duration-300 group-hover:bg-accent-500">
                     <CatalogIcon name={product.icon} className="h-5 w-5" />
                   </span>
                   <span className="text-xs font-bold text-accent-600 dark:text-accent-400">

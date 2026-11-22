@@ -86,10 +86,10 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <div className="lg:col-span-7">
               <Reveal>
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-900 text-white">
+                  <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-900 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.2)] dark:bg-brand-600">
                     <CatalogIcon name={product.icon} className="h-7 w-7" />
                   </span>
-                  <span className="rounded-xl bg-accent-500 px-3 py-1.5 text-sm font-bold text-white">
+                  <span className="rounded-xl bg-accent-700 px-3 py-1.5 text-sm font-bold text-white">
                     {product.code}
                   </span>
                 </div>
@@ -264,7 +264,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
                   className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-accent-600 dark:hover:text-accent-400"
                 >
                   <CatalogIcon name={other.icon} className="h-4 w-4" />
-                  <span className="text-ink-400 dark:text-ink-500">{other.code}</span>
+                  <span className="text-ink-400 dark:text-ink-400">{other.code}</span>
                   {other.name}
                 </Link>
               </li>

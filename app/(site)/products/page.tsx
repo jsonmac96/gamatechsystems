@@ -84,7 +84,7 @@ export default function ProductsPage() {
                   className="card-interactive group flex h-full flex-col"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-900 text-white transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-900 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.2)] dark:bg-brand-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-500">
                       <CatalogIcon name={product.icon} />
                     </span>
                     <span className="rounded-lg bg-accent-50 px-2.5 py-1 text-xs font-bold tracking-wide text-accent-700 dark:bg-accent-950/60 dark:text-accent-300">
@@ -109,7 +109,7 @@ export default function ProductsPage() {
                       </li>
                     ))}
                     {product.features.length > 4 ? (
-                      <li className="rounded-full px-2 py-1.5 text-xs font-semibold text-ink-400 dark:text-ink-500">
+                      <li className="rounded-full px-2 py-1.5 text-xs font-semibold text-ink-400 dark:text-ink-400">
                         +{product.features.length - 4} more
                       </li>
                     ) : null}

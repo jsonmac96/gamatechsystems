@@ -124,7 +124,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
 
             <div className="mx-auto mt-8 max-w-3xl">
               <Reveal>
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-brand-600 dark:text-brand-400">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-brand-600 dark:text-brand-300">
                   <time dateTime={published}>
                     {new Date(published).toLocaleDateString("en-PH", {
                       year: "numeric",
@@ -244,7 +244,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                     <Link href={`/blog/${item.slug}`} className="card-interactive group flex h-full flex-col">
                       <time
                         dateTime={iso(item.published_at ?? item.created_at)}
-                        className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400"
+                        className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-300"
                       >
                         {new Date(item.published_at ?? item.created_at).toLocaleDateString("en-PH", {
                           year: "numeric",
