@@ -77,9 +77,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
       {session.mustChangePassword ? (
         <div className="border-b border-accent-400 bg-accent-500/15 px-5 py-3 text-center text-sm font-semibold text-accent-700 dark:text-accent-400">
-          Your password was set by an administrator.{" "}
+          You are signed in with a temporary password. Leads and the blog stay locked
+          until you{" "}
           <Link href="/admin/account" className="underline underline-offset-2">
-            Change it now
+            set your own password
           </Link>
           .
         </div>
