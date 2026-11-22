@@ -24,7 +24,7 @@ export const metadata: Metadata = pageMetadata({
     "business systems for SMEs",
     "restaurant and retail POS",
     "ERP payroll CRM software",
-    "software company Philippines",
+    "SME software company",
   ],
 });
 

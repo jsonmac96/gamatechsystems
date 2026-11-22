@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Who we are and how we work. GaMatech Systems builds the POS, ERP, payroll, service desk and CRM systems SMEs run on, from the Philippines for clients worldwide.",
   path: "/about",
-  keywords: ["about GaMatech Systems", "software company Philippines", "SME technology partner", "business systems for SMEs"],
+  keywords: ["about GaMatech Systems", "SME software company", "SME technology partner", "business systems for SMEs"],
 });
 
 const PRINCIPLES = [

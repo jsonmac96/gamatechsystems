@@ -101,7 +101,7 @@ export const SERVICES: readonly Service[] = [
       { q: "Who owns the source code?", a: "You do, in full, from the first commit. The repository sits under your account and the handover package includes documentation, credentials and deployment runbooks." },
       { q: "Can you take over software someone else built?", a: "Yes. We start with a technical audit covering security, dependencies and test coverage, then give you a written assessment and a remediation plan before changing anything." },
     ],
-    keywords: ["custom software development", "bespoke software for SMEs", "system integration", "software company Philippines"],
+    keywords: ["custom software development", "bespoke software for SMEs", "system integration", "SME software company"],
   },
   {
     slug: "ai-analytics",

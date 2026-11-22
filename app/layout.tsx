@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     "CRM software",
     "service desk software",
     "custom software development",
-    "software company Philippines",
+    "SME software company",
     "SME software",
   ],
   authors: [{ name: SITE.name, url: SITE.url }],
