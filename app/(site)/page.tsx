@@ -50,11 +50,6 @@ export default async function HomePage() {
       <section className="relative overflow-hidden pb-20 pt-14 sm:pb-28 sm:pt-20">
         <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 via-white to-white dark:from-brand-950 dark:via-ink-950 dark:to-ink-950" />
-          <div className="blob left-[-10rem] top-[-8rem] h-[26rem] w-[26rem] animate-drift bg-brand-300/35 dark:bg-brand-800/30" />
-          <div
-            className="blob right-[-8rem] top-[4rem] h-[22rem] w-[22rem] animate-drift bg-accent-400/20 dark:bg-accent-900/25"
-            style={{ animationDelay: "-11s" }}
-          />
           <div className="absolute inset-0 opacity-[0.35] grid-backdrop [mask-image:radial-gradient(ellipse_at_top,black,transparent_72%)]" />
         </div>
 
@@ -66,11 +61,9 @@ export default async function HomePage() {
                 <h1 className="h1">
                   Business systems that{" "}
                   <span className="relative inline-block">
-                    <span className="gradient-text animate-gradient-pan bg-[length:220%_auto]">
-                      run themselves
-                    </span>
+                    run themselves
                     <svg
-                      className="absolute -bottom-2 left-0 h-3 w-full text-accent-400/80"
+                      className="absolute -bottom-2 left-0 h-3 w-full text-accent-500"
                       viewBox="0 0 220 12"
                       fill="none"
                       preserveAspectRatio="none"
@@ -159,7 +152,7 @@ export default async function HomePage() {
               <Reveal key={point.label} delay={index * 90} className="text-center lg:text-left">
                 <dt className="sr-only">{point.label}</dt>
                 <dd>
-                  <span className="block text-3xl font-bold tracking-tight text-accent-600 sm:text-4xl dark:text-accent-400">
+                  <span className="block text-3xl font-bold tracking-tight text-brand-900 sm:text-4xl dark:text-white">
                     {point.value}
                   </span>
                   <span className="mt-1.5 block text-sm leading-snug text-ink-600 dark:text-ink-300">

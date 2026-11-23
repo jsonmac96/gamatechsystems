@@ -75,7 +75,6 @@ export default function AboutPage() {
       <section className="relative overflow-hidden py-16 sm:py-24">
         <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
-          <div className="blob right-[-7rem] top-[-5rem] h-72 w-72 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
         </div>
 
         <div className="container-page">
@@ -144,7 +143,7 @@ export default function AboutPage() {
                 <dl className="mt-6 space-y-5">
                   {PROOF_POINTS.map((point) => (
                     <div key={point.label} className="border-b border-ink-200 pb-4 last:border-0 last:pb-0 dark:border-ink-800">
-                      <dt className="text-2xl font-bold text-accent-600 dark:text-accent-400">
+                      <dt className="text-2xl font-bold text-brand-900 dark:text-white">
                         {point.value}
                       </dt>
                       <dd className="mt-1 text-sm text-ink-600 dark:text-ink-300">{point.label}</dd>
