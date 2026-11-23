@@ -69,7 +69,6 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       <section className="relative overflow-hidden py-14 sm:py-20">
         <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
-          <div className="blob left-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
           <div className="absolute inset-0 opacity-25 grid-backdrop [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]" />
         </div>
 

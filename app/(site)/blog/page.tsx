@@ -70,7 +70,6 @@ export default async function BlogIndexPage() {
       <section className="relative overflow-hidden py-16 sm:py-20">
         <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white dark:from-ink-900 dark:to-ink-950" />
-          <div className="blob right-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-brand-300/35 dark:bg-brand-800/25" />
         </div>
 
         <div className="container-page">

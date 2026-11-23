@@ -31,11 +31,7 @@ export default function CtaBand({
 
       <div className="container-page relative">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <span className="eyebrow border-brand-700/60 bg-brand-950/60 text-brand-200">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-400" />
-            </span>
+          <span className="eyebrow text-brand-200">
             Accepting new projects
           </span>
 

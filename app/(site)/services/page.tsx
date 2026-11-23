@@ -53,7 +53,6 @@ export default function ServicesPage() {
       <section className="relative overflow-hidden py-16 sm:py-24">
         <div aria-hidden="true" className="parallax-bg pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-b from-brand-50 to-white dark:from-brand-950 dark:to-ink-950" />
-          <div className="blob left-[-8rem] top-[-6rem] h-80 w-80 animate-drift bg-accent-300/25 dark:bg-accent-900/20" />
         </div>
 
         <div className="container-page">
