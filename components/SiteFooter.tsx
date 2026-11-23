@@ -21,7 +21,7 @@ export default function SiteFooter() {
           {/* Brand */}
           <div className="lg:col-span-5 lg:pr-6">
             <Link href="/" className="inline-flex" aria-label={`${SITE.name} — home`}>
-              <Logo markClassName="h-10 w-10" />
+              <Logo className="h-12 w-auto" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-600 dark:text-ink-300">
               Point of sale, ERP, payroll, service desk and CRM for growing businesses — plus the

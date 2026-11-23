@@ -23,7 +23,7 @@ export default function ProductConstellation() {
         {/* Header strip, echoing the brand */}
         <div className="flex items-center justify-between gap-3 border-b border-ink-200 pb-4 dark:border-ink-800">
           <div className="flex items-center gap-2.5">
-            <LogoMark className="h-8 w-8" />
+            <LogoMark className="h-9 w-auto" />
             <div className="leading-tight">
               <p className="text-xs font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400">
                 Core products
@@ -31,7 +31,7 @@ export default function ProductConstellation() {
               <p className="text-sm font-bold text-ink-900 dark:text-white">One foundation, six systems</p>
             </div>
           </div>
-          <span className="badge bg-accent-50 text-accent-700 dark:bg-accent-950/60 dark:text-accent-300">
+          <span className="badge shrink-0 whitespace-nowrap bg-accent-50 text-accent-700 dark:bg-accent-950/60 dark:text-accent-300">
             M5–M10
           </span>
         </div>

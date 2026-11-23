@@ -66,10 +66,7 @@ export default function SiteHeader() {
             className="group rounded-xl py-1 transition-opacity hover:opacity-90"
             aria-label={`${SITE.name} — home`}
           >
-            <Logo
-              markClassName="h-11 w-11 transition-transform duration-500 group-hover:-rotate-6"
-              wordClassName="text-[1.5rem]"
-            />
+            <Logo className="h-11 w-auto sm:h-12" priority />
           </Link>
 
           {/* Desktop navigation */}
