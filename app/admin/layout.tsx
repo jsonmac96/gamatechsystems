@@ -43,7 +43,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link href="/admin" className="flex items-center gap-2.5" aria-label="Admin dashboard">
               <LogoMark className="h-8 w-auto" />
               <span className="hidden text-base font-bold tracking-tight text-ink-900 sm:inline dark:text-white">
-                GaMatech<span className="text-accent-600 dark:text-accent-400"> Admin</span>
+                GaMatech<span className="text-accent-700 dark:text-accent-400"> Admin</span>
               </span>
             </Link>
           </div>

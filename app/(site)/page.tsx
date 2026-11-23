@@ -383,7 +383,7 @@ export default async function HomePage() {
                   <Link href={`/blog/${post.slug}`} className="card-interactive group flex h-full flex-col">
                     <time
                       dateTime={iso(post.published_at ?? post.created_at)}
-                      className="text-xs font-semibold uppercase tracking-wider text-accent-600 dark:text-accent-400"
+                      className="text-xs font-semibold uppercase tracking-wider text-accent-700 dark:text-accent-400"
                     >
                       {formatDate(post.published_at ?? post.created_at)}
                     </time>

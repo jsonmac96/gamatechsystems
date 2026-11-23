@@ -92,7 +92,7 @@ export default function ServicesPage() {
                         <h3 className="text-xl font-bold text-ink-900 group-hover:text-accent-700 sm:text-2xl dark:text-white dark:group-hover:text-accent-400">
                           {service.name}
                         </h3>
-                        <span className="text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-400">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400">
                           0{index + 1}
                         </span>
                       </div>
@@ -139,7 +139,7 @@ export default function ServicesPage() {
                       href={`/products/${product.slug}`}
                       className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-accent-600 dark:hover:text-accent-400"
                     >
-                      <span className="text-ink-400 dark:text-ink-400">{product.code}</span>
+                      <span className="text-ink-500 dark:text-ink-400">{product.code}</span>
                       {product.name}
                     </Link>
                   </li>

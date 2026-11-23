@@ -143,7 +143,7 @@ export default function ContactPage() {
                   Tell us about your project
                 </h2>
                 <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
-                  Fields marked <span className="text-red-500 dark:text-red-400">*</span> are required.
+                  Fields marked <span className="text-red-600 dark:text-red-400">*</span> are required.
                 </p>
                 <div className="mt-7">
                   <LeadForm formToken={issueFormToken()} />

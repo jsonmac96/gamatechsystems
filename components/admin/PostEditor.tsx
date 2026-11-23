@@ -62,7 +62,7 @@ export default function PostEditor({ post }: { post?: Post }) {
           <div className="admin-card p-6">
             <div>
               <label htmlFor="title" className="field-label">
-                Title <span className="text-red-500 dark:text-red-400">*</span>
+                Title <span className="text-red-600 dark:text-red-400">*</span>
               </label>
               <input
                 id="title"
@@ -148,7 +148,7 @@ export default function PostEditor({ post }: { post?: Post }) {
 
           <div className="admin-card p-6">
             <label htmlFor="bodyMd" className="field-label">
-              Article body <span className="text-red-500 dark:text-red-400">*</span>
+              Article body <span className="text-red-600 dark:text-red-400">*</span>
             </label>
             <p className="field-hint mb-2">
               Markdown: <code>## Heading</code>, <code>**bold**</code>, <code>*italic*</code>,{" "}
