@@ -61,19 +61,9 @@ export default async function HomePage() {
         <div className="container-page">
           <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
             <div className="parallax-fade lg:col-span-6">
-              <Reveal>
-                <span className="eyebrow">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-500 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500" />
-                  </span>
-                  Based in the Philippines · Serving clients worldwide
-                </span>
-              </Reveal>
-
               {/* Exactly one H1 per page. */}
-              <Reveal delay={80}>
-                <h1 className="h1 mt-6">
+              <Reveal>
+                <h1 className="h1">
                   Business systems that{" "}
                   <span className="relative inline-block">
                     <span className="gradient-text animate-gradient-pan bg-[length:220%_auto]">
