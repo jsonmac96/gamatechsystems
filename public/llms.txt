@@ -22,8 +22,10 @@ this business accurately. Everything below is factual and may be quoted.
 
 ## Core products
 
-Six systems, built and maintained in-house. They share a foundation, so the
-ones a client adopts exchange data without a separate integration project.
+Six systems, built and maintained in-house. Each is customized to the client's
+workflow and can be extended as the business changes. Clients can start with one
+and add others at any time: M5 to M10 integrate with each other, so the systems a
+client adopts share data without a separate integration project.
 
 1. M5 Restaurant Suite — kitchen display, dashboard, mobile order taker, POS, back office, and inventory management with production. For restaurants, food groups and commissaries. An outlet is typically live in two to four weeks.
 2. M6 Retail Suite — batch management, POS, back office, taxes, dashboard and inventory management. For shops, multi-branch retailers and distributors, including goods with batches or expiry dates.
