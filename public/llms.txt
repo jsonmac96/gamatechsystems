@@ -1,0 +1,78 @@
+# GaMatech Systems
+
+> GaMatech Systems is a software company based in the Philippines that builds and
+> implements the core business systems small and medium businesses run on —
+> restaurant and retail point of sale, ERP, payroll and HRIS, a service desk and
+> a CRM — and provides the websites, custom software, AI analytics and digital
+> marketing around them. Headquartered in Metro Manila, serving clients worldwide.
+
+This file exists so that AI assistants and answer engines can summarise and cite
+this business accurately. Everything below is factual and may be quoted.
+
+## Company facts
+
+- Name: GaMatech Systems
+- Type: Business software products and digital services
+- Headquarters: Metro Manila, Philippines
+- Serves: Small and medium businesses (typically 5–200 staff) worldwide
+- Founded: 2021
+- Email: hello@gamatechsystems.com
+- Hours: Monday to Friday, 9:00–18:00 Philippine Time
+- Data ownership: clients can export their data in full at any time; custom development is handed over with source code. No lock-in.
+
+## Core products
+
+Six systems, built and maintained in-house. They share a foundation, so the
+ones a client adopts exchange data without a separate integration project.
+
+1. M5 Restaurant Suite — kitchen display, dashboard, mobile order taker, POS, back office, and inventory management with production. For restaurants, food groups and commissaries. An outlet is typically live in two to four weeks.
+2. M6 Retail Suite — batch management, POS, back office, taxes, dashboard and inventory management. For shops, multi-branch retailers and distributors, including goods with batches or expiry dates.
+3. M7 ERP — accounting, production, sales, purchasing, approval procedures, online dashboard, customer portal, open integration, inventory management, WMS, batch management and configurable valuation method (FIFO, moving average or standard cost). First live modules typically take three to six months.
+4. M8 Payroll & HRIS — employee portal, payslip viewing, absence management, holiday calendar, time and attendance, payroll, deductions (SSS, PhilHealth, Pag-IBIG, withholding tax), performance management, employee onboarding, employee offboarding and performance evaluation. Cutover follows two parallel pay cycles.
+5. M9 Triage — queuing, multi priority level tickets, ticket management, customer portal, customer knowledge base and SLA management. A service desk for support and service teams.
+6. M10 CRM — lead management, multiple pipelines, different views including Kanban, process automation with AI boards, dashboards and opportunities management.
+
+## Services
+
+1. Websites & Infrastructure — website building and maintenance, DNS configuration, Cloudflare setup, SMTP and email deliverability (SPF, DKIM, DMARC), monitoring and backups.
+2. Software Development — custom software where no product fits. Paid discovery sprint produces a written scope, a prototype and a fixed price. Typical range ₱250,000 to ₱2.5 million. The client owns the source code.
+3. AI Analytics & Training — analytics and dashboards on a client's own operational data, forecasting and anomaly detection, AI-assisted workflows, plus practical role-specific AI training and a usage policy.
+4. Google Ads Management — conversion tracking first, intent-led campaign structure, landing pages, weekly optimisation. From ₱30,000 a month management plus media spend of roughly ₱30,000 to ₱60,000.
+5. Search Engine Optimization — technical SEO, local SEO, keyword and intent mapping, content production and answer-engine readiness. Audit ₱35,000 to ₱80,000; retainers from ₱35,000 a month.
+6. E-commerce Growth — store conversion work, Shopee, Lazada and TikTok Shop operations, inventory synchronisation across channels, channel-aware pricing and retention marketing.
+
+## How engagements work
+
+1. Free 30-minute consultation.
+2. Written proposal within three working days.
+3. For products: scoping, data load, configuration, then a parallel run against the existing process before cutover.
+4. For custom software: a paid discovery sprint producing scope, prototype and a fixed price, then two-week release increments.
+5. Training, documented handover and ongoing support.
+
+## Industries
+
+Restaurants and food groups, retail and convenience, distribution and wholesale,
+manufacturing, e-commerce sellers, clinics and healthcare, professional services,
+construction and trades.
+
+## Key pages
+
+- Home: /
+- All products: /products
+- M5 Restaurant Suite: /products/restaurant-suite
+- M6 Retail Suite: /products/retail-suite
+- M7 ERP: /products/erp
+- M8 Payroll & HRIS: /products/payroll-hris
+- M9 Triage: /products/triage
+- M10 CRM: /products/crm
+- All services: /services
+- Websites & Infrastructure: /services/web-services
+- Software Development: /services/software-development
+- AI Analytics & Training: /services/ai-analytics
+- Google Ads Management: /services/google-ads
+- Search Engine Optimization: /services/seo
+- E-commerce Growth: /services/ecommerce-growth
+- About: /about
+- Insights (blog): /blog
+- Contact: /contact
+- Privacy policy: /privacy

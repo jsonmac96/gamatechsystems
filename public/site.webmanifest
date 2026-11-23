@@ -1,0 +1,14 @@
+{
+  "name": "GaMatech Systems",
+  "short_name": "GaMatech",
+  "description": "Business systems for growing companies: POS, ERP, payroll, service desk and CRM.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A1A3E",
+  "theme_color": "#0A1A3E",
+  "lang": "en",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
