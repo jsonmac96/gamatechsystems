@@ -133,7 +133,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64" />
         <link rel="manifest" href="/site.webmanifest" />
         {/* Enables the reveal animations. Without it nothing is ever hidden. */}
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: ENABLE_ANIMATION }} />

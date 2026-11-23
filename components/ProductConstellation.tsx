@@ -23,7 +23,7 @@ export default function ProductConstellation() {
         {/* Header strip, echoing the brand */}
         <div className="flex items-center justify-between gap-3 border-b border-ink-200 pb-4 dark:border-ink-800">
           <div className="flex items-center gap-2.5">
-            <LogoMark className="h-8 w-8" />
+            <LogoMark className="h-9 w-auto" />
             <div className="leading-tight">
               <p className="text-xs font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400">
                 Core products

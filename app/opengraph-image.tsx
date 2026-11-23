@@ -1,5 +1,12 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/site";
+
+/** The reversed logo as a data URL; ImageResponse cannot fetch from the site. */
+const LOGO_WHITE = `data:image/png;base64,${readFileSync(
+  join(/* turbopackIgnore: true */ process.cwd(), "public", "brand", "logo-white.png"),
+).toString("base64")}`;
 
 /**
  * Default social sharing image, generated at build time.
@@ -40,27 +47,10 @@ export default function OpengraphImage() {
           }}
         />
 
-        {/* Brand row */}
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 18,
-              background: "#E7580A",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 38,
-              fontWeight: 800,
-              color: "#ffffff",
-            }}
-          >
-            G
-          </div>
-          <div style={{ display: "flex", fontSize: 34, fontWeight: 700, color: "#ffffff" }}>
-            GaMatech Systems
-          </div>
+        {/* Brand row: the white logo, read from public/brand at build time. */}
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse needs a plain img */}
+          <img src={LOGO_WHITE} width={330} height={101} alt="" />
         </div>
 
         {/* Headline */}

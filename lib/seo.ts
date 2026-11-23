@@ -112,7 +112,7 @@ export function organizationSchema() {
     legalName: SITE.legalName,
     alternateName: SITE.shortName,
     url: SITE.url,
-    logo: { "@type": "ImageObject", url: `${SITE.url}/icon.svg`, width: 512, height: 512 },
+    logo: { "@type": "ImageObject", url: `${SITE.url}/brand/logo.png`, width: 493, height: 151 },
     image: `${SITE.url}/opengraph-image`,
     description: SITE.description,
     foundingDate: SITE.founded,
