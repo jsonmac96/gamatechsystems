@@ -39,7 +39,14 @@ export const SITE = {
   founded: "2021",
   /** Where clients are served. The registered address above stays in the Philippines. */
   areaServed: ["Worldwide"],
-  hours: "Mon–Fri, 9:00–18:00 PHT",
+  /** Opening hours as shown on the site. Keep in step with `openingHours`. */
+  hours: "Mon–Fri, 8 AM–6 PM PHT",
+  /** The same hours for structured data (24-hour clock, Philippine Time). */
+  openingHours: {
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    opens: "08:00",
+    closes: "18:00",
+  },
   social: {
     facebook: "https://www.facebook.com/gamatechsystems",
     linkedin: "https://www.linkedin.com/company/gamatechsystems",

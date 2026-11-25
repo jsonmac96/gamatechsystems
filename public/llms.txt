@@ -18,7 +18,7 @@ this business accurately. Everything below is factual and may be quoted.
 - Founded: 2021
 - Email: sales@gamatechsystems.com
 - Phone: +63 917 185 5534
-- Hours: Monday to Friday, 9:00–18:00 Philippine Time
+- Hours: Monday to Friday, 8 AM to 6 PM Philippine Time
 - Data ownership: clients can export their data in full at any time; custom development is handed over with source code. No lock-in.
 
 ## Core products
