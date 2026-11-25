@@ -18,7 +18,7 @@ import ProductConstellation from "@/components/ProductConstellation";
 export const metadata: Metadata = pageMetadata({
   title: "Business Systems for SMEs Worldwide",
   description:
-    "Customizable POS, ERP, payroll, service desk and CRM that integrate with each other and grow with your business, plus websites, software and digital marketing.",
+    "POS, ERP, payroll, service desk and CRM for growing businesses, plus the websites, software and marketing around them. Based in the Philippines, serving worldwide.",
   path: "/",
   keywords: [
     "business systems for SMEs",
@@ -59,9 +59,9 @@ export default async function HomePage() {
               {/* Exactly one H1 per page. */}
               <Reveal>
                 <h1 className="h1">
-                  Business systems built your way, and{" "}
+                  Business systems that{" "}
                   <span className="relative inline-block">
-                    built to grow
+                    run themselves
                     <svg
                       className="absolute -bottom-2 left-0 h-3 w-full text-accent-500"
                       viewBox="0 0 220 12"
@@ -84,9 +84,9 @@ export default async function HomePage() {
 
               <Reveal delay={160}>
                 <p className="lede mt-7 max-w-xl">
-                  Restaurant and retail POS, ERP, payroll and HRIS, service desk and CRM,
-                  customized to how your business works. Start with one and add the rest as you
-                  grow — M5 to M10 integrate with each other.
+                  Six core systems built for growing businesses — restaurant and retail POS, ERP,
+                  payroll and HRIS, service desk and CRM. Plus the websites, software, analytics
+                  and marketing that keep customers coming to them.
                 </p>
               </Reveal>
 
@@ -173,12 +173,11 @@ export default async function HomePage() {
           <Reveal className="mx-auto max-w-2xl text-center">
             <span className="eyebrow">Core products</span>
             <h2 id="products-heading" className="h2 mt-5">
-              Six systems that work together
+              Six systems. One foundation.
             </h2>
             <p className="lede mt-5">
-              Each one is configured to your operation and extended when it changes. Add a
-              system whenever you are ready — it connects to the ones you already run, with no
-              separate integration project.
+              Built and maintained in-house, so the ones you adopt share data instead of needing
+              another integration project.
             </p>
           </Reveal>
 

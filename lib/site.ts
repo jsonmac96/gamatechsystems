@@ -14,7 +14,7 @@ export const SITE = {
   name: "GaMatech Systems",
   legalName: "GaMatech Systems",
   shortName: "GaMatech",
-  tagline: "Business systems built your way, and built to grow",
+  tagline: "Business systems that run themselves",
   description:
     "GaMatech Systems builds and implements the core business systems growing companies run on — restaurant and retail POS, ERP, payroll and HRIS, service desk and CRM — plus the websites, software, AI analytics and digital marketing around them. Based in the Philippines, serving clients worldwide.",
   // Read from the environment at render time so staging and production differ

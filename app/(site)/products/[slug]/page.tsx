@@ -16,7 +16,6 @@ import FaqList from "@/components/FaqList";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadForm from "@/components/LeadForm";
 import { issueFormToken } from "@/lib/form-token";
-import AttendanceShowcase from "@/components/AttendanceShowcase";
 
 type Params = { slug: string };
 
@@ -152,8 +151,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
-      {/* Product-specific showcase. */}
-      {product.slug === "payroll-hris" ? <AttendanceShowcase /> : null}
 
       {/* Features */}
       <section aria-labelledby="features-heading" className="border-y border-ink-200 bg-ink-50/60 py-20 dark:border-ink-800 dark:bg-ink-900/40">
