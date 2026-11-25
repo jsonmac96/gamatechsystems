@@ -27,19 +27,26 @@ export const SITE = {
   ).replace(/\/+$/, ""),
   locale: "en_US",
   language: "en",
-  email: "hello@gamatechsystems.com",
-  phoneDisplay: "+63 917 000 0000",
-  phoneHref: "+639170000000",
+  email: "sales@gamatechsystems.com",
+  phoneDisplay: "+63 917 185 5534",
+  phoneHref: "+639171855534",
   address: {
-    city: "Metro Manila",
-    region: "NCR",
+    city: "Bacolod City",
+    region: "Negros Occidental",
     country: "PH",
     countryName: "Philippines",
   },
   founded: "2021",
   /** Where clients are served. The registered address above stays in the Philippines. */
   areaServed: ["Worldwide"],
-  hours: "Mon–Fri, 9:00–18:00 PHT",
+  /** Opening hours as shown on the site. Keep in step with `openingHours`. */
+  hours: "Mon–Fri, 8 AM–6 PM PHT",
+  /** The same hours for structured data (24-hour clock, Philippine Time). */
+  openingHours: {
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    opens: "08:00",
+    closes: "18:00",
+  },
   social: {
     facebook: "https://www.facebook.com/gamatechsystems",
     linkedin: "https://www.linkedin.com/company/gamatechsystems",
@@ -85,7 +92,7 @@ export const COMPANY_FAQS = [
   },
   {
     q: "Do you work with clients outside the Philippines?",
-    a: "Yes. We are based in Metro Manila and work with clients worldwide. Most scoping, implementation, training and support runs remotely; on-site visits for installation, discovery workshops or go-live training are arranged where a project needs them.",
+    a: "Yes. We are based in Bacolod City and work with clients worldwide. Most scoping, implementation, training and support runs remotely; on-site visits for installation, discovery workshops or go-live training are arranged where a project needs them.",
   },
   {
     q: "Who owns our data?",

@@ -125,6 +125,12 @@ export function organizationSchema() {
       addressRegion: SITE.address.region,
       addressCountry: SITE.address.country,
     },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: SITE.openingHours.days,
+      opens: SITE.openingHours.opens,
+      closes: SITE.openingHours.closes,
+    },
     areaServed: SITE.areaServed.map((name) => ({ "@type": "Place", name })),
     knowsAbout: [
       "restaurant point of sale",

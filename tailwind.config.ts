@@ -117,6 +117,9 @@ const config: Config = {
           "100%": { transform: "scaleY(1)" },
         },
         "dash": { "0%": { strokeDashoffset: "480" }, "100%": { strokeDashoffset: "0" } },
+        // Dashes travelling along a line drawn with pathLength=100 and a
+        // 6+14 dash pattern: one full cycle is 20 units.
+        flow: { "0%": { strokeDashoffset: "0" }, "100%": { strokeDashoffset: "-20" } },
       },
       animation: {
         "fade-up": "fade-up 0.7s cubic-bezier(0.16,1,0.3,1) both",
@@ -130,6 +133,7 @@ const config: Config = {
         sheen: "sheen 2.8s ease-in-out infinite",
         "bar-grow": "bar-grow 1.1s cubic-bezier(0.16,1,0.3,1) both",
         dash: "dash 2.4s ease-out both",
+        flow: "flow 1.4s linear infinite",
       },
     },
   },
