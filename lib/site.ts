@@ -31,8 +31,8 @@ export const SITE = {
   phoneDisplay: "+63 917 185 5534",
   phoneHref: "+639171855534",
   address: {
-    city: "Metro Manila",
-    region: "NCR",
+    city: "Bacolod City",
+    region: "Negros Occidental",
     country: "PH",
     countryName: "Philippines",
   },
@@ -85,7 +85,7 @@ export const COMPANY_FAQS = [
   },
   {
     q: "Do you work with clients outside the Philippines?",
-    a: "Yes. We are based in Metro Manila and work with clients worldwide. Most scoping, implementation, training and support runs remotely; on-site visits for installation, discovery workshops or go-live training are arranged where a project needs them.",
+    a: "Yes. We are based in Bacolod City and work with clients worldwide. Most scoping, implementation, training and support runs remotely; on-site visits for installation, discovery workshops or go-live training are arranged where a project needs them.",
   },
   {
     q: "Who owns our data?",

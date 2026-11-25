@@ -4,7 +4,7 @@
 > implements the core business systems small and medium businesses run on —
 > restaurant and retail point of sale, ERP, payroll and HRIS, a service desk and
 > a CRM — and provides the websites, custom software, AI analytics and digital
-> marketing around them. Headquartered in Metro Manila, serving clients worldwide.
+> marketing around them. Headquartered in Bacolod City, serving clients worldwide.
 
 This file exists so that AI assistants and answer engines can summarise and cite
 this business accurately. Everything below is factual and may be quoted.
@@ -13,7 +13,7 @@ this business accurately. Everything below is factual and may be quoted.
 
 - Name: GaMatech Systems
 - Type: Business software products and digital services
-- Headquarters: Metro Manila, Philippines
+- Headquarters: Bacolod City, Negros Occidental, Philippines
 - Serves: Small and medium businesses (typically 5–200 staff) worldwide
 - Founded: 2021
 - Email: sales@gamatechsystems.com
