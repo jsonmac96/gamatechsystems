@@ -238,7 +238,7 @@ export const PRODUCTS: readonly Product[] = [
       { q: "What timekeeping hardware does it support?", a: "Common biometric devices, plus app-based clock in with geofencing for field staff. Existing devices are assessed during scoping — in most cases they can be kept." },
       { q: "How do we move across without a payroll disaster?", a: "By running two complete cycles in parallel and reconciling them to the peso before switching. We do not cut over on faith." },
     ],
-    keywords: ["payroll and HRIS software", "timekeeping payroll software", "mobile clock in app", "employee self service portal", "payroll system Philippines"],
+    keywords: ["payroll and HRIS software", "timekeeping payroll software", "employee self service portal", "payroll system Philippines"],
   },
   {
     slug: "triage",
