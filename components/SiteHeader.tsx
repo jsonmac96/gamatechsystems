@@ -119,7 +119,7 @@ export default function SiteHeader() {
                           className="rounded-xl px-3.5 py-2.5 transition-colors hover:bg-brand-50 dark:hover:bg-ink-800"
                         >
                           <span className="block text-[0.95rem] font-semibold text-ink-900 dark:text-white">
-                            <span className="mr-1.5 text-xs font-bold text-accent-600 dark:text-accent-400">
+                            <span className="mr-1.5 text-xs font-bold text-accent-700 dark:text-accent-400">
                               {product.code}
                             </span>
                             {product.name}
@@ -217,7 +217,7 @@ export default function SiteHeader() {
                   href={`/products/${product.slug}`}
                   className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50 hover:text-accent-700 dark:text-ink-200 dark:hover:bg-ink-900"
                 >
-                  <span className="text-xs font-bold text-accent-600 dark:text-accent-400">
+                  <span className="text-xs font-bold text-accent-700 dark:text-accent-400">
                     {product.code}
                   </span>
                   {product.name}

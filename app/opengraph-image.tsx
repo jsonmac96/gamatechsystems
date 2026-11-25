@@ -1,12 +1,6 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/site";
-
-/** The reversed logo as a data URL; ImageResponse cannot fetch from the site. */
-const LOGO_WHITE = `data:image/png;base64,${readFileSync(
-  join(/* turbopackIgnore: true */ process.cwd(), "public", "brand", "logo-white.png"),
-).toString("base64")}`;
+import { LOGO_WHITE_DATA_URL as LOGO_WHITE } from "@/lib/og-logo";
 
 /**
  * Default social sharing image, generated at build time.
@@ -47,7 +41,7 @@ export default function OpengraphImage() {
           }}
         />
 
-        {/* Brand row: the white logo, read from public/brand at build time. */}
+        {/* Brand row: the white logo, embedded in lib/og-logo.ts. */}
         <div style={{ display: "flex", alignItems: "center" }}>
           {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse needs a plain img */}
           <img src={LOGO_WHITE} width={330} height={101} alt="" />
@@ -66,7 +60,7 @@ export default function OpengraphImage() {
               maxWidth: 940,
             }}
           >
-            Business systems that run themselves
+            Business systems built your way, and built to grow
           </div>
           <div style={{ display: "flex", fontSize: 30, color: "#C2D0EC", maxWidth: 880 }}>
 POS, ERP, payroll, service desk and CRM for growing businesses worldwide.

@@ -33,7 +33,7 @@ export default function ChangePasswordForm({ minLength }: { minLength: number })
 
       <div>
         <label htmlFor="currentPassword" className="field-label">
-          Current password <span className="text-red-500 dark:text-red-400">*</span>
+          Current password <span className="text-red-600 dark:text-red-400">*</span>
         </label>
         <input
           id="currentPassword"
@@ -48,7 +48,7 @@ export default function ChangePasswordForm({ minLength }: { minLength: number })
 
       <div>
         <label htmlFor="newPassword" className="field-label">
-          New password <span className="text-red-500 dark:text-red-400">*</span>
+          New password <span className="text-red-600 dark:text-red-400">*</span>
         </label>
         <input
           id="newPassword"
@@ -85,7 +85,7 @@ export default function ChangePasswordForm({ minLength }: { minLength: number })
 
       <div>
         <label htmlFor="confirmPassword" className="field-label">
-          Confirm new password <span className="text-red-500 dark:text-red-400">*</span>
+          Confirm new password <span className="text-red-600 dark:text-red-400">*</span>
         </label>
         <input
           id="confirmPassword"
@@ -160,7 +160,7 @@ function scorePassword(
 
   const levels = [
     { score: 1, label: "Weak — add more length and variety.", barClass: "bg-red-500", textClass: "text-red-600 dark:text-red-400" },
-    { score: 2, label: "Fair — mix in another character type.", barClass: "bg-accent-500", textClass: "text-accent-600 dark:text-accent-400" },
+    { score: 2, label: "Fair — mix in another character type.", barClass: "bg-accent-500", textClass: "text-accent-700 dark:text-accent-400" },
     { score: 3, label: "Good.", barClass: "bg-brand-500", textClass: "text-brand-700 dark:text-brand-300" },
     { score: 4, label: "Strong.", barClass: "bg-green-500", textClass: "text-green-700 dark:text-green-400" },
   ];
