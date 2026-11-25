@@ -49,7 +49,7 @@ export default function ProductConstellation() {
             <LogoMark className="h-9 w-auto" />
             <div className="leading-tight">
               <p className="text-xs font-semibold uppercase tracking-wider text-ink-500">Core products</p>
-              <p className="text-sm font-bold text-ink-900">Six systems, fully integrated</p>
+              <p className="text-sm font-bold text-ink-900">One foundation, six systems</p>
             </div>
           </div>
           <span className="badge shrink-0 whitespace-nowrap bg-accent-50 text-accent-700">M5–M10</span>
@@ -144,17 +144,6 @@ export default function ProductConstellation() {
             })}
           </ul>
         </div>
-
-        {/* What the picture means, in words. */}
-        <p className="mt-4 flex items-start gap-2.5 rounded-2xl bg-brand-50 px-4 py-3 text-xs leading-relaxed text-brand-800">
-          <svg className="mt-px h-4 w-4 shrink-0 text-accent-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M9 15l6-6M10.5 6.5l1.8-1.8a4.2 4.2 0 0 1 6 6l-1.8 1.8M13.5 17.5l-1.8 1.8a4.2 4.2 0 0 1-6-6l1.8-1.8" />
-          </svg>
-          <span>
-            Use any combination. Every system shares data with the others, from the first sale to
-            the payslip.
-          </span>
-        </p>
       </div>
     </div>
   );

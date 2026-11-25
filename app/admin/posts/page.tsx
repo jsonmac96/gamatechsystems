@@ -93,7 +93,7 @@ export default async function AdminPostsPage({
                       >
                         {post.title}
                       </Link>
-                      <span className="mt-0.5 block font-mono text-xs text-ink-400 dark:text-ink-400">
+                      <span className="mt-0.5 block font-mono text-xs text-ink-500 dark:text-ink-400">
                         /blog/{post.slug}
                       </span>
                     </td>

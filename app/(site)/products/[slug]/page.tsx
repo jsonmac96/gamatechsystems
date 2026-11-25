@@ -16,7 +16,6 @@ import FaqList from "@/components/FaqList";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadForm from "@/components/LeadForm";
 import { issueFormToken } from "@/lib/form-token";
-import AttendanceShowcase from "@/components/AttendanceShowcase";
 
 type Params = { slug: string };
 
@@ -137,7 +136,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
                 <ul className="mt-5 space-y-4">
                   {product.painPoints.map((point) => (
                     <li key={point} className="flex gap-3">
-                      <span className="mt-1.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-600 dark:text-accent-400">
+                      <span className="mt-1.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-500/20 text-accent-700 dark:text-accent-400">
                         <svg className="h-3 w-3" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
                           <path d="M6 1a.8.8 0 0 1 .8.8v4a.8.8 0 0 1-1.6 0v-4A.8.8 0 0 1 6 1Zm0 7.4a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z" />
                         </svg>
@@ -152,8 +151,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
-      {/* Product-specific showcase. */}
-      {product.slug === "payroll-hris" ? <AttendanceShowcase /> : null}
 
       {/* Features */}
       <section aria-labelledby="features-heading" className="border-y border-ink-200 bg-ink-50/60 py-20 dark:border-ink-800 dark:bg-ink-900/40">
@@ -266,7 +263,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
                   className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-semibold text-ink-700 transition-all hover:-translate-y-0.5 hover:border-accent-400 hover:text-accent-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-accent-600 dark:hover:text-accent-400"
                 >
                   <CatalogIcon name={other.icon} className="h-4 w-4" />
-                  <span className="text-ink-400 dark:text-ink-400">{other.code}</span>
+                  <span className="text-ink-500 dark:text-ink-400">{other.code}</span>
                   {other.name}
                 </Link>
               </li>

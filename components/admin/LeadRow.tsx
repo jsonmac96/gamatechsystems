@@ -50,7 +50,7 @@ export default function LeadRow({ lead }: { lead: Lead }) {
           <div className="flex shrink-0 items-center gap-3">
             <time
               dateTime={created.toISOString()}
-              className="text-xs text-ink-400 dark:text-ink-400"
+              className="text-xs text-ink-500 dark:text-ink-400"
               title={created.toISOString()}
             >
               {created.toLocaleDateString("en-PH", {
@@ -175,7 +175,7 @@ export default function LeadRow({ lead }: { lead: Lead }) {
                 >
                   Delete this lead
                 </button>
-                <p className="mt-1.5 text-center text-xs text-ink-400 dark:text-ink-400">
+                <p className="mt-1.5 text-center text-xs text-ink-500 dark:text-ink-400">
                   Permanent. Export first if you need a record.
                 </p>
               </form>

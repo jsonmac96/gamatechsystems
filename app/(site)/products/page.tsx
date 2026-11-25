@@ -108,7 +108,7 @@ export default function ProductsPage() {
                       </li>
                     ))}
                     {product.features.length > 4 ? (
-                      <li className="rounded-full px-2 py-1.5 text-xs font-semibold text-ink-400 dark:text-ink-400">
+                      <li className="rounded-full px-2 py-1.5 text-xs font-semibold text-ink-500 dark:text-ink-400">
                         +{product.features.length - 4} more
                       </li>
                     ) : null}
