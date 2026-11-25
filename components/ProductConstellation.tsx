@@ -36,15 +36,15 @@ const RING = POSITIONS.map((p) => `${p.x},${p.y}`).join(" ");
 
 export default function ProductConstellation() {
   return (
-    <div className="tilt-3d relative">
+    <div className="tilt-3d relative mx-auto w-full max-w-[28rem] lg:mr-0">
       <div
         aria-hidden="true"
         className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-gradient-to-br from-accent-400/25 to-brand-500/20 blur-2xl"
       />
 
-      <div className="rounded-3xl border border-ink-200 bg-white/95 p-5 shadow-[0_2px_6px_rgb(10_16_32/0.05),0_32px_80px_-32px_rgb(10_26_62/0.5),0_60px_120px_-60px_rgb(231_88_10/0.3)] backdrop-blur sm:p-6">
+      <div className="rounded-3xl border border-ink-200 bg-white/95 p-4 shadow-[0_2px_6px_rgb(10_16_32/0.05),0_32px_80px_-32px_rgb(10_26_62/0.5),0_60px_120px_-60px_rgb(231_88_10/0.3)] backdrop-blur sm:p-5">
         {/* Header strip */}
-        <div className="flex items-center justify-between gap-3 border-b border-ink-200 pb-4">
+        <div className="flex items-center justify-between gap-3 border-b border-ink-200 pb-3">
           <div className="flex items-center gap-2.5">
             <LogoMark className="h-9 w-auto" />
             <div className="leading-tight">
@@ -56,7 +56,7 @@ export default function ProductConstellation() {
         </div>
 
         {/* The integration diagram */}
-        <div className="relative mt-4 aspect-[3/4] sm:aspect-[10/11]">
+        <div className="relative mt-3 aspect-[4/5] sm:aspect-[6/5]">
           <svg
             aria-hidden="true"
             className="absolute inset-0 h-full w-full"
@@ -105,11 +105,11 @@ export default function ProductConstellation() {
           {/* Hub: the shared data */}
           <div
             aria-hidden="true"
-            className="absolute flex aspect-square w-[27%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-brand-200 bg-white shadow-[0_0_0_6px_rgb(241_244_251),0_18px_40px_-18px_rgb(10_26_62/0.45)]"
+            className="absolute flex aspect-square w-[22%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-brand-200 bg-white shadow-[0_0_0_6px_rgb(241_244_251),0_18px_40px_-18px_rgb(10_26_62/0.45)]"
             style={{ left: `${HUB.x}%`, top: `${HUB.y}%` }}
           >
-            <LogoMark className="h-[38%] w-auto" />
-            <span className="mt-1 text-[0.6rem] font-bold leading-none text-brand-800 sm:text-xs">
+            <LogoMark className="h-[36%] w-auto" />
+            <span className="mt-1 text-[0.55rem] font-bold leading-none text-brand-800 sm:text-[0.65rem]">
               Shared data
             </span>
           </div>
@@ -121,21 +121,21 @@ export default function ProductConstellation() {
               return (
                 <li
                   key={product.slug}
-                  className="absolute w-[28%] -translate-x-1/2 -translate-y-1/2"
+                  className="absolute w-[27%] -translate-x-1/2 -translate-y-1/2"
                   style={{ left: `${p.x}%`, top: `${p.y}%` }}
                 >
                   <Link
                     href={`/products/${product.slug}`}
-                    className="group flex animate-fade-up flex-col items-center rounded-2xl border border-ink-200 bg-white px-1.5 py-2 text-center shadow-[0_8px_20px_-12px_rgb(10_26_62/0.35)] transition-all duration-300 hover:border-accent-300 hover:shadow-card sm:px-2 sm:py-2.5"
+                    className="group flex animate-fade-up flex-col items-center rounded-2xl border border-ink-200 bg-white px-1 py-1.5 text-center shadow-[0_8px_20px_-12px_rgb(10_26_62/0.35)] transition-all duration-300 hover:border-accent-300 hover:shadow-card sm:px-1.5 sm:py-2"
                     style={{ animationDelay: `${350 + index * 110}ms` }}
                   >
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-brand-900 text-white transition-colors duration-300 group-hover:bg-accent-600">
-                      <CatalogIcon name={product.icon} className="h-[1.1rem] w-[1.1rem]" />
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-brand-900 text-white transition-colors duration-300 group-hover:bg-accent-600">
+                      <CatalogIcon name={product.icon} className="h-4 w-4" />
                     </span>
-                    <span className="mt-1.5 text-[0.65rem] font-bold leading-none text-accent-700 sm:text-xs">
+                    <span className="mt-1 text-[0.6rem] font-bold leading-none text-accent-700 sm:text-[0.65rem]">
                       {product.code}
                     </span>
-                    <span className="mt-1 text-[0.7rem] font-bold leading-tight text-ink-900 group-hover:text-accent-700 sm:text-[0.8rem]">
+                    <span className="mt-0.5 text-[0.65rem] font-bold leading-tight text-ink-900 group-hover:text-accent-700 sm:whitespace-nowrap sm:text-xs">
                       {product.name}
                     </span>
                   </Link>
