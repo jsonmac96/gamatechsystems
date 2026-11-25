@@ -7,6 +7,7 @@ import { assertSameOrigin, getClientContext } from "@/lib/request-context";
 import { validateLead } from "@/lib/validate";
 import { isSuspiciouslyFast, verifyFormToken } from "@/lib/form-token";
 import type { LeadFormState } from "@/lib/form-state";
+import { SITE } from "@/lib/site";
 
 /**
  * Public lead-capture action.
@@ -49,7 +50,7 @@ export async function submitLead(
   } catch {
     return {
       status: "error",
-      message: "We could not save enquiries just now. Please email hello@gamatechsystems.com instead.",
+      message: `We could not save enquiries just now. Please email ${SITE.email} instead.`,
       errors: {},
       values: keepValues(formData),
     };
@@ -120,7 +121,7 @@ export async function submitLead(
     return {
       status: "error",
       message:
-        "Something went wrong saving your enquiry. Please email hello@gamatechsystems.com and we will pick it up straight away.",
+        `Something went wrong saving your enquiry. Please email ${SITE.email} and we will pick it up straight away.`,
       errors: {},
       values: keepValues(formData),
     };

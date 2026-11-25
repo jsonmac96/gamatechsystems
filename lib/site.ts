@@ -27,9 +27,9 @@ export const SITE = {
   ).replace(/\/+$/, ""),
   locale: "en_US",
   language: "en",
-  email: "hello@gamatechsystems.com",
-  phoneDisplay: "+63 917 000 0000",
-  phoneHref: "+639170000000",
+  email: "sales@gamatechsystems.com",
+  phoneDisplay: "+63 917 185 5534",
+  phoneHref: "+639171855534",
   address: {
     city: "Metro Manila",
     region: "NCR",
