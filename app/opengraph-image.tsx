@@ -60,7 +60,7 @@ export default function OpengraphImage() {
               maxWidth: 940,
             }}
           >
-            Business systems that run themselves
+            Business systems built your way, and built to grow
           </div>
           <div style={{ display: "flex", fontSize: 30, color: "#C2D0EC", maxWidth: 880 }}>
 POS, ERP, payroll, service desk and CRM for growing businesses worldwide.
